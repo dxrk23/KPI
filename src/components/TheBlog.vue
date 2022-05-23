@@ -1,22 +1,22 @@
 <script>
 import BlogPost from './UI/BlogPost.vue';
-import { fakePost } from "../api/post";
+import { fakePost } from '../api/post';
 
 export default {
   name: 'TheBlog',
   components: { BlogPost },
-  computed : {
-    getPost() {
+  computed: {
+    getPosts() {
       return fakePost;
-    }
-  }
+    },
+  },
 };
 </script>
 
 <template>
   <div class="--blog-main">
     <div class="--blog-title">Classifieds Site</div>
-    <blog-post :post="getPost" />
+    <blog-post v-for="post in getPosts" :post="post" />
   </div>
 </template>
 

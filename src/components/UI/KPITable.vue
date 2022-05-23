@@ -1,8 +1,15 @@
 <script>
 import KPITableRow from './KPITableRow.vue';
+import { fakeKpi } from '../../api/kpi';
+
 export default {
   name: 'KPITable',
   components: { KPITableRow },
+  computed: {
+    getRows() {
+      return fakeKpi;
+    },
+  },
 };
 </script>
 
@@ -16,7 +23,7 @@ export default {
         <th class="--viewed-column --table-header">Viewed</th>
         <th class="--table-header --portion-column">Portion</th>
       </tr>
-      <k-p-i-table-row />
+      <k-p-i-table-row v-for="(row, index) in getRows" :row="{ index, ...row }" />
     </table>
   </div>
 </template>

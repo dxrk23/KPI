@@ -1,16 +1,22 @@
 <script>
 export default {
   name: 'KPITableRow',
+  props: {
+    row: {
+      type: Object,
+      required: true,
+    },
+  },
 };
 </script>
 
 <template>
   <tr class="--table-row">
-    <td class="--number-column">1</td>
-    <td class="--name-column">Статья</td>
-    <td class="--uploaded-column">Uploaded</td>
-    <td class="--viewed-column">Viewed</td>
-    <td class="--portion-column">30/30</td>
+    <td class="--number-column">{{ row.index + 1 }}</td>
+    <td class="--name-column">{{ row.title }}</td>
+    <td class="--uploaded-column">{{ row.uploaded ? 'Uploaded' : 'Must upload' }}</td>
+    <td class="--viewed-column">{{ row.viewed ? 'Viewed' : 'Not viewed' }}</td>
+    <td class="--portion-column">{{ `${row.portion}/100` }}</td>
   </tr>
 </template>
 
