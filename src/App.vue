@@ -5,6 +5,7 @@ export default {
   components: {
     SignIn,
   },
+  mounted() {},
 };
 </script>
 
@@ -19,5 +20,14 @@ export default {
   box-sizing: border-box;
 
   font-family: Arial, Helvetica, sans-serif;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+html {
+  background: #f1f1f0;
 }
 </style>
