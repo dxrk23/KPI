@@ -16,6 +16,9 @@ export default {
     ...mapGetters({
       isProfileDropdownOpen: 'block/isProfileDorpdownOpen',
     }),
+    getUser() {
+      return JSON.parse(localStorage.getItem('user'));
+    },
   },
 };
 </script>
@@ -27,7 +30,7 @@ export default {
     <div class="--user-info">
       <span class="material-icons">notifications</span>
       <span class="material-icons">chat</span>
-      <span>User1 Surname</span>
+      <span>{{`${getUser.name} ${getUser.lastname}`}}</span>
       <span class="material-icons" @click="toggleProfileDropdown()">person</span>
     </div>
   </header>
@@ -70,7 +73,7 @@ span {
 }
 
 .--user-info {
-  width: 328px;
+  min-width: 328px;
   height: 35px;
 
   display: flex;

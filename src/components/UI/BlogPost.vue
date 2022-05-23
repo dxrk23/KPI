@@ -3,6 +3,12 @@ import Comment from './Comment.vue';
 export default {
   name: 'BlogPost',
   components: { Comment },
+  props : {
+    post : {
+      type : Object,
+      required : true
+    }
+  }
 };
 </script>
 
@@ -11,17 +17,15 @@ export default {
     <div class="--blog-post-header">
       <div class="--profile-picture"></div>
       <div class="--post-header">
-        <div class="--theme">Upload all files</div>
-        <div class="--post-metadata">by HR-manager Friday 18 May 2022, 4:50pm</div>
+        <div class="--theme"> {{ post.theme }} </div>
+        <div class="--post-metadata">{{ `by ${post.author}, ${post.date.toLocaleDateString()}, ${post.date.toLocaleTimeString()}` }}</div>
       </div>
     </div>
     <div class="--post-text">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi, aperiam corporis cum cupiditate deserunt
-      dignissimos dolores esse facilis in, laborum maiores nostrum nulla perspiciatis quos reiciendis rerum tempore ut
-      vero.
+      {{ post.text }}
     </div>
     <div class="--comments">
-      <div class="--comments-title">Comment (0)</div>
+      <div class="--comments-title">Comment ({{ `${post.comments.length}` }})</div>
 
       <form class="--comment-form">
         <input type="text" class="--comment-input" />
@@ -31,10 +35,7 @@ export default {
       <hr />
 
       <div class="--user-comments">
-        <comment />
-        <comment />
-        <comment />
-        <comment />
+        <comment v-for="comment in post.comments" :comment="comment"/>
       </div>
     </div>
   </div>

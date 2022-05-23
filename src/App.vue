@@ -5,7 +5,13 @@ export default {
   components: {
     SignIn,
   },
-  mounted() {},
+  mounted() {
+    if (!localStorage.getItem('user')){
+      this.$router.push('sign-in')
+    } else {
+      this.$router.push('/')
+    }
+  },
 };
 </script>
 

@@ -1,6 +1,20 @@
 <script>
 export default {
   name: 'Comment',
+  props: {
+    comment : {
+      type : Object,
+      required : true
+    }
+  },
+  computed : {
+    isAdmin(){
+      return JSON.parse(localStorage.getItem('user')).isAdmin
+    },
+    isMyPost(){
+      return this.comment.author_username === JSON.parse(localStorage.getItem('user')).username;
+    }
+  },
 };
 </script>
 
@@ -9,13 +23,14 @@ export default {
     <div class="--profile-picture"></div>
     <div class="--content">
       <div class="--header">
-        <div class="--author-name">user 1</div>
-        <div class="--date">Yesterday, 15:00 AM</div>
+        <div class="--author-name"> {{comment.author}} </div>
+        <div class="--date"> {{`${comment.date.toLocaleDateString()}, ${comment.date.toLocaleTimeString()}`}} </div>
       </div>
-      <div class="--text">Comment from user 1</div>
+      <div class="--text"> {{ comment.text }} </div>
+
     </div>
-    <div class="--delete">
-      <i class="fas fa-trash-alt">Delete</i>
+    <div class="--delete" v-if="isAdmin || isMyPost">
+      <i class="fas fa-trash-alt" >Delete</i>
     </div>
   </div>
 </template>

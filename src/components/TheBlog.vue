@@ -1,15 +1,22 @@
 <script>
 import BlogPost from './UI/BlogPost.vue';
+import { fakePost } from "../api/post";
+
 export default {
   name: 'TheBlog',
   components: { BlogPost },
+  computed : {
+    getPost() {
+      return fakePost;
+    }
+  }
 };
 </script>
 
 <template>
   <div class="--blog-main">
     <div class="--blog-title">Classifieds Site</div>
-    <blog-post />
+    <blog-post :post="getPost" />
   </div>
 </template>
 

@@ -1,4 +1,23 @@
-<script lang="js"></script>
+<script lang="js">
+import AuthService from '../services/auth.service'
+export default {
+  data(){
+    return {
+      username : '',
+      password : '',
+    }
+  },
+  methods: {
+    login() {
+      let auth = new AuthService();
+      auth.login({username: this.username, password : this.password});
+      if (localStorage.getItem('user')){
+        this.$router.push('/')
+      }
+    }
+  }
+}
+</script>
 
 <template>
   <main class="--sign-in-main">
@@ -9,12 +28,12 @@
 
       <div class="--username-form">
         <label for="username-input" class="--username-label">Username</label>
-        <input type="text" placeholder="Username" id="username-input" class="--username-input" />
+        <input type="text" placeholder="Username" id="username-input" class="--username-input" v-model="username"/>
       </div>
 
       <div class="--password-form">
         <label for="password-input" class="--password-label">Password</label>
-        <input type="password" placeholder="Password" id="password-input" class="--password-input" />
+        <input type="password" placeholder="Password" id="password-input" class="--password-input" v-model="password" />
       </div>
 
       <div class="--buttons">
@@ -24,7 +43,7 @@
         </div>
 
         <div class="--sign-in-button-form">
-          <button class="--sign-in-button">Sign in</button>
+          <button class="--sign-in-button" @click="login()">Sign in</button>
         </div>
       </div>
     </div>
