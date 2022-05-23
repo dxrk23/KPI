@@ -1,0 +1,54 @@
+<script>
+export default {
+  name: 'KPITableRow',
+};
+</script>
+
+<template>
+  <tr class="--table-row">
+    <td class="--number-column">1</td>
+    <td class="--name-column">Статья</td>
+    <td class="--uploaded-column">Uploaded</td>
+    <td class="--viewed-column">Viewed</td>
+    <td class="--portion-column">30/30</td>
+  </tr>
+</template>
+
+<style scoped>
+td {
+  border: 1px solid black;
+}
+
+.--name-column {
+  width: 427px;
+  height: 30px;
+
+  text-align: left;
+}
+
+.--uploaded-column {
+  width: 104px;
+  height: 30px;
+}
+
+.--viewed-column {
+  width: 102px;
+  height: 30px;
+}
+
+.material-icons {
+  height: 30px;
+  width: 30px;
+}
+
+.--portion-column {
+  width: 102px;
+  height: 30px;
+}
+
+th,
+td {
+  padding: 9px;
+  text-align: center;
+}
+</style>

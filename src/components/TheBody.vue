@@ -1,14 +1,22 @@
 <script>
 import TheBlog from './TheBlog.vue';
+import TheTaskList from './TheTaskList.vue';
+import { mapGetters } from 'vuex';
 export default {
   name: 'TheBody',
-  components: { TheBlog },
+  components: { TheTaskList, TheBlog },
+  computed: {
+    ...mapGetters({
+      selectedBlock: 'block/selectedBlock',
+    }),
+  },
 };
 </script>
 
 <template>
   <div class="--body-main">
-    <the-blog />
+    <the-task-list v-if="selectedBlock === 'TaskList'"></the-task-list>
+    <the-blog v-else-if="selectedBlock === 'Home'"></the-blog>
   </div>
 </template>
 

@@ -41,7 +41,8 @@ export default {
 }
 
 .--menu-item:hover {
-  background-color: #f5f5f5;
+  background: #0f6cbf;
+  color: white;
   cursor: pointer;
 }
 

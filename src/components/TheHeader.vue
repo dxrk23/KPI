@@ -1,7 +1,22 @@
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
   name: 'TheHeader',
-  methods: {},
+  methods: {
+    ...mapActions({
+      setProfileDropdown: 'block/setProfileDorpdownOpen',
+    }),
+
+    toggleProfileDropdown() {
+      this.setProfileDropdown(!this.isProfileDropdownOpen);
+    },
+  },
+  computed: {
+    ...mapGetters({
+      isProfileDropdownOpen: 'block/isProfileDorpdownOpen',
+    }),
+  },
 };
 </script>
 
@@ -13,7 +28,7 @@ export default {
       <span class="material-icons">notifications</span>
       <span class="material-icons">chat</span>
       <span>User1 Surname</span>
-      <span class="material-icons">person</span>
+      <span class="material-icons" @click="toggleProfileDropdown()">person</span>
     </div>
   </header>
 </template>
@@ -30,6 +45,10 @@ export default {
   background: #fff;
 
   margin: 31px auto 33px;
+}
+
+span {
+  user-select: none;
 }
 
 .--menu-button {
@@ -72,5 +91,6 @@ export default {
   cursor: default;
   text-align: center;
   width: 300px;
+  user-select: none;
 }
 </style>
