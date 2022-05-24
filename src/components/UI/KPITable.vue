@@ -7,7 +7,24 @@ export default {
   components: { KPITableRow },
   computed: {
     getRows() {
-      return fakeKpi;
+      if (this.$route.params.id) {
+        return fakeKpi.filter((kpi) => kpi.id === this.$route.params.id);
+      }
+      return fakeKpi.filter((kpi) => {
+        return kpi.for === this.for;
+      });
+    },
+  },
+  props: {
+    for: {
+      type: String,
+      required: false,
+      default: JSON.parse(localStorage.getItem('user')).username,
+    },
+  },
+  methods: {
+    openKPI(id) {
+      this.$router.push('/task/' + id);
     },
   },
 };
@@ -23,7 +40,7 @@ export default {
         <th class="--viewed-column --table-header">Viewed</th>
         <th class="--table-header --portion-column">Portion</th>
       </tr>
-      <k-p-i-table-row v-for="(row, index) in getRows" :row="{ index, ...row }" />
+      <k-p-i-table-row v-for="(row, index) in getRows" :row="{ index, ...row }" @click="openKPI(row.id)" />
     </table>
   </div>
 </template>

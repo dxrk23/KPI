@@ -10,6 +10,9 @@ export default {
     }),
 
     handleClick(block) {
+      if (block === '/' || block === 'task') {
+        this.$router.push(block);
+      }
       this.setSelectedBlock(block);
     },
   },
@@ -25,9 +28,9 @@ export default {
   <aside class="--menu-main">
     <menu-item
       label="Home"
-      @click="handleClick('Home')"
+      @click="handleClick('/')"
       icon="home"
-      :class="{ '--selected-item': selectedBlock === 'Home' }"
+      :class="{ '--selected-item': selectedBlock === '/' }"
     ></menu-item>
     <menu-item
       label="Calendar"
@@ -37,9 +40,9 @@ export default {
     ></menu-item>
     <menu-item
       label="Task list"
-      @click="handleClick('TaskList')"
+      @click="handleClick('task')"
       icon="list_alt"
-      :class="{ '--selected-item': selectedBlock === 'TaskList' }"
+      :class="{ '--selected-item': selectedBlock === 'task' }"
     ></menu-item>
     <menu-item
       label="Notes and private files"

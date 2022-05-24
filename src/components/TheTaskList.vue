@@ -5,6 +5,19 @@ import UsersTable from './UI/UsersTable.vue';
 export default {
   name: 'TheTaskList',
   components: { TheUploadComponent, KPITable, UsersTable },
+  computed: {
+    isUserAdmin() {
+      return JSON.parse(localStorage.getItem('user')).isAdmin;
+    },
+    getTableData() {
+      if (this.$route.params.for) {
+        return this.$route.params.for;
+      } else {
+        return JSON.parse(localStorage.getItem('user')).username;
+      }
+    },
+  },
+  mounted() {},
 };
 </script>
 
@@ -12,10 +25,9 @@ export default {
   <div class="--task-list-main">
     <div class="--task-list-title">Key Performance Indicators (KPIs)</div>
     <div class="--task-list-content">
-      <!--      <the-upload-component />-->
-      <!--      <users-table />-->
-      <k-p-i-table class="--table"></k-p-i-table>
-      <div class="--description">
+      <the-upload-component v-if="this.$route.params.id" />
+      <k-p-i-table class="--table" :for="getTableData" v-if="!this.$route.params.id"></k-p-i-table>
+      <div class="--description" v-if="!this.$route.params.id">
         *Статья/монография в соавторстве для данной категории считается только для одного ученого или по долям <br />
         **В случае наличия научных статей/монографий, превышающих требуемое количество в п.1, 1 (одна) статья/монография
         закрывает п.2 <br />

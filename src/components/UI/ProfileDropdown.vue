@@ -1,26 +1,27 @@
 <script>
 import MenuItem from './MenuItem.vue';
-import AuthService from "../../services/auth.service";
-import {mapActions} from "vuex";
+import AuthService from '../../services/auth.service';
+import { mapActions } from 'vuex';
 export default {
   name: 'ProfileDropdown',
   components: { MenuItem },
-  methods : {
+  methods: {
     ...mapActions({
-      setSelectedBlock : 'block/setSelectedBlock',
-      setProfileDorpdownOpen : 'block/setProfileDorpdownOpen'
+      setSelectedBlock: 'block/setSelectedBlock',
+      setProfileDorpdownOpen: 'block/setProfileDorpdownOpen',
     }),
-    logout(){
+    logout() {
       let auth = new AuthService();
       auth.logout();
       this.setProfileDorpdownOpen(false);
-      this.$router.push('sign-in')
+      this.$router.push('sign-in');
     },
-    goHome(){
-      this.setSelectedBlock('Home');
+    goHome() {
+      this.setSelectedBlock('/');
+      this.$router.push('/');
       this.setProfileDorpdownOpen(false);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -28,7 +29,7 @@ export default {
   <div class="--profile-dropdown-main">
     <menu-item label="Home" icon="home" @click="goHome()" />
     <menu-item label="Change password" icon="autorenew" />
-    <menu-item label="Logout" icon="logout" @click="logout()"/>
+    <menu-item label="Logout" icon="logout" @click="logout()" />
   </div>
 </template>
 

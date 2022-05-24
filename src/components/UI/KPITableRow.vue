@@ -7,13 +7,21 @@ export default {
       required: true,
     },
   },
+  computed: {
+    getLabel() {
+      if (this.$route.params.id) {
+        return this.row.description;
+      }
+      return this.row.title;
+    },
+  },
 };
 </script>
 
 <template>
   <tr class="--table-row">
     <td class="--number-column">{{ row.index + 1 }}</td>
-    <td class="--name-column">{{ row.title }}</td>
+    <td class="--name-column" :class="{ '--not-link': this.$route.params.id }">{{ getLabel }}</td>
     <td class="--uploaded-column">{{ row.uploaded ? 'Uploaded' : 'Must upload' }}</td>
     <td class="--viewed-column">{{ row.viewed ? 'Viewed' : 'Not viewed' }}</td>
     <td class="--portion-column">{{ `${row.portion}/100` }}</td>
@@ -30,6 +38,12 @@ td {
   height: 30px;
 
   text-align: left;
+  color: #0f6cbf;
+  cursor: pointer;
+}
+
+.--not-link {
+  color: black;
 }
 
 .--uploaded-column {

@@ -1,14 +1,41 @@
 <script>
 import Comment from './Comment.vue';
+import { fakePost } from '../../api/post';
+
 export default {
   name: 'BlogPost',
   components: { Comment },
-  props : {
-    post : {
-      type : Object,
-      required : true
-    }
-  }
+  props: {
+    post: {
+      type: Object,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      commentInput: '',
+    };
+  },
+  computed: {
+    getUser() {
+      return JSON.parse(localStorage.getItem('user'));
+    },
+    getComments(post) {
+      return this.post.comments;
+    },
+  },
+  methods: {
+    addComment() {
+      let post = {
+        author: `${this.getUser.name} ${this.getUser.lastname}`,
+        author_username: this.getUser.username,
+        text: this.commentInput,
+        date: new Date(),
+      };
+
+      this.post.comments.push(post);
+    },
+  },
 };
 </script>
 
@@ -17,8 +44,10 @@ export default {
     <div class="--blog-post-header">
       <div class="--profile-picture"></div>
       <div class="--post-header">
-        <div class="--theme"> {{ post.theme }} </div>
-        <div class="--post-metadata">{{ `by ${post.author}, ${post.date.toLocaleDateString()}, ${post.date.toLocaleTimeString()}` }}</div>
+        <div class="--theme">{{ post.theme }}</div>
+        <div class="--post-metadata">
+          {{ `by ${post.author}, ${post.date.toLocaleDateString()}, ${post.date.toLocaleTimeString()}` }}
+        </div>
       </div>
     </div>
     <div class="--post-text">
@@ -28,14 +57,14 @@ export default {
       <div class="--comments-title">Comment ({{ `${post.comments.length}` }})</div>
 
       <form class="--comment-form">
-        <input type="text" class="--comment-input" />
-        <button @click.prevent="" class="--comment-button">Comment</button>
+        <input type="text" class="--comment-input" v-model="commentInput" />
+        <button @click.prevent="addComment" class="--comment-button">Comment</button>
       </form>
 
       <hr />
 
       <div class="--user-comments">
-        <comment v-for="comment in post.comments" :comment="comment"/>
+        <comment v-for="comment in getComments" :comment="comment" />
       </div>
     </div>
   </div>
@@ -161,7 +190,6 @@ hr {
 
   width: 93%;
   height: 240px;
-
   padding: 0 0 10px 10px;
 
   border: 1px solid #ccc;
