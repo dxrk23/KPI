@@ -19,7 +19,6 @@ export default {
     for: {
       type: String,
       required: false,
-      default: JSON.parse(localStorage.getItem('user')).username,
     },
   },
   methods: {

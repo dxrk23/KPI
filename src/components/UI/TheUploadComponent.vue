@@ -3,6 +3,11 @@ import KPITable from './KPITable.vue';
 export default {
   name: 'TheUploadComponent',
   components: { KPITable },
+  computed: {
+    isUserAdmin() {
+      return JSON.parse(localStorage.getItem('user')).isAdmin;
+    },
+  },
 };
 </script>
 
@@ -24,7 +29,7 @@ export default {
       </tr>
     </table>
 
-    <div class="--grade">
+    <div class="--grade" v-if="isUserAdmin">
       <input type="number" class="--grade-input" />
       /100
       <button class="--grade-button">Grade</button>
