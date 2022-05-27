@@ -1,36 +1,24 @@
 import axios from 'axios';
 import api_env from '../env/api_env';
 
-const API_URL = api_env.URL;
+const HOST = api_env.HOST;
 
-import { fakeUsers } from '../api/user'
 
 class AuthService {
-  login(user) {
-    // return axios
-    //   .post(API_URL, {
-    //     username: user.username,
-    //     password: user.password,
-    //   })
-    //   .then((response) => {
-    //     if (response.data.accessToken) {
-    //       localStorage.setItem('user', JSON.stringify(response.data));
-    //     }
-    //     return response.data;
-    //   });
+    async getToken(email = api_env.sysAdminEmail, password = api_env.sysAdminPassword) {
+        const token = await axios.post(`${HOST}/api/token`, {
+            email,
+            password,
+        }).then(res => res.data.accessToken);
 
-    let loggedUser = fakeUsers.filter((fakeUser) => {
-      return user.username === fakeUser.username && user.password === fakeUser.password;
-    });
-
-    if (loggedUser.length) {
-      localStorage.setItem('user', JSON.stringify(loggedUser[0]));
+        localStorage.setItem('token', token);
+        console.log(token);
+        return token;
     }
-  }
 
-  logout() {
-    localStorage.removeItem('user');
-  }
+    async signOut() {
+        localStorage.removeItem('token');
+    }
 }
 
 export default AuthService;

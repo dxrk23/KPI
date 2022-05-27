@@ -17,7 +17,10 @@ export default {
       isProfileDropdownOpen: 'block/isProfileDorpdownOpen',
     }),
     getUser() {
-      return JSON.parse(localStorage.getItem('user'));
+      return {
+        name: 'John',
+        lastname : 'Doe',
+      }
     },
   },
 };

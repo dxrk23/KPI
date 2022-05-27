@@ -1,5 +1,7 @@
 const API_ENV = {
-  URL: 'http://localhost:3000/api/v1/',
+  HOST: 'http://localhost:80',
+  sysAdminEmail : 'asylkhan.azat@gmail.com',
+  sysAdminPassword : 'r2*NQ1>v',
 };
 
 export default API_ENV;

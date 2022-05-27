@@ -1,19 +1,22 @@
 <script lang="js">
 import AuthService from '../services/auth.service'
+
 export default {
-  data(){
+  data() {
     return {
-      username : '',
-      password : '',
+      username: '',
+      password: '',
     }
   },
+
   methods: {
-    login() {
+    async login() {
       let auth = new AuthService();
-      auth.login({username: this.username, password : this.password});
-      if (localStorage.getItem('user')){
-        this.$router.push('/')
-      }
+      await auth.getToken().then(token => {
+        if (token) {
+          this.$router.push('/');
+        }
+      });
     }
   }
 }
@@ -23,7 +26,7 @@ export default {
   <main class="--sign-in-main">
     <div class="--sign-in-form">
       <div class="--sign-in-logo">
-        <img src="../assets/logos/sign_in_logo.svg" alt="Logo" />
+        <img src="../assets/logos/sign_in_logo.svg" alt="Logo"/>
       </div>
 
       <div class="--username-form">
@@ -33,12 +36,12 @@ export default {
 
       <div class="--password-form">
         <label for="password-input" class="--password-label">Password</label>
-        <input type="password" placeholder="Password" id="password-input" class="--password-input" v-model="password" />
+        <input type="password" placeholder="Password" id="password-input" class="--password-input" v-model="password"/>
       </div>
 
       <div class="--buttons">
         <div class="--remember-me-form">
-          <input type="checkbox" id="remember-me-input" class="--remember-me-input" />
+          <input type="checkbox" id="remember-me-input" class="--remember-me-input"/>
           <label for="remember-me-input" class="--remember-me-label">Remember me</label>
         </div>
 
@@ -57,6 +60,7 @@ export default {
   align-items: center;
   height: 100vh;
 }
+
 .--sign-in-form {
   width: 455px;
   height: 584px;
@@ -137,6 +141,7 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
+
 .--remember-me-input {
   width: 27px;
   height: 27px;

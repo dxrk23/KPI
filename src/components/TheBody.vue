@@ -16,8 +16,6 @@ export default {
 <template>
   <div class="--body-main">
     <router-view />
-    <!--    <the-task-list v-if="selectedBlock === 'TaskList'"></the-task-list>-->
-    <!--    <the-blog v-else-if="selectedBlock === 'Home'"></the-blog>-->
   </div>
 </template>
 
