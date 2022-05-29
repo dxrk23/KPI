@@ -22,6 +22,24 @@ class CommentService {
             },
         }).then(res => res.data);
     }
+
+    async updateComment(commentId, comment) {
+        return await axios.put(`${HOST}/api/comment/${commentId}`, {
+            ...comment,
+        }, {
+            headers: {
+                Authorization: `Bearer ${TOKEN}`,
+            },
+        }).then(res => res.data);
+    }
+
+    async deleteComment(commentId) {
+        return await axios.delete(`${HOST}/api/comment/${commentId}`, {
+            headers: {
+                Authorization: `Bearer ${TOKEN}`,
+            },
+        }).then(res => res.data);
+    }
 }
 
 export default CommentService;

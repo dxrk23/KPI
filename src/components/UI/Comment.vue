@@ -1,4 +1,7 @@
 <script>
+import CommentService from "../../services/comment.service";
+
+const commentService = new CommentService();
 
 export default {
   name: 'Comment',
@@ -10,7 +13,9 @@ export default {
   },
   methods: {
     deleteComment() {
+      commentService.deleteComment(this.comment.id).then(() => {
 
+      });
     }
   },
 
@@ -20,7 +25,7 @@ export default {
     // },
     isMyPost() {
       let userId = JSON.parse(localStorage.getItem('user')).sub;
-      return userId === this.comment.auhtorId;
+      return userId === this.comment.author.id;
     }
   },
 };
@@ -28,7 +33,9 @@ export default {
 
 <template>
   <div class="--comment-main">
-    <div class="--profile-picture"></div>
+    <div class="--profile-picture">
+
+    </div>
     <div class="--content">
       <div class="--header">
         <div class="--author-name"> {{ comment.author.fullName }}</div>
@@ -38,7 +45,7 @@ export default {
 
     </div>
     <div v-if="isMyPost" class="--delete">
-      <i class="fas fa-trash-alt">Delete</i>
+      <i class="fas fa-trash-alt" @click.prevent="deleteComment()">Delete</i>
     </div>
   </div>
 </template>

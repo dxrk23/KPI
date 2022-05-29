@@ -72,7 +72,7 @@ export default {
     <div class="--blog-post-header">
       <div class="--profile-picture"></div>
       <div class="--post-header">
-        <div class="--theme">{{ post.theme }}</div>
+        <div class="--theme">{{ post.title }}</div>
         <div class="--post-metadata">
           {{ `by ${post.author.fullName}, ${new Date(post.writtenDate).toLocaleDateString()}` }}
         </div>

@@ -33,24 +33,12 @@ export default {
       icon="home"
       :class="{ '--selected-item': selectedBlock === '/' }"
     ></menu-item>
-    <!--    <menu-item-->
-    <!--      label="Calendar"-->
-    <!--      @click="handleClick('Calendar')"-->
-    <!--      icon="calendar_month"-->
-    <!--      :class="{ '&#45;&#45;selected-item': selectedBlock === 'Calendar' }"-->
-    <!--    ></menu-item>-->
     <menu-item
       label="Task list"
       @click="handleClick('task')"
       icon="list_alt"
       :class="{ '--selected-item': selectedBlock === 'task' }"
     ></menu-item>
-    <!--    <menu-item-->
-    <!--      label="Notes and private files"-->
-    <!--      @click="handleClick('Notes')"-->
-    <!--      icon="note_alt"-->
-    <!--      :class="{ '&#45;&#45;selected-item': selectedBlock === 'Notes' }"-->
-    <!--    ></menu-item>-->
   </aside>
 </template>
 

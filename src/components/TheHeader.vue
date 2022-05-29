@@ -32,8 +32,6 @@ export default {
     <div class="--menu-button"><span class="material-icons" @click="toggleMenu()">menu</span></div>
     <div class="--title">AITU KPI - platform</div>
     <div class="--user-info">
-      <span class="material-icons">notifications</span>
-      <span class="material-icons">chat</span>
       <span>{{ getUser.fullName }}</span>
       <span class="material-icons" @click="toggleProfileDropdown()">person</span>
     </div>
@@ -84,7 +82,11 @@ span {
 
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: right;
+}
+
+.--user-info > span {
+  margin-right: 30px;
 }
 
 .--user-info > span:hover {
