@@ -1,18 +1,26 @@
 <script>
+
 export default {
   name: 'Comment',
   props: {
-    comment : {
-      type : Object,
-      required : true
+    comment: {
+      type: Object,
+      required: true
     }
   },
-  computed : {
-    isAdmin(){
-      return JSON.parse(localStorage.getItem('user')).isAdmin
-    },
-    isMyPost(){
-      return this.comment.author_username === JSON.parse(localStorage.getItem('user')).username;
+  methods: {
+    deleteComment() {
+
+    }
+  },
+
+  computed: {
+    // isAdmin(){
+    //   return JSON.parse(localStorage.getItem('user')).isAdmin
+    // },
+    isMyPost() {
+      let userId = JSON.parse(localStorage.getItem('user')).sub;
+      return userId === this.comment.auhtorId;
     }
   },
 };
@@ -23,14 +31,14 @@ export default {
     <div class="--profile-picture"></div>
     <div class="--content">
       <div class="--header">
-        <div class="--author-name"> {{comment.author}} </div>
-        <div class="--date"> {{`${comment.date.toLocaleDateString()}, ${comment.date.toLocaleTimeString()}`}} </div>
+        <div class="--author-name"> {{ comment.author.fullName }}</div>
+        <div class="--date"> {{ `${new Date(comment.writtenDate).toLocaleDateString()}` }}</div>
       </div>
-      <div class="--text"> {{ comment.text }} </div>
+      <div class="--text"> {{ comment.content }}</div>
 
     </div>
-    <div class="--delete" v-if="isAdmin || isMyPost">
-      <i class="fas fa-trash-alt" >Delete</i>
+    <div v-if="isMyPost" class="--delete">
+      <i class="fas fa-trash-alt">Delete</i>
     </div>
   </div>
 </template>

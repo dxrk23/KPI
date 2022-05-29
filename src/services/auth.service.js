@@ -5,19 +5,35 @@ const HOST = api_env.HOST;
 
 
 class AuthService {
-    async getToken(email = api_env.sysAdminEmail, password = api_env.sysAdminPassword) {
+    isLoggedIn() {
+        return !!localStorage.getItem('token');
+    }
+
+    async getToken(email, password) {
         const token = await axios.post(`${HOST}/api/token`, {
             email,
             password,
-        }).then(res => res.data.accessToken);
+        }).then(res => (res.data.accessToken));
+
+        let user = this.parseJwt(token);
 
         localStorage.setItem('token', token);
-        console.log(token);
-        return token;
+        localStorage.setItem('user', user);
     }
+
+    parseJwt(token) {
+        let base64Url = token.split('.')[1];
+        let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        let jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        return (jsonPayload);
+    };
 
     async signOut() {
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
     }
 }
 

@@ -1,10 +1,11 @@
 <script>
 import MenuItem from './MenuItem.vue';
 import AuthService from '../../services/auth.service';
-import { mapActions } from 'vuex';
+import {mapActions} from 'vuex';
+
 export default {
   name: 'ProfileDropdown',
-  components: { MenuItem },
+  components: {MenuItem},
   methods: {
     ...mapActions({
       setSelectedBlock: 'block/setSelectedBlock',
@@ -12,7 +13,7 @@ export default {
     }),
     logout() {
       let auth = new AuthService();
-      auth.logout();
+      auth.signOut();
       this.setProfileDorpdownOpen(false);
       this.$router.push('sign-in');
     },
@@ -39,9 +40,8 @@ export default {
   position: absolute;
 
   background: white;
-  left: 73.1%;
-  top: 8%;
-
+  top: 105%;
+  right: 0;
   padding: 21px 23px 9px 29px;
 }
 </style>

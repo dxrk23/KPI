@@ -1,22 +1,52 @@
 <script>
 import BlogPost from './UI/BlogPost.vue';
-import { fakePost } from '../api/post';
+import PostService from "../services/post.service";
+
+const postService = new PostService();
 
 export default {
   name: 'TheBlog',
-  components: { BlogPost },
-  computed: {
-    getPosts() {
-      return fakePost;
+  components: {BlogPost},
+  data() {
+    return {
+      posts: null,
+      postItems: [],
+      page: 1,
+      totalPages: null,
+    }
+  },
+  computed: {},
+  methods: {
+    getInitialPosts() {
+      this.page = 1;
+      postService.getPosts(this.page).then(response => {
+        this.posts = response;
+        this.postItems = response.items;
+        this.totalPages = response.totalPages;
+      });
+    },
+
+    loadPosts() {
+      if (this.page < this.totalPages) {
+        this.page++;
+        postService.getPosts(this.page).then(response => {
+          this.posts = response;
+          this.postItems = this.postItems.concat(response.items);
+        });
+      }
     },
   },
+  mounted() {
+    this.getInitialPosts();
+  }
 };
 </script>
 
 <template>
   <div class="--blog-main">
     <div class="--blog-title">Classifieds Site</div>
-    <blog-post v-for="post in getPosts" :post="post" />
+    <blog-post v-for="post in postItems" :post="{...post }"/>
+    <button class="--load-button" @click="loadPosts()">Load More</button>
   </div>
 </template>
 
@@ -33,5 +63,30 @@ export default {
   font-weight: bold;
   line-height: 37px;
   margin-top: 44px;
+}
+
+.--load-button {
+  margin: 40px auto 0;
+  width: 107px;
+  height: 50px;
+
+  background: #33a8d5;
+  border-radius: 6px;
+  border: none;
+
+  color: #fff;
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.--load-button:hover {
+  background: #2f9ec4;
+  cursor: pointer;
+}
+
+.--load-button:active {
+  background: #2f9ec4;
+  opacity: 0.8;
 }
 </style>

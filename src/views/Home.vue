@@ -1,7 +1,6 @@
 <template>
   <main class="--main-home">
     <the-header></the-header>
-    <ProfileDropdown v-if="isProfileDropdownOpen" />
     <div class="--body-components">
       <the-menu />
       <the-body />
@@ -15,7 +14,7 @@ import TheHeader from '../components/TheHeader.vue';
 import TheMenu from '../components/TheMenu.vue';
 import TheBody from '../components/TheBody.vue';
 import TheRightSidebar from '../components/TheRightSidebar.vue';
-import { mapActions, mapGetters } from 'vuex';
+import {mapGetters} from 'vuex';
 import ProfileDropdown from '../components/UI/ProfileDropdown.vue';
 
 export default {

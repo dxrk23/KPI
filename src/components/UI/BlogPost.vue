@@ -1,10 +1,12 @@
 <script>
 import Comment from './Comment.vue';
-import { fakePost } from '../../api/post';
+import CommentService from "../../services/comment.service";
+
+const commentService = new CommentService();
 
 export default {
   name: 'BlogPost',
-  components: { Comment },
+  components: {Comment},
   props: {
     post: {
       type: Object,
@@ -14,28 +16,54 @@ export default {
   data() {
     return {
       commentInput: '',
+      comments: {},
+      commentItems: [],
+      page: 1,
     };
   },
   computed: {
     getUser() {
       return JSON.parse(localStorage.getItem('user'));
     },
-    getComments(post) {
-      return this.post.comments;
-    },
   },
   methods: {
     addComment() {
-      let post = {
-        author: `${this.getUser.name} ${this.getUser.lastname}`,
-        author_username: this.getUser.username,
-        text: this.commentInput,
-        date: new Date(),
-      };
+      if (this.commentInput.length <= 0) return;
+      commentService.createComment({
+        content: this.commentInput,
+        groupId: this.post.commentsId,
+      }).then(() => {
+        this.commentInput = '';
+        this.refreshComments();
+      });
+    },
 
-      this.post.comments.push(post);
+    refreshComments() {
+      this.page = 1;
+      commentService.getComments(this.post.commentsId).then(response => {
+        this.comments = response;
+        this.commentItems = response.items;
+      });
+    },
+
+    loadComments() {
+      this.page++;
+      commentService.getComments(this.post.commentsId, this.page).then(response => {
+        this.comments = response;
+        this.commentItems = [...this.commentItems, ...response.items];
+      });
     },
   },
+  mounted() {
+    this.refreshComments();
+    let loadComments = this.loadComments;
+
+    document.querySelector('.--user-comments').addEventListener('scroll', function () {
+      if (this.scrollHeight - this.scrollTop === this.clientHeight) {
+        loadComments();
+      }
+    });
+  }
 };
 </script>
 
@@ -46,25 +74,25 @@ export default {
       <div class="--post-header">
         <div class="--theme">{{ post.theme }}</div>
         <div class="--post-metadata">
-          {{ `by ${post.author}, ${post.date.toLocaleDateString()}, ${post.date.toLocaleTimeString()}` }}
+          {{ `by ${post.author.fullName}, ${new Date(post.writtenDate).toLocaleDateString()}` }}
         </div>
       </div>
     </div>
     <div class="--post-text">
-      {{ post.text }}
+      {{ post.content }}
     </div>
     <div class="--comments">
-      <div class="--comments-title">Comment ({{ `${post.comments.length}` }})</div>
+      <div class="--comments-title">Comment ({{ `${comments.totalItems}` }})</div>
 
       <form class="--comment-form">
-        <input type="text" class="--comment-input" v-model="commentInput" />
+        <input v-model="commentInput" class="--comment-input" type="text"/>
         <button @click.prevent="addComment" class="--comment-button">Comment</button>
       </form>
 
-      <hr />
+      <hr/>
 
-      <div class="--user-comments">
-        <comment v-for="comment in getComments" :comment="comment" />
+      <div v-show="comments.totalItems > 0" class="--user-comments">
+        <comment v-for="comment in commentItems" :comment="comment"/>
       </div>
     </div>
   </div>
@@ -194,6 +222,6 @@ hr {
 
   border: 1px solid #ccc;
 
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 </style>

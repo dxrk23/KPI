@@ -1,8 +1,12 @@
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import {mapActions, mapGetters} from 'vuex';
+import ProfileDropdown from "./UI/ProfileDropdown.vue";
 
 export default {
   name: 'TheHeader',
+  components: {
+    ProfileDropdown
+  },
   methods: {
     ...mapActions({
       setProfileDropdown: 'block/setProfileDorpdownOpen',
@@ -17,10 +21,7 @@ export default {
       isProfileDropdownOpen: 'block/isProfileDorpdownOpen',
     }),
     getUser() {
-      return {
-        name: 'John',
-        lastname : 'Doe',
-      }
+      return JSON.parse(localStorage.getItem('user'));
     },
   },
 };
@@ -33,16 +34,17 @@ export default {
     <div class="--user-info">
       <span class="material-icons">notifications</span>
       <span class="material-icons">chat</span>
-      <span>{{`${getUser.name} ${getUser.lastname}`}}</span>
+      <span>{{ getUser.fullName }}</span>
       <span class="material-icons" @click="toggleProfileDropdown()">person</span>
     </div>
+    <ProfileDropdown v-if="isProfileDropdownOpen"/>
   </header>
 </template>
 
 <style scoped>
 .--header-main {
   height: 52px;
-  width: 96.3%;
+  width: 100%;
 
   display: flex;
   align-items: center;
@@ -51,6 +53,7 @@ export default {
   background: #fff;
 
   margin: 31px auto 33px;
+  position: relative;
 }
 
 span {

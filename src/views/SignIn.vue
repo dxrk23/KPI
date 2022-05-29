@@ -11,13 +11,17 @@ export default {
 
   methods: {
     async login() {
-      let auth = new AuthService();
-      await auth.getToken().then(token => {
-        if (token) {
+      if (this.validate()) return;
+      let authService = new AuthService();
+      await authService.getToken(this.username, this.password).then(() => {
+        if (authService.isLoggedIn()) {
           this.$router.push('/');
         }
       });
-    }
+    },
+    validate() {
+      return this.username.length === 0 || this.password.length === 0;
+    },
   }
 }
 </script>
@@ -31,7 +35,7 @@ export default {
 
       <div class="--username-form">
         <label for="username-input" class="--username-label">Username</label>
-        <input type="text" placeholder="Username" id="username-input" class="--username-input" v-model="username"/>
+        <input id="username-input" v-model="username" class="--username-input" placeholder="Username" type="email"/>
       </div>
 
       <div class="--password-form">
