@@ -1,5 +1,6 @@
 <script lang="js">
-import AuthService from '../services/auth.service'
+import AuthService from '../services/auth.service';
+const authService = new AuthService();
 
 export default {
   data() {
@@ -12,7 +13,6 @@ export default {
   methods: {
     async login() {
       if (this.validate()) return;
-      let authService = new AuthService();
       await authService.getToken(this.username, this.password).then(() => {
         if (authService.isLoggedIn()) {
           this.$router.push('/');

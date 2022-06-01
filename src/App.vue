@@ -1,14 +1,20 @@
 <script>
 import SignIn from './views/SignIn.vue';
+import {isJwtExpired} from 'jwt-check-expiration';
+
+const TOKEN = localStorage.getItem("token");
 
 export default {
   components: {
     SignIn,
   },
   mounted() {
-    if (!localStorage.getItem('user')){
+    if (!localStorage.getItem('user')) {
       this.$router.push('sign-in')
     } else {
+      if (isJwtExpired(TOKEN)) {
+        this.$router.push('sign-in');
+      }
       this.$router.push('/')
     }
   },
@@ -29,8 +35,8 @@ export default {
 }
 
 #app {
-  width: 1920px;
-  height: 1080px;
+  width: 95%;
+  height: 100%;
 
   margin: auto;
 }
