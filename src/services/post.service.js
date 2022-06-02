@@ -22,6 +22,25 @@ class PostService {
             },
         }).then(res => res.data);
     }
+
+    async updatePost(post) {
+        return await axios.put(`${HOST}/api/post/${post.id}`, {
+            content: post.content,
+            title : post.title,
+        }, {
+            headers: {
+                Authorization: `Bearer ${TOKEN}`,
+            },
+        }).then(res => res.data);
+    }
+
+    async deletePost(postId) {
+        return await axios.delete(`${HOST}/api/post/${postId}`, {
+            headers: {
+                Authorization: `Bearer ${TOKEN}`,
+            },
+        }).then(res => res.data);
+    }
 }
 
 export default PostService;

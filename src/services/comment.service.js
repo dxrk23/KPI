@@ -39,6 +39,8 @@ class CommentService {
                 Authorization: `Bearer ${TOKEN}`,
             },
         }).then(res => res.data);
+
+        this.$emit("deleteComment");
     }
 }
 

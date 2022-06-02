@@ -14,15 +14,12 @@ export default {
   methods: {
     deleteComment() {
       commentService.deleteComment(this.comment.id).then(() => {
-
+        this.$emit('onCommentDelete');
       });
     }
   },
 
   computed: {
-    // isAdmin(){
-    //   return JSON.parse(localStorage.getItem('user')).isAdmin
-    // },
     isMyPost() {
       let userId = JSON.parse(localStorage.getItem('user')).sub;
       return userId === this.comment.author.id;

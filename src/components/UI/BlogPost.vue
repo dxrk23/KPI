@@ -1,8 +1,10 @@
 <script>
 import Comment from './Comment.vue';
 import CommentService from "../../services/comment.service";
+import PostService from "../../services/post.service";
 
 const commentService = new CommentService();
+const postService = new PostService();
 
 export default {
   name: 'BlogPost',
@@ -19,6 +21,10 @@ export default {
       comments: {},
       commentItems: [],
       page: 1,
+      isEditing: false,
+
+      editInput: '',
+      inputHeight: 35,
     };
   },
   computed: {
@@ -27,6 +33,16 @@ export default {
     },
   },
   methods: {
+    handleKeyPress(event) {
+      if (event.keyCode === 27) {
+        this.isEditing = false;
+      }
+
+      if (event.keyCode === 13 && event.shiftKey) {
+        this.inputHeight += 35;
+      }
+    },
+
     addComment() {
       if (this.commentInput.length <= 0) return;
       commentService.createComment({
@@ -38,6 +54,36 @@ export default {
       });
     },
 
+    deletePost() {
+      postService.deletePost(this.post.id).then(() => {
+        this.$emit('onPostDelete');
+      });
+    },
+
+    toggleEditMode() {
+      this.isEditing = !this.isEditing;
+    },
+
+    updatePost() {
+      if (!this.isNotEmpty(this.editInput) && !this.isNotEmpty(this.post.title)) {
+        this.toggleEditMode();
+        this.editInput = '';
+        return;
+      }
+      postService.updatePost({
+        title: this.post.title,
+        content: this.editInput,
+        id: this.post.id,
+      }).then(() => {
+        this.isEditing = false;
+        this.$emit('onPostDelete');
+      });
+    },
+
+    updateEditInput(str) {
+      this.editInput = str;
+    },
+
     refreshComments() {
       this.page = 1;
       commentService.getComments(this.post.commentsId).then(response => {
@@ -45,6 +91,19 @@ export default {
         this.commentItems = response.items;
       });
     },
+
+    onCommentDelete() {
+      this.refreshComments();
+    },
+
+    updateTitleInput(str) {
+      this.post.title = str;
+    },
+
+    isNotEmpty(str) {
+      return str.replace(/<br>/g, '').replace(/&nbsp;/g, '').replace(/\s/g, '').length > 0;
+    },
+
 
     loadComments() {
       this.page++;
@@ -72,28 +131,32 @@ export default {
     <div class="--blog-post-header">
       <div class="--profile-picture"></div>
       <div class="--post-header">
-        <div class="--theme">{{ post.title }}</div>
+        <div class="--theme" v-html="post.title" :contenteditable="isEditing" @input="updateTitleInput($event.target.innerHTML)"></div>
         <div class="--post-metadata">
           {{ `by ${post.author.fullName}, ${new Date(post.writtenDate).toLocaleDateString()}` }}
         </div>
       </div>
     </div>
-    <div class="--post-text">
-      {{ post.content }}
+    <div class="--post-text" v-if="!isEditing" v-html="post.content"></div>
+    <div class="--post-edit" v-if="isEditing">
+      <div contenteditable="true" @input="updateEditInput($event.target.innerHTML)" class="--edit-area"
+           @keypress="handleKeyPress"></div>
+      <button class="--edit-button" @click="updatePost()">Edit</button>
     </div>
     <div class="--comments">
       <div class="--comments-title">Comment ({{ `${comments.totalItems}` }})</div>
-
       <form class="--comment-form">
         <input v-model="commentInput" class="--comment-input" type="text"/>
         <button @click.prevent="addComment" class="--comment-button">Comment</button>
       </form>
-
       <hr/>
-
       <div v-show="comments.totalItems > 0" class="--user-comments">
-        <comment v-for="comment in commentItems" :comment="comment"/>
+        <comment v-for="comment in commentItems" :comment="comment" @onCommentDelete="onCommentDelete()"/>
       </div>
+    </div>
+    <div class="--delete-mark" @click="deletePost()">x</div>
+    <div class="--edit-mark">
+      <span class="material-icons" @click="toggleEditMode()">edit</span>
     </div>
   </div>
 </template>
@@ -105,6 +168,104 @@ export default {
 
   box-shadow: 0 4px 2px rgba(0, 0, 0, 0.32);
   padding: 10px 37px 20px 21px;
+
+  position: relative;
+}
+
+.--delete-mark {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.32);
+}
+
+.--edit-button {
+  margin-top: 20px;
+  width: 70px;
+  height: 30px;
+  background: #33a8d5;
+  border-radius: 6px;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.--edit-button:hover {
+  background: #2f9ec4;
+}
+
+.--edit-mark:active {
+  background: #2f9ec4;
+  opacity: 0.8;
+}
+
+.--edit-mark {
+  position: absolute;
+  top: 5px;
+  right: 25px;
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  border-radius: 50%;
+  line-height: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.32);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+textarea {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  resize: none;
+
+  transition: height 0.3s ease-in-out;
+}
+
+.--post-edit {
+  max-width: 825px;
+  margin-top: 14px;
+  margin-left: 68px;
+  margin-bottom: 30px;
+
+  font-size: 20px;
+  line-height: 23px;
+}
+
+.--edit-area {
+  width: 100%;
+  min-height: 35px;
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px 15px;
+  font-size: 20px;
+  line-height: 23px;
+  outline: none;
+
+  transition: height 0.3s ease-in-out;
+}
+
+.--edit-mark:hover, .--delete-mark:hover {
+  background-color: #f5f5f5;
+}
+
+.--edit-mark:active, .--delete-mark:active {
+  background-color: #e0e0e0;
 }
 
 .--post-header {

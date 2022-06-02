@@ -15,15 +15,30 @@ export default {
       totalPages: null,
     }
   },
-  computed: {},
+  computed: {
+    isThisLastPage() {
+      return this.page === this.totalPages;
+    },
+  },
   methods: {
     getInitialPosts() {
-      this.page = 1;
+      this.emptyData();
       postService.getPosts(this.page).then(response => {
         this.posts = response;
         this.postItems = response.items;
         this.totalPages = response.totalPages;
       });
+    },
+
+    emptyData() {
+      this.posts = null;
+      this.postItems = [];
+      this.totalPages = null;
+      this.page = 1;
+    },
+
+    onPostDelete() {
+      this.getInitialPosts();
     },
 
     loadPosts() {
@@ -45,8 +60,8 @@ export default {
 <template>
   <div class="--blog-main">
     <div class="--blog-title">Classifieds Site</div>
-    <blog-post v-for="post in postItems" :post="{...post }"/>
-    <button class="--load-button" @click="loadPosts()">Load More</button>
+    <blog-post @onPostDelete="onPostDelete()" v-for="post in postItems" :post="{...post }"/>
+    <button class="--load-button" v-if="!isThisLastPage" @click="loadPosts()">Load More</button>
   </div>
 </template>
 
