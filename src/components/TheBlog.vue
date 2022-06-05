@@ -37,8 +37,8 @@ export default {
       this.page = 1;
     },
 
-    onPostDelete() {
-      this.getInitialPosts();
+    onPostDelete(post) {
+      this.postItems = this.postItems.filter(item => item.id !== post.id);
     },
 
     loadPosts() {
@@ -60,8 +60,8 @@ export default {
 <template>
   <div class="--blog-main">
     <div class="--blog-title">Classifieds Site</div>
-    <blog-post @onPostDelete="onPostDelete()" v-for="post in postItems" :post="{...post }"/>
-    <button class="--load-button" v-if="!isThisLastPage" @click="loadPosts()">Load More</button>
+    <blog-post v-for="post in postItems" :post="{...post }" @onPostDelete="onPostDelete(post)"/>
+    <button v-if="!isThisLastPage" class="--load-button" @click="loadPosts()">Load More</button>
   </div>
 </template>
 

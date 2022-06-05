@@ -1,23 +1,38 @@
 <script>
 import MenuItem from "./UI/MenuItem.vue";
+import {mapActions} from "vuex";
 
 export default {
   name: 'TheRightSidebar',
   components: {MenuItem},
+  methods: {
+    ...mapActions({
+      selectModal: 'modals/setSelectedModal',
+      closeModal: 'modals/closeModal',
+    }),
+    goToAddPost() {
+      this.$router.push('addPost');
+    },
+    openModal(modal) {
+      this.closeModal();
+      this.selectModal(modal);
+    }
+  }
+
 };
 </script>
 
 <template>
   <aside class="--right-block-main">
     <div class="--logo">
-      <img src="../assets/logos/sign_in_logo.svg" alt="logo" />
+      <img alt="logo" src="../assets/logos/sign_in_logo.svg"/>
     </div>
     <div class="--admin-menu">
-      <menu-item icon="note_add" label="Add post"/>
+      <menu-item icon="note_add" label="Add post" @click="goToAddPost()"/>
       <hr style="margin-top: 10px; margin-bottom: 10px">
-      <menu-item icon="person_add" label="Add user"/>
+      <menu-item icon="person_add" label="Add user" @click="openModal('create')"/>
       <menu-item icon="manage_accounts" label="Update user"/>
-      <menu-item icon="person_remove" label="Delete post"/>
+      <menu-item icon="person_remove" label="Delete user"/>
     </div>
   </aside>
 </template>
@@ -44,7 +59,7 @@ export default {
 }
 
 .--admin-menu {
-  margin : 20px auto 0;
+  margin: 20px auto 0;
   width: 90%;
   height: auto;
 }

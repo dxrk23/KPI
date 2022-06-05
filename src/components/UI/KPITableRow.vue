@@ -21,7 +21,7 @@ export default {
 <template>
   <tr class="--table-row">
     <td class="--number-column">{{ row.index + 1 }}</td>
-    <td class="--name-column" :class="{ '--not-link': this.$route.params.id }">{{ getLabel }}</td>
+    <td :class="{ '--not-link': this.$route.params.id }" class="--name-column">{{ getLabel }}</td>
     <td class="--uploaded-column">{{ row.uploaded ? 'Uploaded' : 'Must upload' }}</td>
     <td class="--viewed-column">{{ row.viewed ? 'Viewed' : 'Not viewed' }}</td>
     <td class="--portion-column">{{ `${row.portion}/100` }}</td>

@@ -1,8 +1,9 @@
 <script>
 import UserTableRow from './UserTableRow.vue';
+
 export default {
   name: 'UserTable',
-  components: { UserTableRow },
+  components: {UserTableRow},
 };
 </script>
 
@@ -16,7 +17,7 @@ export default {
         <th class="--viewed-column --table-header">Viewed</th>
         <th class="--table-header --portion-column">Portion</th>
       </tr>
-      <user-table-row />
+      <user-table-row/>
     </table>
   </div>
 </template>
@@ -26,6 +27,7 @@ table {
   margin: auto;
   width: 100%;
 }
+
 .--table-main {
 }
 

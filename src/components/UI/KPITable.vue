@@ -1,10 +1,10 @@
 <script>
 import KPITableRow from './KPITableRow.vue';
-import { fakeKpi } from '../../api/kpi';
+import {fakeKpi} from '../../api/kpi';
 
 export default {
   name: 'KPITable',
-  components: { KPITableRow },
+  components: {KPITableRow},
   computed: {
     getRows() {
       if (this.$route.params.id) {
@@ -39,7 +39,7 @@ export default {
         <th class="--viewed-column --table-header">Viewed</th>
         <th class="--table-header --portion-column">Portion</th>
       </tr>
-      <k-p-i-table-row v-for="(row, index) in getRows" :row="{ index, ...row }" @click="openKPI(row.id)" />
+      <k-p-i-table-row v-for="(row, index) in getRows" :row="{ index, ...row }" @click="openKPI(row.id)"/>
     </table>
   </div>
 </template>
@@ -49,6 +49,7 @@ table {
   margin: auto;
   width: 100%;
 }
+
 .--table-main {
 }
 

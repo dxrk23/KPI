@@ -26,7 +26,7 @@ class PostService {
     async updatePost(post) {
         return await axios.put(`${HOST}/api/post/${post.id}`, {
             content: post.content,
-            title : post.title,
+            title: post.title,
         }, {
             headers: {
                 Authorization: `Bearer ${TOKEN}`,

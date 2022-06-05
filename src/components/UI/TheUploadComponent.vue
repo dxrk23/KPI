@@ -1,8 +1,9 @@
 <script>
 import KPITable from './KPITable.vue';
+
 export default {
   name: 'TheUploadComponent',
-  components: { KPITable },
+  components: {KPITable},
   computed: {
     isUserAdmin() {
       return JSON.parse(localStorage.getItem('user')).isAdmin;
@@ -25,12 +26,12 @@ export default {
       </tr>
       <tr>
         <td class="--title-row">File submission</td>
-        <td><input type="file" name="" id="" /></td>
+        <td><input id="" name="" type="file"/></td>
       </tr>
     </table>
 
-    <div class="--grade" v-if="isUserAdmin">
-      <input type="number" class="--grade-input" />
+    <div v-if="isUserAdmin" class="--grade">
+      <input class="--grade-input" type="number"/>
       /100
       <button class="--grade-button">Grade</button>
     </div>
@@ -40,6 +41,7 @@ export default {
 <style scoped>
 .--upload-main {
 }
+
 .--upload-form {
   margin-top: 50px;
   width: 50%;

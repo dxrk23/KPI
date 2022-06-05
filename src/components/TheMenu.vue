@@ -1,43 +1,29 @@
 <script>
 import MenuItem from './UI/MenuItem.vue';
-import {mapActions, mapGetters} from 'vuex';
 
 export default {
   name: 'TheMenu',
   components: {MenuItem},
-  methods: {
-    ...mapActions({
-      setSelectedBlock: 'block/setSelectedBlock',
-    }),
-
-    handleClick(block) {
-      if (block === '/' || block === 'task') {
-        this.$router.push(block);
-      }
-      this.setSelectedBlock(block);
-    },
-  },
-  computed: {
-    ...mapGetters({
-      selectedBlock: 'block/selectedBlock',
-    }),
-  },
+  methods: {},
 };
 </script>
 
 <template>
   <aside class="--menu-main">
     <menu-item
-      label="Home"
-      @click="handleClick('/')"
-      icon="home"
-      :class="{ '--selected-item': selectedBlock === '/' }"
+        icon="home"
+        label="Home"
+        @click="$router.push('/')"
     ></menu-item>
     <menu-item
-      label="Task list"
-      @click="handleClick('task')"
-      icon="list_alt"
-      :class="{ '--selected-item': selectedBlock === 'task' }"
+        icon="list_alt"
+        label="Task list"
+        @click="$router.push('/task')"
+    ></menu-item>
+    <menu-item
+        icon="groups"
+        label="Roles"
+        @click="$router.push('/roles')"
     ></menu-item>
   </aside>
 </template>
@@ -50,10 +36,5 @@ export default {
   padding: 41px 23px;
 
   background: rgba(255, 255, 255, 0.7);
-}
-
-.--selected-item {
-  background: #0f6cbf;
-  color: white;
 }
 </style>

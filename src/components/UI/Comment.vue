@@ -38,7 +38,7 @@ export default {
         <div class="--author-name"> {{ comment.author.fullName }}</div>
         <div class="--date"> {{ `${new Date(comment.writtenDate).toLocaleDateString()}` }}</div>
       </div>
-      <div class="--text"> {{ comment.content }}</div>
+      <div class="--text" v-html="comment.content"></div>
 
     </div>
     <div v-if="isMyPost" class="--delete">

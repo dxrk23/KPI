@@ -8,17 +8,23 @@ export default {
   components: {
     SignIn,
   },
-  mounted() {
-    if (!localStorage.getItem('user')) {
-      this.$router.push('sign-in')
-    } else {
-      if (isJwtExpired(TOKEN)) {
-        this.$router.push('sign-in');
-      }
-      this.$router.push('/')
-    }
+  data() {
+    return {}
   },
-};
+  computed: {
+    isLoggedIn() {
+      return TOKEN && !isJwtExpired(TOKEN);
+    },
+  },
+  mounted() {
+    if (this.isLoggedIn) {
+      this.$router.push('/');
+    } else {
+      this.$router.push('/sign-in');
+    }
+  }
+}
+;
 </script>
 
 <template>
@@ -34,10 +40,12 @@ export default {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+
 #app {
   width: 95%;
   height: 100%;
 
+  min-width: 1920px;
   margin: auto;
 }
 

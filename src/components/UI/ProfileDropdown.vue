@@ -28,9 +28,9 @@ export default {
 
 <template>
   <div class="--profile-dropdown-main">
-    <menu-item label="Home" icon="home" @click="goHome()" />
-    <menu-item label="Change password" icon="autorenew" />
-    <menu-item label="Logout" icon="logout" @click="logout()" />
+    <menu-item icon="home" label="Home" @click="goHome()"/>
+    <menu-item icon="autorenew" label="Change password"/>
+    <menu-item icon="logout" label="Logout" @click="logout()"/>
   </div>
 </template>
 

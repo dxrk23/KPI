@@ -16,7 +16,7 @@ export default {
 
 <template>
   <div class="--body-main">
-    <router-view />
+    <router-view/>
   </div>
 </template>
 

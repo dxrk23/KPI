@@ -2,9 +2,12 @@
   <main class="--main-home">
     <the-header></the-header>
     <div class="--body-components">
-      <the-menu />
-      <the-body />
-      <the-right-sidebar />
+      <the-menu/>
+      <the-body/>
+      <the-right-sidebar/>
+    </div>
+    <div class="--modal">
+      <CreateUserModal v-if="selectedModal === 'create'"/>
     </div>
   </main>
 </template>
@@ -16,14 +19,16 @@ import TheBody from '../components/TheBody.vue';
 import TheRightSidebar from '../components/TheRightSidebar.vue';
 import {mapGetters} from 'vuex';
 import ProfileDropdown from '../components/UI/ProfileDropdown.vue';
+import CreateUserModal from "../components/UI/CreateUserModal.vue";
 
 export default {
   name: 'Home',
-  components: { ProfileDropdown, TheRightSidebar, TheBody, TheHeader, TheMenu },
+  components: {CreateUserModal, ProfileDropdown, TheRightSidebar, TheBody, TheHeader, TheMenu},
   methods: {},
   computed: {
     ...mapGetters({
       isProfileDropdownOpen: 'block/isProfileDorpdownOpen',
+      selectedModal: 'modals/selectedModal',
     }),
   },
 };
@@ -35,6 +40,13 @@ export default {
   height: 100%;
 
   background: #f0f0f1;
+}
+
+.--modal {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
 }
 
 .--body-components {

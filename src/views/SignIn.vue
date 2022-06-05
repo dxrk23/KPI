@@ -1,5 +1,6 @@
 <script lang="js">
 import AuthService from '../services/auth.service';
+
 const authService = new AuthService();
 
 export default {
@@ -30,23 +31,23 @@ export default {
   <main class="--sign-in-main">
     <div class="--sign-in-form">
       <div class="--sign-in-logo">
-        <img src="../assets/logos/sign_in_logo.svg" alt="Logo"/>
+        <img alt="Logo" src="../assets/logos/sign_in_logo.svg"/>
       </div>
 
       <div class="--username-form">
-        <label for="username-input" class="--username-label">Username</label>
+        <label class="--username-label" for="username-input">Username</label>
         <input id="username-input" v-model="username" class="--username-input" placeholder="Username" type="email"/>
       </div>
 
       <div class="--password-form">
-        <label for="password-input" class="--password-label">Password</label>
-        <input type="password" placeholder="Password" id="password-input" class="--password-input" v-model="password"/>
+        <label class="--password-label" for="password-input">Password</label>
+        <input id="password-input" v-model="password" class="--password-input" placeholder="Password" type="password"/>
       </div>
 
       <div class="--buttons">
         <div class="--remember-me-form">
-          <input type="checkbox" id="remember-me-input" class="--remember-me-input"/>
-          <label for="remember-me-input" class="--remember-me-label">Remember me</label>
+          <input id="remember-me-input" class="--remember-me-input" type="checkbox"/>
+          <label class="--remember-me-label" for="remember-me-input">Remember me</label>
         </div>
 
         <div class="--sign-in-button-form">

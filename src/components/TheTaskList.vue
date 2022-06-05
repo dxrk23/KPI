@@ -2,9 +2,10 @@
 import KPITable from './UI/KPITable.vue';
 import TheUploadComponent from './UI/TheUploadComponent.vue';
 import UsersTable from './UI/UsersTable.vue';
+
 export default {
   name: 'TheTaskList',
-  components: { TheUploadComponent, KPITable, UsersTable },
+  components: {TheUploadComponent, KPITable, UsersTable},
   computed: {
     isUserAdmin() {
       return JSON.parse(localStorage.getItem('user')).isAdmin;
@@ -17,7 +18,8 @@ export default {
       }
     },
   },
-  mounted() {},
+  mounted() {
+  },
 };
 </script>
 
@@ -25,14 +27,14 @@ export default {
   <div class="--task-list-main">
     <div class="--task-list-title">Key Performance Indicators (KPIs)</div>
     <div class="--task-list-content">
-      <the-upload-component v-if="this.$route.params.id" />
-      <k-p-i-table class="--table" :for="getTableData" v-if="!this.$route.params.id"></k-p-i-table>
-      <div class="--description" v-if="!this.$route.params.id">
-        *Статья/монография в соавторстве для данной категории считается только для одного ученого или по долям <br />
+      <the-upload-component v-if="this.$route.params.id"/>
+      <k-p-i-table v-if="!this.$route.params.id" :for="getTableData" class="--table"></k-p-i-table>
+      <div v-if="!this.$route.params.id" class="--description">
+        *Статья/монография в соавторстве для данной категории считается только для одного ученого или по долям <br/>
         **В случае наличия научных статей/монографий, превышающих требуемое количество в п.1, 1 (одна) статья/монография
-        закрывает п.2 <br />
+        закрывает п.2 <br/>
         *** В случае наличия научных статей/монографий, превышающих требуемое количество в п.1, и закрывающих п.2, 1
-        (одна) статья/монография закрывает п.3 <br />
+        (одна) статья/монография закрывает п.3 <br/>
         **** В случае наличия научных статей/монографий, превышающих требуемое количество в п.1,3, и закрывающих пп.2-3,
         1 (одна) статья/монография закрывает п.4
       </div>

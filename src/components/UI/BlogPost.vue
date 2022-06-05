@@ -22,8 +22,6 @@ export default {
       commentItems: [],
       page: 1,
       isEditing: false,
-
-      editInput: '',
       inputHeight: 35,
     };
   },
@@ -31,8 +29,13 @@ export default {
     getUser() {
       return JSON.parse(localStorage.getItem('user'));
     },
+    getComments() {
+      return this.commentItems;
+    },
   },
   methods: {
+    // TODO - work with title's adaptivity (when it's too long)
+
     handleKeyPress(event) {
       if (event.keyCode === 27) {
         this.isEditing = false;
@@ -49,14 +52,18 @@ export default {
         content: this.commentInput,
         groupId: this.post.commentsId,
       }).then(() => {
-        this.commentInput = '';
         this.refreshComments();
+        this.clearInput();
       });
     },
 
+    clearInput() {
+      document.getElementsByClassName('--comment-input')[0].innerHTML = '';
+    },
+
     deletePost() {
-      postService.deletePost(this.post.id).then(() => {
-        this.$emit('onPostDelete');
+      postService.deletePost(this.post.id).then((res) => {
+        this.$emit('onPostDelete', res);
       });
     },
 
@@ -65,23 +72,21 @@ export default {
     },
 
     updatePost() {
-      if (!this.isNotEmpty(this.editInput) && !this.isNotEmpty(this.post.title)) {
+      if (!this.isNotEmpty(this.post.content) && !this.isNotEmpty(this.post.title)) {
         this.toggleEditMode();
-        this.editInput = '';
         return;
       }
       postService.updatePost({
         title: this.post.title,
-        content: this.editInput,
+        content: this.post.content,
         id: this.post.id,
       }).then(() => {
         this.isEditing = false;
-        this.$emit('onPostDelete');
       });
     },
 
     updateEditInput(str) {
-      this.editInput = str;
+      this.post.content = str;
     },
 
     refreshComments() {
@@ -104,6 +109,9 @@ export default {
       return str.replace(/<br>/g, '').replace(/&nbsp;/g, '').replace(/\s/g, '').length > 0;
     },
 
+    onCommentInput(str) {
+      this.commentInput = str;
+    },
 
     loadComments() {
       this.page++;
@@ -131,27 +139,28 @@ export default {
     <div class="--blog-post-header">
       <div class="--profile-picture"></div>
       <div class="--post-header">
-        <div class="--theme" v-html="post.title" :contenteditable="isEditing" @input="updateTitleInput($event.target.innerHTML)"></div>
+        <div :contenteditable="isEditing" class="--theme" @input="updateTitleInput($event.target.innerHTML)"
+             v-html="post.title"></div>
         <div class="--post-metadata">
           {{ `by ${post.author.fullName}, ${new Date(post.writtenDate).toLocaleDateString()}` }}
         </div>
       </div>
     </div>
-    <div class="--post-text" v-if="!isEditing" v-html="post.content"></div>
-    <div class="--post-edit" v-if="isEditing">
-      <div contenteditable="true" @input="updateEditInput($event.target.innerHTML)" class="--edit-area"
+    <div v-if="!isEditing" class="--post-text" v-html="post.content"></div>
+    <div v-if="isEditing" class="--post-edit">
+      <div class="--edit-area" contenteditable="true" @input="updateEditInput($event.target.innerHTML)"
            @keypress="handleKeyPress"></div>
       <button class="--edit-button" @click="updatePost()">Edit</button>
     </div>
     <div class="--comments">
       <div class="--comments-title">Comment ({{ `${comments.totalItems}` }})</div>
       <form class="--comment-form">
-        <input v-model="commentInput" class="--comment-input" type="text"/>
-        <button @click.prevent="addComment" class="--comment-button">Comment</button>
+        <div class="--comment-input" contenteditable="true" @input="onCommentInput($event.target.innerHTML)"></div>
+        <button class="--comment-button" @click.prevent="addComment">Comment</button>
       </form>
       <hr/>
       <div v-show="comments.totalItems > 0" class="--user-comments">
-        <comment v-for="comment in commentItems" :comment="comment" @onCommentDelete="onCommentDelete()"/>
+        <comment v-for="comment in getComments" :comment="comment" @onCommentDelete="onCommentDelete()"/>
       </div>
     </div>
     <div class="--delete-mark" @click="deletePost()">x</div>
@@ -324,23 +333,28 @@ textarea {
 
 .--comment-form {
   width: 404px;
-  height: 30px;
+  height: auto;
 
   margin-top: 20px;
   margin-left: 62px;
   margin-bottom: 20px;
+
+  display: flex;
 }
 
 .--comment-input {
   width: 285px;
-  height: 30px;
+  height: auto;
 
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 6px;
 
-  font-size: 16px;
+  font-size: 20px;
   padding-left: 10px;
+
+  display: flex;
+  align-items: center;
 }
 
 .--comment-button {
