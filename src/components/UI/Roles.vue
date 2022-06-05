@@ -1,64 +1,66 @@
 <script>
-import TheButton from "./TheButton.vue";
-import PositionService from "../../services/position.service";
-import RoleContainer from "./RoleContainer.vue";
+import TheButton from './TheButton.vue';
+import PositionService from '../../services/position.service';
+import RoleContainer from './RoleContainer.vue';
 
 const positionService = new PositionService();
 
 export default {
-  name: "Roles",
+  name: 'Roles',
   components: {
     RoleContainer,
-    TheButton
+    TheButton,
   },
   data() {
     return {
       roleItems: [],
-      roleInput: "",
-    }
+      roleInput: '',
+    };
   },
   methods: {
     getInitialRoles() {
-      positionService.getPositionsPage().then(response => {
+      positionService.getPositionsPage().then((response) => {
         this.roleItems = response.items;
       });
     },
 
     isNotEmpty(str) {
-      return str.replace(/<br>/g, '').replace(/&nbsp;/g, '').replace(/\s/g, '').length > 0;
+      return (
+        str
+          .replace(/<br>/g, '')
+          .replace(/&nbsp;/g, '')
+          .replace(/\s/g, '').length > 0
+      );
     },
 
     addRole() {
       if (this.isNotEmpty(this.roleInput)) {
-        positionService.createPosition({name: this.roleInput}).then(response => {
+        positionService.createPosition({ name: this.roleInput }).then((response) => {
           this.roleItems.push(response);
-          this.roleInput = "";
+          this.roleInput = '';
         });
       }
-    }
+    },
   },
   mounted() {
     this.getInitialRoles();
-  }
-}
+  },
+};
 </script>
 
 <template>
   <div class="--roles-main">
-    <div class="--roles-header">
-      Roles
-    </div>
+    <div class="--roles-header">Roles</div>
     <div class="--roles-body">
       <div class="--roles">
-        <role-container v-for="role in roleItems" :role="role" @onRoleDelete="getInitialRoles()"/>
+        <role-container v-for="role in roleItems" :role="role" @onRoleDelete="getInitialRoles()" />
       </div>
       <div class="--roles-add">
         Enter Role name
-        <input v-model="roleInput" class="--role-input" type="text">
+        <input v-model="roleInput" class="--role-input" type="text" />
         <the-button class="--button" @click="addRole()">Add Role</the-button>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -117,6 +119,4 @@ export default {
   justify-content: space-evenly;
   margin-top: 20px;
 }
-
-
 </style>

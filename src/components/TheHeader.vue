@@ -1,11 +1,11 @@
 <script>
-import {mapActions, mapGetters} from 'vuex';
-import ProfileDropdown from "./UI/ProfileDropdown.vue";
+import { mapActions, mapGetters } from 'vuex';
+import ProfileDropdown from './UI/ProfileDropdown.vue';
 
 export default {
   name: 'TheHeader',
   components: {
-    ProfileDropdown
+    ProfileDropdown,
   },
   methods: {
     ...mapActions({
@@ -35,7 +35,7 @@ export default {
       <span>{{ getUser.fullName }}</span>
       <span class="material-icons" @click="toggleProfileDropdown()">person</span>
     </div>
-    <ProfileDropdown v-if="isProfileDropdownOpen"/>
+    <ProfileDropdown v-if="isProfileDropdownOpen" />
   </header>
 </template>
 

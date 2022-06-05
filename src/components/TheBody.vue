@@ -1,11 +1,11 @@
 <script>
 import TheBlog from './TheBlog.vue';
 import TheTaskList from './TheTaskList.vue';
-import {mapGetters} from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'TheBody',
-  components: {TheTaskList, TheBlog},
+  components: { TheTaskList, TheBlog },
   computed: {
     ...mapGetters({
       selectedBlock: 'block/selectedBlock',
@@ -16,7 +16,7 @@ export default {
 
 <template>
   <div class="--body-main">
-    <router-view/>
+    <router-view />
   </div>
 </template>
 

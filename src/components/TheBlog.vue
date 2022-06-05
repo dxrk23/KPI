@@ -1,19 +1,19 @@
 <script>
 import BlogPost from './UI/BlogPost.vue';
-import PostService from "../services/post.service";
+import PostService from '../services/post.service';
 
 const postService = new PostService();
 
 export default {
   name: 'TheBlog',
-  components: {BlogPost},
+  components: { BlogPost },
   data() {
     return {
       posts: null,
       postItems: [],
       page: 1,
       totalPages: null,
-    }
+    };
   },
   computed: {
     isThisLastPage() {
@@ -23,7 +23,7 @@ export default {
   methods: {
     getInitialPosts() {
       this.emptyData();
-      postService.getPosts(this.page).then(response => {
+      postService.getPosts(this.page).then((response) => {
         this.posts = response;
         this.postItems = response.items;
         this.totalPages = response.totalPages;
@@ -38,13 +38,13 @@ export default {
     },
 
     onPostDelete(post) {
-      this.postItems = this.postItems.filter(item => item.id !== post.id);
+      this.postItems = this.postItems.filter((item) => item.id !== post.id);
     },
 
     loadPosts() {
       if (this.page < this.totalPages) {
         this.page++;
-        postService.getPosts(this.page).then(response => {
+        postService.getPosts(this.page).then((response) => {
           this.posts = response;
           this.postItems = this.postItems.concat(response.items);
         });
@@ -53,14 +53,14 @@ export default {
   },
   mounted() {
     this.getInitialPosts();
-  }
+  },
 };
 </script>
 
 <template>
   <div class="--blog-main">
     <div class="--blog-title">Classifieds Site</div>
-    <blog-post v-for="post in postItems" :post="{...post }" @onPostDelete="onPostDelete(post)"/>
+    <blog-post v-for="post in postItems" :post="{ ...post }" @onPostDelete="onPostDelete(post)" />
     <button v-if="!isThisLastPage" class="--load-button" @click="loadPosts()">Load More</button>
   </div>
 </template>

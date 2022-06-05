@@ -1,15 +1,15 @@
 <script>
 import SignIn from './views/SignIn.vue';
-import {isJwtExpired} from 'jwt-check-expiration';
+import { isJwtExpired } from 'jwt-check-expiration';
 
-const TOKEN = localStorage.getItem("token");
+const TOKEN = localStorage.getItem('token');
 
 export default {
   components: {
     SignIn,
   },
   data() {
-    return {}
+    return {};
   },
   computed: {
     isLoggedIn() {
@@ -22,9 +22,8 @@ export default {
     } else {
       this.$router.push('/sign-in');
     }
-  }
-}
-;
+  },
+};
 </script>
 
 <template>
@@ -40,12 +39,11 @@ export default {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-
 #app {
-  width: 95%;
+  min-width: 95%;
+  max-width: 95%;
   height: 100%;
 
-  min-width: 1920px;
   margin: auto;
 }
 

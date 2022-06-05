@@ -2,12 +2,13 @@
   <main class="--main-home">
     <the-header></the-header>
     <div class="--body-components">
-      <the-menu/>
-      <the-body/>
-      <the-right-sidebar/>
+      <the-menu />
+      <the-body />
+      <the-right-sidebar />
     </div>
     <div class="--modal">
-      <CreateUserModal v-if="selectedModal === 'create'"/>
+      <CreateUserModal v-if="selectedModal === 'create'" />
+      <UpdateUserModal v-if="selectedModal === 'update'" />
     </div>
   </main>
 </template>
@@ -17,13 +18,14 @@ import TheHeader from '../components/TheHeader.vue';
 import TheMenu from '../components/TheMenu.vue';
 import TheBody from '../components/TheBody.vue';
 import TheRightSidebar from '../components/TheRightSidebar.vue';
-import {mapGetters} from 'vuex';
+import { mapGetters } from 'vuex';
 import ProfileDropdown from '../components/UI/ProfileDropdown.vue';
-import CreateUserModal from "../components/UI/CreateUserModal.vue";
+import CreateUserModal from '../components/UI/CreateUserModal.vue';
+import UpdateUserModal from '../components/UI/UpdateUserModal.vue';
 
 export default {
   name: 'Home',
-  components: {CreateUserModal, ProfileDropdown, TheRightSidebar, TheBody, TheHeader, TheMenu},
+  components: { CreateUserModal, ProfileDropdown, TheRightSidebar, TheBody, TheHeader, TheMenu, UpdateUserModal },
   methods: {},
   computed: {
     ...mapGetters({

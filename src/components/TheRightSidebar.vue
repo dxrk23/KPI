@@ -1,10 +1,10 @@
 <script>
-import MenuItem from "./UI/MenuItem.vue";
-import {mapActions} from "vuex";
+import MenuItem from './UI/MenuItem.vue';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'TheRightSidebar',
-  components: {MenuItem},
+  components: { MenuItem },
   methods: {
     ...mapActions({
       selectModal: 'modals/setSelectedModal',
@@ -16,23 +16,22 @@ export default {
     openModal(modal) {
       this.closeModal();
       this.selectModal(modal);
-    }
-  }
-
+    },
+  },
 };
 </script>
 
 <template>
   <aside class="--right-block-main">
     <div class="--logo">
-      <img alt="logo" src="../assets/logos/sign_in_logo.svg"/>
+      <img alt="logo" src="../assets/logos/sign_in_logo.svg" />
     </div>
     <div class="--admin-menu">
-      <menu-item icon="note_add" label="Add post" @click="goToAddPost()"/>
-      <hr style="margin-top: 10px; margin-bottom: 10px">
-      <menu-item icon="person_add" label="Add user" @click="openModal('create')"/>
-      <menu-item icon="manage_accounts" label="Update user"/>
-      <menu-item icon="person_remove" label="Delete user"/>
+      <menu-item icon="note_add" label="Add post" @click="goToAddPost()" />
+      <hr style="margin-top: 10px; margin-bottom: 10px" />
+      <menu-item icon="person_add" label="Add user" @click="openModal('create')" />
+      <menu-item icon="manage_accounts" label="Update user" @click="openModal('update')" />
+      <menu-item icon="person_remove" label="Delete user" />
     </div>
   </aside>
 </template>

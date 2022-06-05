@@ -1,22 +1,22 @@
 <script>
-import PostService from "../../services/post.service";
-import TheButton from "./TheButton.vue";
+import PostService from '../../services/post.service';
+import TheButton from './TheButton.vue';
 
 const postService = new PostService();
 
 export default {
-  name: "AddPost",
+  name: 'AddPost',
   components: {
-    TheButton
+    TheButton,
   },
   data() {
     return {
       post: {
-        title: "",
-        content: ""
+        title: '',
+        content: '',
       },
-      error: ''
-    }
+      error: '',
+    };
   },
   methods: {
     changeTitle(str) {
@@ -28,7 +28,12 @@ export default {
     },
 
     isNotEmpty(str) {
-      if (str.replace(/<br>/g, '').replace(/&nbsp;/g, '').replace(/\s/g, '').length > 0) {
+      if (
+        str
+          .replace(/<br>/g, '')
+          .replace(/&nbsp;/g, '')
+          .replace(/\s/g, '').length > 0
+      ) {
         return true;
       } else {
         this.error = 'Please fill in the title and content';
@@ -40,14 +45,17 @@ export default {
       if (!this.isNotEmpty(this.post.title) || !this.isNotEmpty(this.post.content)) {
         return;
       }
-      postService.createPost(this.post).then(res => {
-        this.$router.push("/");
-      }).catch(err => {
-        this.error = err.response.data.message;
-      });
-    }
-  }
-}
+      postService
+        .createPost(this.post)
+        .then(() => {
+          this.$router.push('/');
+        })
+        .catch((err) => {
+          this.error = err.response.data.message;
+        });
+    },
+  },
+};
 </script>
 
 <template>
@@ -72,8 +80,6 @@ export default {
   height: 100%;
   padding-left: 68px;
   padding-top: 76px;
-
-
 }
 
 .--button {
@@ -90,7 +96,8 @@ export default {
   line-height: 37px;
 }
 
-.--title-block, .--content-block {
+.--title-block,
+.--content-block {
   margin-top: 20px;
   font-family: 'Arial', serif;
   font-style: normal;
@@ -114,5 +121,4 @@ export default {
   border-radius: 4px;
   padding-left: 10px;
 }
-
 </style>

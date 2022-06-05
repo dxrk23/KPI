@@ -1,9 +1,28 @@
 <script>
 import UserTableRow from './UserTableRow.vue';
+import EmployeeService from '../../services/employee.service';
+
+const employeeService = new EmployeeService();
 
 export default {
+  // TODO - make infinity scroll / load button to load more users
   name: 'UserTable',
-  components: {UserTableRow},
+  components: { UserTableRow },
+  data() {
+    return {
+      employeeItems: [],
+    };
+  },
+  methods: {
+    getInitialEmployees() {
+      employeeService.getEmployees().then((response) => {
+        this.employeeItems = response.items;
+      });
+    },
+  },
+  mounted() {
+    this.getInitialEmployees();
+  },
 };
 </script>
 
@@ -17,7 +36,7 @@ export default {
         <th class="--viewed-column --table-header">Viewed</th>
         <th class="--table-header --portion-column">Portion</th>
       </tr>
-      <user-table-row/>
+      <user-table-row v-for="(item, index) in employeeItems" :key="item.id" :user="{ index, ...item }" />
     </table>
   </div>
 </template>

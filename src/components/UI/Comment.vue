@@ -1,5 +1,5 @@
 <script>
-import CommentService from "../../services/comment.service";
+import CommentService from '../../services/comment.service';
 
 const commentService = new CommentService();
 
@@ -8,38 +8,35 @@ export default {
   props: {
     comment: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     deleteComment() {
       commentService.deleteComment(this.comment.id).then(() => {
         this.$emit('onCommentDelete');
       });
-    }
+    },
   },
 
   computed: {
     isMyPost() {
       let userId = JSON.parse(localStorage.getItem('user')).sub;
       return userId === this.comment.author.id;
-    }
+    },
   },
 };
 </script>
 
 <template>
   <div class="--comment-main">
-    <div class="--profile-picture">
-
-    </div>
+    <div class="--profile-picture"></div>
     <div class="--content">
       <div class="--header">
-        <div class="--author-name"> {{ comment.author.fullName }}</div>
-        <div class="--date"> {{ `${new Date(comment.writtenDate).toLocaleDateString()}` }}</div>
+        <div class="--author-name">{{ comment.author.fullName }}</div>
+        <div class="--date">{{ `${new Date(comment.writtenDate).toLocaleDateString()}` }}</div>
       </div>
       <div class="--text" v-html="comment.content"></div>
-
     </div>
     <div v-if="isMyPost" class="--delete">
       <i class="fas fa-trash-alt" @click.prevent="deleteComment()">Delete</i>

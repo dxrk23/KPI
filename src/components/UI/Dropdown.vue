@@ -1,17 +1,17 @@
 <script>
 export default {
   // TODO - Make infinity scroll for select options
-  name: "Dropdown",
+  name: 'Dropdown',
   data() {
     return {
       isOpen: false,
-      selectedItem: null
+      selectedItem: null,
     };
   },
   props: {
     selects: {
       type: Array,
-      required: true
+      required: true,
     },
   },
   methods: {
@@ -22,9 +22,9 @@ export default {
     },
     toggle() {
       this.isOpen = !this.isOpen;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <template>

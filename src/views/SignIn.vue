@@ -31,22 +31,22 @@ export default {
   <main class="--sign-in-main">
     <div class="--sign-in-form">
       <div class="--sign-in-logo">
-        <img alt="Logo" src="../assets/logos/sign_in_logo.svg"/>
+        <img alt="Logo" src="../assets/logos/sign_in_logo.svg" />
       </div>
 
       <div class="--username-form">
         <label class="--username-label" for="username-input">Username</label>
-        <input id="username-input" v-model="username" class="--username-input" placeholder="Username" type="email"/>
+        <input id="username-input" v-model="username" class="--username-input" placeholder="Username" type="email" />
       </div>
 
       <div class="--password-form">
         <label class="--password-label" for="password-input">Password</label>
-        <input id="password-input" v-model="password" class="--password-input" placeholder="Password" type="password"/>
+        <input id="password-input" v-model="password" class="--password-input" placeholder="Password" type="password" />
       </div>
 
       <div class="--buttons">
         <div class="--remember-me-form">
-          <input id="remember-me-input" class="--remember-me-input" type="checkbox"/>
+          <input id="remember-me-input" class="--remember-me-input" type="checkbox" />
           <label class="--remember-me-label" for="remember-me-input">Remember me</label>
         </div>
 

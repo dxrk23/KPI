@@ -1,24 +1,24 @@
 <script>
-import PositionService from "../../services/position.service";
+import PositionService from '../../services/position.service';
 
 const positionService = new PositionService();
 
 export default {
-  name: "RoleContainer",
+  name: 'RoleContainer',
   props: {
     role: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     deleteRole() {
       positionService.deletePosition(this.role.id).then(() => {
-        this.$emit("onRoleDelete");
+        this.$emit('onRoleDelete');
       });
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <template>
@@ -33,23 +33,22 @@ export default {
   </div>
 </template>
 
-
 <style scoped>
 .--role-container {
   display: flex;
   flex-direction: row;
   align-items: center;
-  min-width: 30%;
-  max-width: 30%;
-  min-height: 10%;
+  min-width: 40%;
+  max-width: 33%;
+  height: 50px;
   background-color: #fff;
   border-radius: 5px;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
-  padding: 20px;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
 
+  padding-left: 5px;
   margin: 10px;
 
-  justify-content: space-between;
+  position: relative;
 }
 
 .--role-icon {
@@ -61,6 +60,8 @@ export default {
   width: 75%;
   font-size: 18px;
   font-weight: bold;
+
+  margin-left: 10px;
 }
 
 .--delete-mark {
@@ -69,5 +70,8 @@ export default {
   font-weight: bold;
   color: #ff0000;
   cursor: pointer;
+
+  position: absolute;
+  right: 15px;
 }
 </style>

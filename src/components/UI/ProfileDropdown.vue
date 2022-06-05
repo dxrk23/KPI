@@ -1,11 +1,11 @@
 <script>
 import MenuItem from './MenuItem.vue';
 import AuthService from '../../services/auth.service';
-import {mapActions} from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'ProfileDropdown',
-  components: {MenuItem},
+  components: { MenuItem },
   methods: {
     ...mapActions({
       setSelectedBlock: 'block/setSelectedBlock',
@@ -28,9 +28,9 @@ export default {
 
 <template>
   <div class="--profile-dropdown-main">
-    <menu-item icon="home" label="Home" @click="goHome()"/>
-    <menu-item icon="autorenew" label="Change password"/>
-    <menu-item icon="logout" label="Logout" @click="logout()"/>
+    <menu-item icon="home" label="Home" @click="goHome()" />
+    <menu-item icon="autorenew" label="Change password" />
+    <menu-item icon="logout" label="Logout" @click="logout()" />
   </div>
 </template>
 

@@ -1,13 +1,24 @@
 <script>
 export default {
   name: 'UserTableRow',
+  props: {
+    user: {
+      type: Object,
+      required: true,
+    },
+  },
+  methods: {
+    goToKPI() {
+      this.$router.push(`/task/period/${this.$route.params.periodId}/user/${this.user.id}`);
+    },
+  },
 };
 </script>
 
 <template>
   <tr class="--table-row">
-    <td class="--number-column">1</td>
-    <td class="--name-column">User 1</td>
+    <td class="--number-column">{{ user.index + 1 }}</td>
+    <td class="--name-column" @click="goToKPI()">{{ user.fullName }}</td>
     <td class="--uploaded-column">Uploaded</td>
     <td class="--viewed-column">Viewed</td>
     <td class="--portion-column">30/30</td>
@@ -24,6 +35,9 @@ td {
   height: 30px;
 
   text-align: left;
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
 }
 
 .--uploaded-column {
@@ -34,11 +48,6 @@ td {
 .--viewed-column {
   width: 102px;
   height: 30px;
-}
-
-.material-icons {
-  height: 30px;
-  width: 30px;
 }
 
 .--portion-column {

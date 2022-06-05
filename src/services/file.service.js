@@ -1,27 +1,35 @@
-import axios from "axios";
-import api_env from "../env/api_env";
+import axios from 'axios';
+import api_env from '../env/api_env';
 
 const HOST = api_env.HOST;
-const TOKEN = localStorage.getItem("token");
+const TOKEN = localStorage.getItem('token');
 
 class FileService {
-    async uploadFile(file) {
-        return await axios.post(`${HOST}/api/file`, {
-            file,
-        }, {
-            headers: {
-                Authorization: `Bearer ${TOKEN}`,
-            },
-        }).then(res => res.data);
-    }
+  async uploadFile(file) {
+    return await axios
+      .post(
+        `${HOST}/api/file`,
+        {
+          file,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${TOKEN}`,
+          },
+        }
+      )
+      .then((res) => res.data);
+  }
 
-    async downloadFile(id) {
-        return await axios.get(`${HOST}/api/file/${id}`, {
-            headers: {
-                Authorization: `Bearer ${TOKEN}`,
-            },
-        }).then(res => res.data);
-    }
+  async downloadFile(id) {
+    return await axios
+      .get(`${HOST}/api/file/${id}`, {
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+        },
+      })
+      .then((res) => res.data);
+  }
 }
 
 export default FileService;

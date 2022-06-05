@@ -1,14 +1,14 @@
 <script>
 import Comment from './Comment.vue';
-import CommentService from "../../services/comment.service";
-import PostService from "../../services/post.service";
+import CommentService from '../../services/comment.service';
+import PostService from '../../services/post.service';
 
 const commentService = new CommentService();
 const postService = new PostService();
 
 export default {
   name: 'BlogPost',
-  components: {Comment},
+  components: { Comment },
   props: {
     post: {
       type: Object,
@@ -48,13 +48,15 @@ export default {
 
     addComment() {
       if (this.commentInput.length <= 0) return;
-      commentService.createComment({
-        content: this.commentInput,
-        groupId: this.post.commentsId,
-      }).then(() => {
-        this.refreshComments();
-        this.clearInput();
-      });
+      commentService
+        .createComment({
+          content: this.commentInput,
+          groupId: this.post.commentsId,
+        })
+        .then(() => {
+          this.refreshComments();
+          this.clearInput();
+        });
     },
 
     clearInput() {
@@ -76,13 +78,15 @@ export default {
         this.toggleEditMode();
         return;
       }
-      postService.updatePost({
-        title: this.post.title,
-        content: this.post.content,
-        id: this.post.id,
-      }).then(() => {
-        this.isEditing = false;
-      });
+      postService
+        .updatePost({
+          title: this.post.title,
+          content: this.post.content,
+          id: this.post.id,
+        })
+        .then(() => {
+          this.isEditing = false;
+        });
     },
 
     updateEditInput(str) {
@@ -91,7 +95,7 @@ export default {
 
     refreshComments() {
       this.page = 1;
-      commentService.getComments(this.post.commentsId).then(response => {
+      commentService.getComments(this.post.commentsId).then((response) => {
         this.comments = response;
         this.commentItems = response.items;
       });
@@ -106,7 +110,12 @@ export default {
     },
 
     isNotEmpty(str) {
-      return str.replace(/<br>/g, '').replace(/&nbsp;/g, '').replace(/\s/g, '').length > 0;
+      return (
+        str
+          .replace(/<br>/g, '')
+          .replace(/&nbsp;/g, '')
+          .replace(/\s/g, '').length > 0
+      );
     },
 
     onCommentInput(str) {
@@ -115,7 +124,7 @@ export default {
 
     loadComments() {
       this.page++;
-      commentService.getComments(this.post.commentsId, this.page).then(response => {
+      commentService.getComments(this.post.commentsId, this.page).then((response) => {
         this.comments = response;
         this.commentItems = [...this.commentItems, ...response.items];
       });
@@ -130,7 +139,7 @@ export default {
         loadComments();
       }
     });
-  }
+  },
 };
 </script>
 
@@ -139,8 +148,12 @@ export default {
     <div class="--blog-post-header">
       <div class="--profile-picture"></div>
       <div class="--post-header">
-        <div :contenteditable="isEditing" class="--theme" @input="updateTitleInput($event.target.innerHTML)"
-             v-html="post.title"></div>
+        <div
+          :contenteditable="isEditing"
+          class="--theme"
+          @input="updateTitleInput($event.target.innerHTML)"
+          v-html="post.title"
+        ></div>
         <div class="--post-metadata">
           {{ `by ${post.author.fullName}, ${new Date(post.writtenDate).toLocaleDateString()}` }}
         </div>
@@ -148,8 +161,12 @@ export default {
     </div>
     <div v-if="!isEditing" class="--post-text" v-html="post.content"></div>
     <div v-if="isEditing" class="--post-edit">
-      <div class="--edit-area" contenteditable="true" @input="updateEditInput($event.target.innerHTML)"
-           @keypress="handleKeyPress"></div>
+      <div
+        class="--edit-area"
+        contenteditable="true"
+        @input="updateEditInput($event.target.innerHTML)"
+        @keypress="handleKeyPress"
+      ></div>
       <button class="--edit-button" @click="updatePost()">Edit</button>
     </div>
     <div class="--comments">
@@ -158,9 +175,9 @@ export default {
         <div class="--comment-input" contenteditable="true" @input="onCommentInput($event.target.innerHTML)"></div>
         <button class="--comment-button" @click.prevent="addComment">Comment</button>
       </form>
-      <hr/>
+      <hr />
       <div v-show="comments.totalItems > 0" class="--user-comments">
-        <comment v-for="comment in getComments" :comment="comment" @onCommentDelete="onCommentDelete()"/>
+        <comment v-for="comment in getComments" :comment="comment" @onCommentDelete="onCommentDelete()" />
       </div>
     </div>
     <div class="--delete-mark" @click="deletePost()">x</div>
@@ -269,11 +286,13 @@ textarea {
   transition: height 0.3s ease-in-out;
 }
 
-.--edit-mark:hover, .--delete-mark:hover {
+.--edit-mark:hover,
+.--delete-mark:hover {
   background-color: #f5f5f5;
 }
 
-.--edit-mark:active, .--delete-mark:active {
+.--edit-mark:active,
+.--delete-mark:active {
   background-color: #e0e0e0;
 }
 

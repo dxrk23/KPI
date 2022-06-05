@@ -1,27 +1,27 @@
 export const block = {
-    namespaced: true,
-    state: {
-        selectedBlock: 'Home',
-        isProfileDorpdownOpen: false,
+  namespaced: true,
+  state: {
+    selectedBlock: 'Home',
+    isProfileDorpdownOpen: false,
+  },
+  getters: {
+    selectedBlock: (state) => state.selectedBlock,
+    isProfileDorpdownOpen: (state) => state.isProfileDorpdownOpen,
+  },
+  actions: {
+    setSelectedBlock({ commit }, block) {
+      commit('setSelectedBlock', block);
     },
-    getters: {
-        selectedBlock: (state) => state.selectedBlock,
-        isProfileDorpdownOpen: (state) => state.isProfileDorpdownOpen,
+    setProfileDorpdownOpen({ commit }, isOpen) {
+      commit('setProfileDorpdownOpen', isOpen);
     },
-    actions: {
-        setSelectedBlock({commit}, block) {
-            commit('setSelectedBlock', block);
-        },
-        setProfileDorpdownOpen({commit}, isOpen) {
-            commit('setProfileDorpdownOpen', isOpen);
-        },
+  },
+  mutations: {
+    setSelectedBlock(state, block) {
+      state.selectedBlock = block;
     },
-    mutations: {
-        setSelectedBlock(state, block) {
-            state.selectedBlock = block;
-        },
-        setProfileDorpdownOpen(state, isOpen) {
-            state.isProfileDorpdownOpen = isOpen;
-        },
+    setProfileDorpdownOpen(state, isOpen) {
+      state.isProfileDorpdownOpen = isOpen;
     },
+  },
 };

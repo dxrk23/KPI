@@ -1,7 +1,7 @@
 export const animations = {
-    namespaced: true,
-    state: {},
-    getters: {},
-    actions: {},
-    mutations: {},
+  namespaced: true,
+  state: {},
+  getters: {},
+  actions: {},
+  mutations: {},
 };

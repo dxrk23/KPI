@@ -1,7 +1,7 @@
 <script>
 export default {
-  name: "Button"
-}
+  name: 'Button',
+};
 </script>
 
 <template>
@@ -9,7 +9,6 @@ export default {
     <slot></slot>
   </button>
 </template>
-
 
 <style scoped>
 .--button {

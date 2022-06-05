@@ -1,7 +1,6 @@
 <template>
   <div class="--modal-main">
     <div class="--close" @click="closeModal()">X</div>
-    <div class="--upload">Upload from csv file</div>
 
     <form>
       <div class="--profile-image-block">
@@ -36,7 +35,7 @@
       </div>
 
       <div class="--button-block">
-        <the-button class="--button">Create user</the-button>
+        <the-button class="--button">Update user</the-button>
       </div>
     </form>
   </div>
@@ -47,11 +46,14 @@ import Dropdown from './Dropdown.vue';
 import TheButton from './TheButton.vue';
 
 import PositionService from '../../services/position.service';
+import EmployeeService from '../../services/employee.service';
+
 import { mapActions } from 'vuex';
 
 const positionService = new PositionService();
+const employeeService = new EmployeeService();
 
-// TODO - Implement adding user
+// TODO - Finish binding and implement user update
 
 export default {
   name: 'CreateUserModal',
@@ -59,12 +61,7 @@ export default {
   data() {
     return {
       positionsItems: [],
-
-      image: null,
-      name: '',
-      surname: '',
-      email: '',
-      selectedPosition: null,
+      employee: null,
     };
   },
   methods: {
@@ -74,11 +71,11 @@ export default {
     selectPosition(position) {
       this.selectedPosition = position.id;
     },
-    createUser() {},
+    updateUser() {},
   },
   mounted() {
-    positionService.getPositionsPage(1, 10).then((positions) => {
-      this.positionsItems = positions.items;
+    employeeService.getEmployeeById(JSON.parse(localStorage.getItem('user')).sub).then((res) => {
+      this.employee = res;
     });
   },
 };
@@ -203,20 +200,6 @@ export default {
   filter: alpha(opacity=1);
   -moz-opacity: 0;
   opacity: 0;
-}
-
-.--upload {
-  font-family: 'Arial', serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 28px;
-  color: #2817ec;
-
-  text-align: center;
-  margin-top: 24px;
-
-  cursor: pointer;
 }
 
 .--profile-image-container {
