@@ -1,6 +1,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import ProfileDropdown from './UI/ProfileDropdown.vue';
+import ProfileDropdown from './UI/Modals/ProfileDropdown.vue';
 
 export default {
   name: 'TheHeader',

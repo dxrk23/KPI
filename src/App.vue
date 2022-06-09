@@ -47,7 +47,13 @@ export default {
   margin: auto;
 }
 
+html::-webkit-scrollbar {
+  display: none;
+}
+
 html {
   background: #f1f1f0;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 </style>

@@ -1,11 +1,8 @@
 <script>
-import KPITable from './UI/KPITable.vue';
-import TheUploadComponent from './UI/TheUploadComponent.vue';
-import UsersTable from './UI/UsersTable.vue';
 
 export default {
   name: 'TheTaskList',
-  components: { TheUploadComponent, KPITable, UsersTable },
+  components: { },
   computed: {},
   mounted() {},
 };

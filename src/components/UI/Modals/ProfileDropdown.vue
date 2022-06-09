@@ -1,6 +1,6 @@
 <script>
-import MenuItem from './MenuItem.vue';
-import AuthService from '../../services/auth.service';
+import MenuItem from '../Menu/MenuItem.vue';
+import AuthService from '../../../services/auth.service';
 import { mapActions } from 'vuex';
 
 export default {

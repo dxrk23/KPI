@@ -1,14 +1,14 @@
 <script>
-import Comment from './Comment.vue';
-import CommentService from '../../services/comment.service';
-import PostService from '../../services/post.service';
+import TheComment from './TheComment.vue';
+import CommentService from '../../../services/comment.service';
+import PostService from '../../../services/post.service';
 
 const commentService = new CommentService();
 const postService = new PostService();
 
 export default {
   name: 'BlogPost',
-  components: {Comment},
+  components: {TheComment},
   props: {
     post: {
       type: Object,
@@ -154,7 +154,7 @@ export default {
             v-html="post.title"
         ></div>
         <div class="--post-metadata">
-          {{ `by ${post.author.fullName}, ${new Date(post.writtenDate).toLocaleDateString()}` }}
+          {{ `by ${post.author.name.lastName} ${post.author.name.firstName} ${post.author.name.middleName ?? ''}, ${new Date(post.writtenDate).toLocaleDateString()}` }}
         </div>
       </div>
     </div>
@@ -176,7 +176,7 @@ export default {
       </form>
       <hr/>
       <div v-show="comments.totalItems > 0" class="--user-comments">
-        <comment v-for="comment in getComments" :comment="comment" @onCommentDelete="onCommentDelete()"/>
+        <the-comment v-for="comment in getComments" :comment="comment" @onCommentDelete="onCommentDelete()"/>
       </div>
     </div>
     <div class="--delete-mark" @click="deletePost()">x</div>

@@ -19,9 +19,9 @@ import TheMenu from '../components/TheMenu.vue';
 import TheBody from '../components/TheBody.vue';
 import TheRightSidebar from '../components/TheRightSidebar.vue';
 import { mapGetters } from 'vuex';
-import ProfileDropdown from '../components/UI/ProfileDropdown.vue';
-import CreateUserModal from '../components/UI/CreateUserModal.vue';
-import UpdateUserModal from '../components/UI/UpdateUserModal.vue';
+import ProfileDropdown from '../components/UI/Modals/ProfileDropdown.vue';
+import CreateUserModal from '../components/UI/Modals/CreateUserModal.vue';
+import UpdateUserModal from '../components/UI/Modals/UpdateUserModal.vue';
 
 export default {
   name: 'Home',

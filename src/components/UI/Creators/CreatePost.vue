@@ -1,13 +1,13 @@
 <script>
-import PostService from '../../services/post.service';
-import TheButton from './TheButton.vue';
+import PostService from '../../../services/post.service';
+import SubmitButton from "../Buttons/SubmitButton.vue";
 
 const postService = new PostService();
 
 export default {
   name: 'AddPost',
   components: {
-    TheButton,
+    SubmitButton,
   },
   data() {
     return {
@@ -69,7 +69,7 @@ export default {
       <div class="--content">Content</div>
       <div class="--input" contenteditable="true" @input="changeContent($event.target.innerHTML)"></div>
     </div>
-    <the-button class="--button" @click.prevent="addPost()">Add post</the-button>
+    <submit-button class="--button" @click.prevent="addPost()">Add post</submit-button>
     <div class="--error" v-html="error"></div>
   </div>
 </template>

@@ -2,17 +2,21 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import SignIn from '../views/SignIn.vue';
 import Home from '../views/Home.vue';
 import TheBlog from '../components/TheBlog.vue';
-import TheTaskList from '../components/TheTaskList.vue';
-import AddPost from '../components/UI/AddPost.vue';
-import Roles from '../components/UI/Roles.vue';
-import SelectPeriod from '../components/UI/SelectPeriod.vue';
-import UsersTable from '../components/UI/UsersTable.vue';
-import KPITable from '../components/UI/KPITable.vue';
+import AddPost from '../components/UI/Creators/CreatePost.vue';
+import TheIndicators from "../components/TheIndicators.vue";
+import CreateIndicator from "../components/UI/Creators/CreateIndicator.vue";
+import TheIndicatorRouter from "../components/UI/Routers/TheIndicatorRouter.vue";
+import SpecialityRouter from "../components/UI/Routers/SpecialityRouter.vue";
+import TheSpecialities from "../components/TheSpecialities.vue";
+import TasklistRouter from "../components/UI/Routers/TasklistRouter.vue";
+
 
 const routes = [
+  { path: '', redirect: '/home' },
+  { path: '/', redirect: '/home' },
+
   {
-    path: '/',
-    name: 'home',
+    path: '/home',
     component: Home,
     children: [
       {
@@ -20,30 +24,42 @@ const routes = [
         component: TheBlog,
       },
       {
-        path: 'task',
-        component: TheTaskList,
+        path: 'add',
+        component: AddPost,
+      },
+
+      {
+        path: '/speciality',
+        component: SpecialityRouter,
         children: [
           {
             path: '',
-            component: SelectPeriod,
+            component: TheSpecialities
+          }
+        ]
+      },
+
+      {
+        path : '/task',
+        component: TasklistRouter,
+        children: [
+
+        ]
+      },
+
+      {
+        path: '/indicators',
+        component: TheIndicatorRouter,
+        children: [
+          {
+            path: '',
+            component: TheIndicators,
           },
           {
-            path: 'period/:periodId',
-            component: UsersTable,
-          },
-          {
-            path: 'period/:periodId/user/:userId',
-            component: KPITable,
-          },
-        ],
-      },
-      {
-        path: 'roles',
-        component: Roles,
-      },
-      {
-        path: 'addPost',
-        component: AddPost,
+            path: 'add',
+            component: CreateIndicator
+          }
+        ]
       },
     ],
   },

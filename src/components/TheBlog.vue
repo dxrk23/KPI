@@ -1,5 +1,5 @@
 <script>
-import BlogPost from './UI/BlogPost.vue';
+import BlogPost from './UI/Blog/ThePost.vue';
 import PostService from '../services/post.service';
 
 const postService = new PostService();
@@ -17,7 +17,7 @@ export default {
   },
   computed: {
     isThisLastPage() {
-      return this.page === this.totalPages;
+      return this.page === this.totalPages || this.totalPages === 0;
     },
   },
   methods: {

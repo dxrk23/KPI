@@ -1,5 +1,5 @@
 <script>
-import CommentService from '../../services/comment.service';
+import CommentService from '../../../services/comment.service';
 
 const commentService = new CommentService();
 

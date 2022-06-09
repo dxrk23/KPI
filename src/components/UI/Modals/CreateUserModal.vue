@@ -1,6 +1,7 @@
 <template>
   <div class="--modal-main">
     <div class="--close" @click="closeModal()">X</div>
+    <div class="--upload">Upload from csv file</div>
 
     <form>
       <div class="--profile-image-block">
@@ -35,34 +36,36 @@
       </div>
 
       <div class="--button-block">
-        <the-button class="--button">Update user</the-button>
+        <submit-button class="--button">Create user</submit-button>
       </div>
     </form>
   </div>
 </template>
 
 <script>
-import Dropdown from './Dropdown.vue';
-import TheButton from './TheButton.vue';
+import Dropdown from '../Dropdowns/Dropdown.vue';
+import SubmitButton from "../Buttons/SubmitButton.vue";
 
-import PositionService from '../../services/position.service';
-import EmployeeService from '../../services/employee.service';
 
-import {mapActions} from 'vuex';
+import PositionService from '../../../services/position.service';
+import { mapActions } from 'vuex';
 
 const positionService = new PositionService();
-const employeeService = new EmployeeService();
 
-// TODO - Finish binding and implement user update
-// TODO - Full rework of component cause Azat changed everything
+// TODO - Implement adding user
 
 export default {
   name: 'CreateUserModal',
-  components: { Dropdown, TheButton },
+  components: { Dropdown, SubmitButton },
   data() {
     return {
       positionsItems: [],
-      employee: null,
+
+      image: null,
+      name: '',
+      surname: '',
+      email: '',
+      selectedPosition: null,
     };
   },
   methods: {
@@ -72,11 +75,11 @@ export default {
     selectPosition(position) {
       this.selectedPosition = position.id;
     },
-    updateUser() {},
+    createUser() {},
   },
   mounted() {
-    employeeService.getEmployeeById(JSON.parse(localStorage.getItem('user')).sub).then((res) => {
-      this.employee = res;
+    positionService.getPositionsPage(1, 10).then((positions) => {
+      this.positionsItems = positions.items;
     });
   },
 };
@@ -201,6 +204,20 @@ export default {
   filter: alpha(opacity=1);
   -moz-opacity: 0;
   opacity: 0;
+}
+
+.--upload {
+  font-family: 'Arial', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 28px;
+  color: #2817ec;
+
+  text-align: center;
+  margin-top: 24px;
+
+  cursor: pointer;
 }
 
 .--profile-image-container {
