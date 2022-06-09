@@ -18,7 +18,9 @@ export default {
 <template>
   <tr class="--table-row">
     <td class="--number-column">{{ user.index + 1 }}</td>
-    <td class="--name-column" @click="goToKPI()">{{ user.fullName }}</td>
+    <td class="--name-column" @click="goToKPI()">{{ user.name.lastName }} {{ user.name.firstName }}
+      {{ user.name.middleName ?? '' }}
+    </td>
     <td class="--uploaded-column">Uploaded</td>
     <td class="--viewed-column">Viewed</td>
     <td class="--portion-column">30/30</td>

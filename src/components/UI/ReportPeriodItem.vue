@@ -9,7 +9,7 @@ export default {
   },
   methods: {
     openPeriod() {
-      this.$router.push('/task/period/' + this.period.id);
+      this.$router.push('/task/period/' + this.period.periodId);
     },
   },
 };

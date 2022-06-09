@@ -1,29 +1,41 @@
 <script>
 import KPITableRow from './KPITableRow.vue';
+import RequirementService from "../../services/requirement.service";
+import IndicatorService from "../../services/indicator.service";
+
+const requirementService = new RequirementService();
+const indicatorService = new IndicatorService();
 
 export default {
   name: 'KPITable',
-  components: { KPITableRow },
+  components: {KPITableRow},
+  data() {
+    return {
+      requirement: null,
+    }
+  },
   computed: {
     getRows() {
-      if (this.$route.params.id) {
-        return fakeKpi.filter((kpi) => kpi.id === this.$route.params.id);
-      }
-      return fakeKpi.filter((kpi) => {
-        return kpi.for === this.for;
+
+    },
+  },
+  props: {},
+  methods: {
+    getRequirement() {
+      let employeeId = this.$route.params.userId;
+      let periodId = this.$route.params.periodId;
+      requirementService.getRequirementForEmployee(employeeId, periodId).then(response => {
+        this.requirement = response;
       });
     },
+
+    getIndicators() {
+
+    }
+
+
   },
-  props: {
-    for: {
-      type: String,
-      required: false,
-    },
-  },
-  methods: {
-    openKPI(id) {
-      this.$router.push('/task/' + id);
-    },
+  mounted() {
   },
 };
 </script>
@@ -38,7 +50,7 @@ export default {
         <th class="--viewed-column --table-header">Viewed</th>
         <th class="--table-header --portion-column">Portion</th>
       </tr>
-      <k-p-i-table-row v-for="(row, index) in getRows" :row="{ index, ...row }" @click="openKPI(row.id)" />
+      <k-p-i-table-row v-for="(row, index) in getRows" :row="{ index, ...row }"/>
     </table>
   </div>
 </template>

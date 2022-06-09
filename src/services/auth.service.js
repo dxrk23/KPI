@@ -10,10 +10,10 @@ class AuthService {
 
   async getToken(email, password) {
     const token = await axios
-      .post(`${HOST}/api/token`, {
-        email,
-        password,
-      })
+        .post(`${HOST}/api/Token`, {
+          email,
+          password,
+        })
       .then((res) => res.data.accessToken);
 
     let user = this.parseJwt(token);

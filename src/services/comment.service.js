@@ -5,57 +5,55 @@ const HOST = api_env.HOST;
 const TOKEN = localStorage.getItem('token');
 
 class CommentService {
-  async getComments(commentsID, pageNumber = 1, pageSize = 10) {
-    return await axios
-      .get(`${HOST}/api/comment/list/${commentsID}?pageNumber=${pageNumber}&pageSize=${pageSize}`, {
-        headers: {
-          Authorization: `Bearer ${TOKEN}`,
-        },
-      })
-      .then((res) => res.data);
-  }
+    async getComments(blockId, pageNumber = 1, pageSize = 10) {
+        const url = `${HOST}/api/comment/block/${blockId}/?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+        const response = await axios.get(url, {
+            headers: {
+                'Authorization': `Bearer ${TOKEN}`
+            }
+        });
+        return response.data;
+    }
 
-  async createComment(comment) {
-    return await axios
-      .post(
-        `${HOST}/api/comment`,
-        {
-          ...comment,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${TOKEN}`,
-          },
-        }
-      )
-      .then((res) => res.data);
-  }
+    async getComment(commentId) {
+        const url = `${HOST}/api/comment/${commentId}`;
+        const response = await axios.get(url, {
+            headers: {
+                'Authorization': `Bearer ${TOKEN}`
+            }
+        });
+        return response.data;
+    }
 
-  async updateComment(commentId, comment) {
-    return await axios
-      .put(
-        `${HOST}/api/comment/${commentId}`,
-        {
-          ...comment,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${TOKEN}`,
-          },
-        }
-      )
-      .then((res) => res.data);
-  }
+    async updateComment(commentId, comment) {
+        const url = `${HOST}/api/comment/${commentId}`;
+        const response = await axios.put(url, {...comment}, {
+            headers: {
+                'Authorization': `Bearer ${TOKEN}`
+            }
+        });
+        return response.data;
+    }
 
-  async deleteComment(commentId) {
-    return await axios
-      .delete(`${HOST}/api/comment/${commentId}`, {
-        headers: {
-          Authorization: `Bearer ${TOKEN}`,
-        },
-      })
-      .then((res) => res.data);
-  }
+    async deleteComment(commentId) {
+        const url = `${HOST}/api/comment/${commentId}`;
+        const response = await axios.delete(url, {
+            headers: {
+                'Authorization': `Bearer ${TOKEN}`
+            }
+        });
+        return response.data;
+    }
+
+    async createComment(comment) {
+        const url = `${HOST}/api/comment/`;
+        const response = await axios.post(url, {...comment}, {
+            headers: {
+                'Authorization': `Bearer ${TOKEN}`
+            }
+        });
+        return response.data;
+    }
 }
 
 export default CommentService;

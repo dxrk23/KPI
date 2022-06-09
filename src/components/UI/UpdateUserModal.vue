@@ -48,12 +48,13 @@ import TheButton from './TheButton.vue';
 import PositionService from '../../services/position.service';
 import EmployeeService from '../../services/employee.service';
 
-import { mapActions } from 'vuex';
+import {mapActions} from 'vuex';
 
 const positionService = new PositionService();
 const employeeService = new EmployeeService();
 
 // TODO - Finish binding and implement user update
+// TODO - Full rework of component cause Azat changed everything
 
 export default {
   name: 'CreateUserModal',

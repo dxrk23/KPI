@@ -1,24 +1,35 @@
 <script>
-import ReportPeriodService from '../../services/report.period.service';
 import ReportPeriodItem from './ReportPeriodItem.vue';
+import ReportPeriodPartService from "../../services/report.period.part.service";
+import ReportPeriodService from "../../services/report.period.service";
 
+const reportPeriodPartService = new ReportPeriodPartService();
 const reportPeriodService = new ReportPeriodService();
+
 export default {
   name: 'SelectPeriod',
-  components: { ReportPeriodItem },
+  components: {ReportPeriodItem},
   data() {
     return {
       currentPage: 1,
       periodItems: [],
+
+      activePeriod: null,
     };
   },
   methods: {
     // TODO - make infinite scroll / load button to load more periods
     getInitialPeriod() {
-      reportPeriodService.getReportingPeriods(this.currentPage).then((response) => {
-        this.periodItems = response.items;
+      reportPeriodService.getPeriodActive().then(response => {
+        this.activePeriod = response;
+      }).then(() => {
+        reportPeriodPartService.getPeriodPartByPeriodId(this.activePeriod.id).then(response => {
+          this.periodItems = response;
+        });
       });
     },
+
+
   },
   mounted() {
     this.getInitialPeriod();
