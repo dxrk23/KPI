@@ -8,7 +8,8 @@ import CreateIndicator from "../components/UI/Creators/CreateIndicator.vue";
 import TheIndicatorRouter from "../components/UI/Routers/TheIndicatorRouter.vue";
 import SpecialityRouter from "../components/UI/Routers/SpecialityRouter.vue";
 import TheSpecialities from "../components/TheSpecialities.vue";
-import TasklistRouter from "../components/UI/Routers/TasklistRouter.vue";
+import TaskListRouter from "../components/UI/Routers/TasklistRouter.vue";
+import TheSpecialityIndicator from "../components/UI/Speciality/TheSpecialityIndicator.vue";
 
 
 const routes = [
@@ -35,13 +36,17 @@ const routes = [
           {
             path: '',
             component: TheSpecialities
+          },
+          {
+            path: 'indicators/:specialityId',
+            component: TheSpecialityIndicator
           }
         ]
       },
 
       {
         path : '/task',
-        component: TasklistRouter,
+        component: TaskListRouter,
         children: [
 
         ]

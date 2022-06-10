@@ -2,25 +2,24 @@
   <div class="--wrapper">
     <div class="--main-position">
       <div class="--title">
-        <span>{{ position.index + 1 }} - </span>
+        <span>{{ position.index + 1}}. </span>
         <span class="--title-input" spellcheck="false" contenteditable="true" v-html="position.name" @input="updatePositionName($event.target.innerHTML)"></span>
       </div>
       <div class="--modification-buttons">
         <div class="--delete">
-          <span class="material-icons">delete</span>
+          <span class="material-icons" @click="deletePosition">delete</span>
         </div>
         <div class="--update">
-          <span class="material-icons " @click="updatePosition">save</span>
+          <span class="material-icons" @click="updatePosition">save</span>
         </div>
       </div>
       <div class="--add-speciality">
-        <submit-button class="--add-speciality-button">Добавить специальность</submit-button>
+        <submit-button class="--add-speciality-button" @click="addSpeciality()">Добавить специальность</submit-button>
       </div>
       <div class="--show">
         <button class="--show-button" @click="toggleDropdown">{{ isDropdownShow ? 'Скрыть' : 'Показать' }}</button>
       </div>
     </div>
-
 
     <div class="--dropdown-main" v-if="isDropdownShow">
       <the-speciality @onSpecialityDelete="deleteSpeciality" v-for="(speciality, index) in specialities" :speciality="{index, ...speciality}" :key="speciality.id"></the-speciality>
@@ -38,6 +37,8 @@ const specialityService = new SpecialityService();
 const positionService = new PositionService();
 
 //TODO : Add animation for dropdown
+//TODO : Save visible only if we changed title
+//TODO : Make validation for position and speciality title
 
 export default {
   name: "ThePosition",
@@ -45,10 +46,7 @@ export default {
   data() {
     return {
       isDropdownShow : false,
-
       specialities : null,
-      specialtyItems : null,
-
       positionName: null,
     }
   },
@@ -67,6 +65,9 @@ export default {
         this.getSpecialities();
       });
     },
+    deletePosition(){
+      this.$emit('onDeletePosition', this.position.id)
+    },
     getSpecialities(){
       specialityService.getSpecialitiesOfPosition(this.position.id).then((res) => {
         this.specialities = res;
@@ -78,9 +79,19 @@ export default {
     updatePosition(){
       positionService.updatePosition(this.position.id, {
         name : this.positionName
-      }).then(res => {
-        console.log(res)
       })
+    },
+    addSpeciality(){
+      specialityService.createSpeciality({
+        "name": "Unnamed",
+        "description": "Please edit...",
+        "positionId": this.position.id
+      }).then((res) => {
+        this.specialities.push(res);
+      })
+    },
+    isStringSame(str1, str2){
+      return str1 === str2
     }
   },
   mounted() {

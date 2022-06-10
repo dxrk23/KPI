@@ -24,8 +24,17 @@ export default {
         this.positionItems = this.positions.items;
       });
     },
-    addSpeciality(){
-
+    addPosition(){
+      positionService.createPosition({
+        name: 'Unnamed'
+      }).then((res) => {
+        this.positionItems.push(res);
+      })
+    },
+    deletePosition(id){
+      positionService.deletePosition(id).then((res) => {
+        this.getInitialPositions();
+      });
     }
   },
 
@@ -37,9 +46,9 @@ export default {
 
 <template>
   <div class="--speciality-main">
-    <div class="--title"><span>Specialties</span><submit-button class="--submit-button" @click="addSpeciality">Добавить позицию</submit-button></div>
+    <div class="--title"><span>Specialties</span><submit-button class="--submit-button" @click="addPosition">Добавить позицию</submit-button></div>
     <div class="--content">
-      <the-position v-for="(position, index) in positionItems" :key="position.id" :position="{index, ...position}"></the-position>
+      <the-position  @onDeletePosition="deletePosition" v-for="(position, index) in positionItems" :key="position.id" :position="{index, ...position}"></the-position>
     </div>
   </div>
 </template>

@@ -1,28 +1,36 @@
 <template>
-    <div class="--main-speciality">
-      <div class="--title">{{ speciality.index + 1 }} - {{ speciality.name }}</div>
-      <div class="--modification-buttons">
-        <div class="--delete" @click="deleteSpeciality">
-          <span class="material-icons" @click="deleteIndicator(indicator)">delete</span>
-        </div>
-        <div class="--update">
-          <span class="material-icons">update</span>
-        </div>
+  <div class="--main-speciality">
+    <div class="--title">
+      <span> {{ speciality.index + 1 }}. </span>
+      <span class="--title-input" spellcheck="false" contenteditable="true" v-html="speciality.name"
+            @input="updateSpecialityName($event.target.innerHTML)"></span>
+    </div>
+    <div class="--modification-buttons">
+      <div class="--delete" @click="deleteSpeciality">
+        <span class="material-icons">delete</span>
       </div>
-      <div class="--add-speciality">
-        <submit-button class="--add-speciality-button">Привязать индикатор</submit-button>
+      <div class="--update" @click="updateSpeciality">
+        <span class="material-icons">save</span>
       </div>
     </div>
+    <div class="--add-speciality">
+      <submit-button class="--add-speciality-button" @click="goToIndicator">Привязать индикатор</submit-button>
+    </div>
+  </div>
 </template>
 
 <script>
 import SubmitButton from "../Buttons/SubmitButton.vue";
+import SpecialityService from "../../../services/speciality.service";
 
+const specialityService = new SpecialityService();
 export default {
   name: "TheSpeciality",
   components: {SubmitButton},
   data() {
-    return {}
+    return {
+      specialityName: '',
+    }
   },
   props: {
     speciality: {
@@ -30,12 +38,29 @@ export default {
       required: true
     }
   },
+  computed: {
+
+  },
   methods: {
-    deleteSpeciality(){
+    deleteSpeciality() {
       this.$emit('onSpecialityDelete', this.speciality.id);
+    },
+    updateSpecialityName(str) {
+      this.specialityName = str;
+    },
+    updateSpeciality() {
+      specialityService.updateSpeciality(this.speciality.id, {
+        name: this.specialityName,
+        description: this.speciality.description,
+        positionId: this.speciality.positionId
+      });
+    },
+    goToIndicator(){
+      this.$router.push('/speciality/indicators/' + this.speciality.id)
     }
   },
   mounted() {
+    this.specialityName = this.speciality.name;
   }
 }
 </script>
@@ -57,7 +82,7 @@ export default {
   background: #FFFFFF;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .--title {
