@@ -46,7 +46,7 @@ class PositionService {
             .put(
                 `${HOST}/api/position/${id}`,
                 {
-                    name: position,
+                    ...position
                 },
                 {
                     headers: {
