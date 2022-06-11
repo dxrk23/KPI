@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
+import {createRouter, createWebHashHistory} from 'vue-router';
 import SignIn from '../views/SignIn.vue';
 import Home from '../views/Home.vue';
 import TheBlog from '../components/TheBlog.vue';
@@ -10,11 +10,13 @@ import SpecialityRouter from "../components/UI/Routers/SpecialityRouter.vue";
 import TheSpecialities from "../components/TheSpecialities.vue";
 import TaskListRouter from "../components/UI/Routers/TasklistRouter.vue";
 import TheSpecialityIndicator from "../components/UI/Speciality/TheSpecialityIndicator.vue";
+import CreateRequirement from "../components/UI/Creators/CreateRequirement.vue";
+import StaffRouter from "../components/UI/Routers/StaffRouter.vue";
 
 
 const routes = [
-  { path: '', redirect: '/home' },
-  { path: '/', redirect: '/home' },
+  {path: '', redirect: '/home'},
+  {path: '/', redirect: '/home'},
 
   {
     path: '/home',
@@ -40,16 +42,18 @@ const routes = [
           {
             path: 'indicators/:specialityId',
             component: TheSpecialityIndicator
+          },
+          {
+            path: 'createRequirement/:specialityId',
+            component: CreateRequirement,
           }
         ]
       },
 
       {
-        path : '/task',
+        path: '/task',
         component: TaskListRouter,
-        children: [
-
-        ]
+        children: []
       },
 
       {
@@ -66,6 +70,12 @@ const routes = [
           }
         ]
       },
+
+      {
+        path: '/staff',
+        component: StaffRouter,
+        children: []
+      }
     ],
   },
   {

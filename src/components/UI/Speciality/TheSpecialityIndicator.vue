@@ -1,15 +1,18 @@
 <script>
 import SpecialityService from "../../../services/speciality.service";
 import PositionService from "../../../services/position.service";
+import SubmitButton from "../Buttons/SubmitButton.vue";
+import SpecialityIndicatorTable from "../Tables/SpecialityIndicatorTable.vue";
 
 const specialityService = new SpecialityService();
 const positionService = new PositionService();
 export default {
   name: "TheSpecialityIndicator",
+  components: {SpecialityIndicatorTable, SubmitButton},
   data() {
     return {
-      speciality: null,
-      position: null
+      speciality: {},
+      position: {}
     }
   },
 
@@ -24,10 +27,18 @@ export default {
       positionService.getPositionById(this.speciality.positionId).then((res) => {
         this.position = res;
       })
+    },
+    goToLinkIndicator() {
+      this.$router.push('/speciality/createRequirement/' + this.speciality.id);
+    },
+    getTitle() {
+      return `Specialities > ${this.position.name} > ${this.speciality.name}`;
     }
   },
 
-  mounted() {
+  computed: {},
+
+  created() {
     this.loadInitialData();
   }
 
@@ -36,11 +47,38 @@ export default {
 
 <template>
   <div class="--speciality-indicator-main">
-    <div class="--title"></div>
-    <div class="--content"></div>
+    <div class="--title">
+      {{ getTitle() }}
+    </div>
+    <div class="--content">
+      <submit-button class="--link-button" @click="goToLinkIndicator">Связать индикторы</submit-button>
+      <speciality-indicator-table></speciality-indicator-table>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.--speciality-indicator-main {
+  padding-left: 41px;
+  padding-top: 76px;
+}
+
+.--title {
+  font-family: 'Arial', serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 37px;
+  color: #000000;
+}
+
+.--content {
+  margin-top: 58px;
+}
+
+.--link-button {
+  margin-top: 27px;
+  width: 20%;
+}
 
 </style>

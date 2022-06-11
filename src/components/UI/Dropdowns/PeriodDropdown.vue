@@ -1,6 +1,5 @@
 <script>
 export default {
-  // TODO - Make infinity scroll for select options
   name: 'Dropdown',
   data() {
     return {
@@ -9,7 +8,7 @@ export default {
     };
   },
   props: {
-    selects: {
+    periodParts: {
       type: Array,
       required: true,
     },
@@ -29,11 +28,14 @@ export default {
 
 <template>
   <div class="--dropdown">
-    <span>{{ selectedItem ? selectedItem.name : 'Select item' }}</span>
+    <span style="font-size: 22px">{{ selectedItem ? selectedItem.name : 'Select item' }}</span>
     <span class="material-icons --dropdown-arrow" @click="toggle()">arrow_drop_down</span>
     <div v-if="isOpen" class="--dropdown-menu">
-      <div v-for="select in selects" class="--dropdown-menu-item">
-        <div class="--dropdown-menu-item-text" @click="selectItem(select)">{{ select.name }}</div>
+      <div v-for="periodPart in periodParts" class="--dropdown-menu-item">
+        <div class="--dropdown-menu-item-text" @click="selectItem(periodPart)">
+          {{ periodPart.name }}
+          ({{ new Date(periodPart.from).toLocaleDateString() }})-({{ new Date(periodPart.to).toLocaleDateString() }})
+        </div>
       </div>
     </div>
   </div>
@@ -95,6 +97,8 @@ export default {
   justify-content: center;
   width: 100%;
   height: 100%;
+
+  font-size: 19px;
 }
 
 .--dropdown-menu-item {

@@ -1,8 +1,12 @@
 <script>
 import SignIn from './views/SignIn.vue';
-import { isJwtExpired } from 'jwt-check-expiration';
+import {isJwtExpired} from 'jwt-check-expiration';
 
 const TOKEN = localStorage.getItem('token');
+// TODO : Data dont load after auth. Need to reload page. FIX
+// TODO : Review ALL code and make utils with repetitive code
+// TODO : Make observer for JWT and force logout if expired
+
 
 export default {
   components: {
@@ -23,6 +27,7 @@ export default {
       this.$router.push('/sign-in');
     }
   },
+  watch: {}
 };
 </script>
 
@@ -54,6 +59,5 @@ html::-webkit-scrollbar {
 html {
   background: #f1f1f0;
   -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 </style>

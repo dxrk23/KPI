@@ -14,6 +14,7 @@ export default {
     <menu-item icon="list_alt" label="Task list" @click="$router.push('/task')"></menu-item>
     <menu-item icon="subject" label="Indicators" @click="$router.push('/indicators')"></menu-item>
     <menu-item icon="groups" label="Specialities" @click="$router.push('/speciality')"></menu-item>
+    <menu-item icon="person" label="Staff" @click="$router.push('/staff')"></menu-item>
   </aside>
 </template>
 

@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="--add-speciality">
-      <submit-button class="--add-speciality-button" @click="goToIndicator">Привязать индикатор</submit-button>
+      <submit-button class="--add-speciality-button" @click="goToIndicator">Показать индекаторы</submit-button>
     </div>
   </div>
 </template>
@@ -94,6 +94,10 @@ export default {
   font-size: 20px;
   line-height: 23px;
   color: #000000;
+}
+
+.--title-input {
+  outline: none;
 }
 
 .--modification-buttons {

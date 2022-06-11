@@ -3,10 +3,12 @@ import IndicatorService from "../../../services/indicator.service";
 
 const indicatorService = new IndicatorService();
 
+// TODO : Make pagination or infinity scroll
+
 export default {
   name: "IndicatorTable",
   props: {
-    indicatorRows : {
+    indicatorRows: {
       type: Array,
       required: true
     }
