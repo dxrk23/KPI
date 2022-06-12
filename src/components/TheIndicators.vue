@@ -1,25 +1,28 @@
 <script>
-import IndicatorTable from "./UI/Tables/IndicatorTable.vue";
-import IndicatorService from "../services/indicator.service";
+import IndicatorTable from './UI/Tables/IndicatorTable.vue';
+import IndicatorService from '../services/indicator.service';
 
 const indicatorService = new IndicatorService();
 
 export default {
-  name: "TheIndicators",
-  components: {IndicatorTable},
+  name: 'TheIndicators',
+  components: { IndicatorTable },
   data() {
     return {
       indicators: null,
       indicatorItems: [],
-    }
+    };
   },
   methods: {
     loadInitialIndicators() {
-      indicatorService.getIndicators().then((res) => {
-        this.indicators = res;
-      }).then(() => {
-        this.getIndicatorItems();
-      });
+      indicatorService
+        .getIndicators()
+        .then((res) => {
+          this.indicators = res;
+        })
+        .then(() => {
+          this.getIndicatorItems();
+        });
     },
     getIndicatorItems() {
       this.indicatorItems = this.indicators.items;
@@ -27,13 +30,13 @@ export default {
     deleteIndicator(indicator) {
       indicatorService.deleteIndicator(indicator.id).then(() => {
         this.loadInitialIndicators();
-      })
-    }
+      });
+    },
   },
   created() {
     this.loadInitialIndicators();
   },
-}
+};
 </script>
 
 <template>
@@ -44,7 +47,6 @@ export default {
     </div>
   </div>
 </template>
-
 
 <style scoped>
 .--indicators-main {
@@ -65,11 +67,9 @@ export default {
 }
 
 .--content {
-  width: 973px;
+  width: 95%;
 
   padding-top: 38px;
   padding-left: 35px;
 }
-
-
 </style>
