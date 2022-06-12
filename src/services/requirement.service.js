@@ -10,7 +10,10 @@ class RequirementService {
             headers: {
                 'Authorization': `Bearer ${TOKEN}`
             }
-        }).then(response => response.data);
+        }).then(response => {
+            console.log(response);
+            response.data
+        });
     }
 
     async deleteRequirement(id) {
@@ -38,11 +41,13 @@ class RequirementService {
     }
 
     async getRequirementBySpecialityAndPeriodId(specialityId, periodId) {
-        return await axios.get(`${HOST}/api/requirement/${specialityId}/${periodId}`, {
+        return await axios.get(`${HOST}/api/requirement/of-specialty/${specialityId}/${periodId}`, {
             headers: {
                 'Authorization': `Bearer ${TOKEN}`
             }
-        }).then(response => response.data);
+        }).then(response => {
+            return response.data
+        });
     }
 
     async getRequirementForEmployee(employeeId, periodId) {

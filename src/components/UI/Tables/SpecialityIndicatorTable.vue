@@ -9,7 +9,7 @@ const periodService = new ReportPeriodService();
 const periodPartService = new ReportPeriodPartService();
 const indicatorService = new IndicatorService();
 
-// TODO: Finish table dta visualization
+// TODO: Finish table data visualization
 
 export default {
   name: "SpecialityIndicatorTable",
@@ -32,14 +32,8 @@ export default {
     getRequirements() {
       requirementService.getRequirementBySpecialityAndPeriodId(this.specialityId, this.activePeriod.id).then((res) => {
         this.requirements = res;
-      });
+      })
     },
-
-    async getIndicatorName(indicatorId) {
-      return await indicatorService.getIndicator(indicatorId).then((res) => {
-        return res.name;
-      });
-    }
   },
   mounted() {
     this.getActivePeriod();
@@ -61,9 +55,9 @@ export default {
       <tbody>
       <tr v-for="(requirement, index) in requirements" :key="requirement.id" class="--row">
         <td class="--index-data">{{ index + 1 }}</td>
-        <td class="--indicator-name">{{ getIndicatorName(requirement.indicatorId) }}</td>
+        <td class="--indicator-name">{{ requirement.indicatorName }}</td>
         <td class="--portion-data">{{ requirement.weight }}</td>
-        <td class="--period-data">{{ }}</td>
+        <td class="--period-data">{{ requirement.periodPartName }}</td>
       </tr>
       </tbody>
     </table>
@@ -108,7 +102,7 @@ table {
   height: 50px;
 }
 
-.--indicator-name, .--period-data {
+.--indicator-name {
   text-align: start;
   padding-left: 20px;
   border: 1px solid #e3e3e3;
@@ -119,6 +113,11 @@ table {
   border: 1px solid #e3e3e3;
 }
 
+.--period-data {
+  width: 20%;
+  border: 1px solid #e3e3e3;
+  text-align: center;
+}
 
 .--number-col {
   width: 8%;

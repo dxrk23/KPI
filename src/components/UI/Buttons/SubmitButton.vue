@@ -23,6 +23,8 @@ export default {
   font-size: 20px;
   line-height: 23px;
 
+  border: none;
+
   color: #FFFFFF;
 
   cursor: pointer;

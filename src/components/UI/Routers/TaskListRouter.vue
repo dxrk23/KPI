@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: "TasklistRouter"
+  name: "TaskListRouter"
 }
 </script>
 

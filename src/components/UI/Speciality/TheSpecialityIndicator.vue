@@ -73,7 +73,6 @@ export default {
 }
 
 .--content {
-  margin-top: 58px;
 }
 
 .--link-button {

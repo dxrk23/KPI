@@ -123,7 +123,7 @@ export default {
 
     loadComments() {
       this.page++;
-      commentService.getComments(this.post.commentsId, this.page).then((response) => {
+      commentService.getComments(this.post.commentBlockId, this.page).then((response) => {
         this.comments = response;
         this.commentItems = [...this.commentItems, ...response.items];
       });

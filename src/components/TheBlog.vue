@@ -4,9 +4,11 @@ import PostService from '../services/post.service';
 
 const postService = new PostService();
 
+//TODO : Make avatar for posts and comments
+
 export default {
   name: 'TheBlog',
-  components: { BlogPost },
+  components: {BlogPost},
   data() {
     return {
       posts: null,

@@ -4,18 +4,21 @@
     <div class="--content">
       <div class="--indicator-title">
         <span class="--input-label">*Кратакое название индикатора </span>
-        <div contenteditable="true" class="--input --title-input" @input="updateTitle($event.target.innerHTML)"></div>
+        <div class="--input --title-input" contenteditable="true" @input="updateTitle($event.target.innerHTML)"
+             v-html="title"></div>
       </div>
       <div class="--indicator-desc">
         <span class="--input-label">*Описание индиактора </span>
-        <div contenteditable="true" class="--input --desc-input" @input="updateContent($event.target.innerHTML)"></div>
+        <div class="--input --desc-input" contenteditable="true" @input="updateContent($event.target.innerHTML)"
+             v-html="content"></div>
       </div>
       <div class="--indicator-note">
         <span class="--input-label">*Примечание к индикатору </span>
-        <div contenteditable="true" class="--input --note-input" @input="updateNote($event.target.innerHTML)"></div>
+        <div class="--input --note-input" contenteditable="true" @input="updateNote($event.target.innerHTML)"
+             v-html="note"></div>
       </div>
 
-      <submit-button class="--create-button" @click="createIndicator()">Добавить индикатор</submit-button>
+      <submit-button class="--create-button" @click="updateIndicator()">Обнавить индикатор</submit-button>
     </div>
   </div>
 </template>
@@ -31,33 +34,51 @@ export default {
   components: {SubmitButton},
   data() {
     return {
-      title : '',
+      title: '',
       content: '',
       note: '',
+
+      updatedTitle: '',
+      updatedContent: '',
+      updatedNote: '',
     }
   },
   methods: {
-    createIndicator(){
+    updateIndicator() {
       let indicator = {
-        'name' : this.title,
-        'description': this.content,
-        'comment': this.note
+        'name': this.updatedTitle,
+        'description': this.updatedContent,
+        'comment': this.updatedNote
       }
 
-      indicatorService.createIndicator(indicator).then(() => {
+      indicatorService.updateIndicator(this.$route.params.indicatorId, indicator).then(() => {
         this.$router.push('/indicators');
       })
     },
-    updateTitle(str){
-      this.title = str
+    getIndicator() {
+      indicatorService.getIndicator(this.$route.params.indicatorId).then(indicator => {
+        this.title = indicator.name;
+        this.content = indicator.description;
+        this.note = indicator.comment;
+
+        this.updatedTitle = indicator.name;
+        this.updatedContent = indicator.description;
+        this.updatedNote = indicator.comment;
+      })
     },
-    updateContent(str){
-      this.content = str;
+    updateTitle(str) {
+      this.updatedTitle = str
     },
-    updateNote(str){
-      this.note = str;
+    updateContent(str) {
+      this.updatedContent = str;
+    },
+    updateNote(str) {
+      this.updatedNote = str;
     }
   },
+  created() {
+    this.getIndicator();
+  }
 }
 </script>
 
@@ -93,7 +114,7 @@ export default {
   color: #000000;
 }
 
-.--input{
+.--input {
   background: #F0F0F1;
   min-height: 10%;
 
@@ -130,7 +151,7 @@ export default {
   min-height: 50px;
 }
 
-.--create-button{
+.--create-button {
   margin-top: 20px;
 }
 </style>

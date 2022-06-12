@@ -65,7 +65,7 @@ export default {
 }
 
 .--content {
-  width: 973px;
+  width: 100%;
 
   padding-top: 38px;
   padding-left: 35px;

@@ -14,8 +14,11 @@ export default {
     }
   },
   methods: {
-    deleteIndicator(indicator){
+    deleteIndicator(indicator) {
       this.$emit('onIndicatorDelete', indicator);
+    },
+    goToUpdateIndicator(indicatorId) {
+      this.$router.push('/indicators/update/' + indicatorId);
     }
   }
 }
@@ -39,7 +42,7 @@ export default {
               <span class="material-icons" @click="deleteIndicator(indicator)">delete</span>
             </div>
             <div class="--update">
-              <span class="material-icons">update</span>
+              <span class="material-icons" @click="goToUpdateIndicator(indicator.id)">update</span>
             </div>
           </div>
         </tr>
@@ -50,7 +53,7 @@ export default {
 
 <style scoped>
   .--indicator-table-main {
-    width: 100%;
+    width: 99%;
   }
 
   table {

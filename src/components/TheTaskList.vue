@@ -1,10 +1,17 @@
 <script>
+import userUtil from "../utils/user.util";
+
+import TaskListUserTable from "./UI/Tables/TaskListUserTable.vue";
 
 export default {
   name: 'TheTaskList',
-  components: { },
+  components: {TaskListUserTable},
   computed: {},
-  mounted() {},
+  mounted() {
+    if (!userUtil.isUserRoot()) {
+      this.$router.push(`/task/requirements/${userUtil.getUserId()}`);
+    }
+  },
 };
 </script>
 
@@ -12,7 +19,9 @@ export default {
   <div class="--task-list-main">
     <div class="--task-list-title">Key Performance Indicators (KPIs)</div>
     <div class="--task-list-content">
-      <router-view></router-view>
+      <task-list-user-table>
+
+      </task-list-user-table>
     </div>
   </div>
 </template>
@@ -33,7 +42,6 @@ export default {
 }
 
 .--task-list-content {
-  margin-top: 58px;
   width: 95%;
 
   overflow-y: auto;

@@ -7,7 +7,7 @@ const TOKEN = localStorage.getItem('token');
 class CommentService {
   async getComments(commentsID, pageNumber = 1, pageSize = 10) {
     return await axios
-      .get(`${HOST}/api/comment/block/${commentsID}/?pageNumber=${pageNumber}&pageSize=${pageSize}`, {
+      .get(`${HOST}/api/comment/block/${commentsID}?pageNumber=${pageNumber}&pageSize=${pageSize}`, {
         headers: {
           Authorization: `Bearer ${TOKEN}`,
         },

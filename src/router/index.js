@@ -1,4 +1,4 @@
-import {createRouter, createWebHashHistory} from 'vue-router';
+import {createRouter, createWebHistory} from 'vue-router';
 import SignIn from '../views/SignIn.vue';
 import Home from '../views/Home.vue';
 import TheBlog from '../components/TheBlog.vue';
@@ -8,10 +8,13 @@ import CreateIndicator from "../components/UI/Creators/CreateIndicator.vue";
 import TheIndicatorRouter from "../components/UI/Routers/TheIndicatorRouter.vue";
 import SpecialityRouter from "../components/UI/Routers/SpecialityRouter.vue";
 import TheSpecialities from "../components/TheSpecialities.vue";
-import TaskListRouter from "../components/UI/Routers/TasklistRouter.vue";
+import TaskListRouter from "../components/UI/Routers/TaskListRouter.vue";
 import TheSpecialityIndicator from "../components/UI/Speciality/TheSpecialityIndicator.vue";
 import CreateRequirement from "../components/UI/Creators/CreateRequirement.vue";
 import StaffRouter from "../components/UI/Routers/StaffRouter.vue";
+import TheTaskList from "../components/TheTaskList.vue";
+import TaskListIndicatorTable from "../components/UI/Tables/TaskListIndicatorTable.vue";
+import UpdateIndicator from "../components/UI/Updater/UpdateIndicator.vue";
 
 
 const routes = [
@@ -53,7 +56,16 @@ const routes = [
       {
         path: '/task',
         component: TaskListRouter,
-        children: []
+        children: [
+          {
+            path: '',
+            component: TheTaskList
+          },
+          {
+            path: 'requirements/:employeeId',
+            component: TaskListIndicatorTable
+          }
+        ]
       },
 
       {
@@ -67,6 +79,10 @@ const routes = [
           {
             path: 'add',
             component: CreateIndicator
+          },
+          {
+            path: 'update/:indicatorId',
+            component: UpdateIndicator
           }
         ]
       },
@@ -86,7 +102,7 @@ const routes = [
 ];
 
 const router = new createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
 });
 
