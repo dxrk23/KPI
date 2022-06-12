@@ -1,19 +1,19 @@
 <script>
-import SpecialityService from "../../../services/speciality.service";
-import PositionService from "../../../services/position.service";
-import SubmitButton from "../Buttons/SubmitButton.vue";
-import SpecialityIndicatorTable from "../Tables/SpecialityIndicatorTable.vue";
+import SpecialityService from '../../../services/speciality.service';
+import PositionService from '../../../services/position.service';
+import SubmitButton from '../Buttons/SubmitButton.vue';
+import SpecialityIndicatorTable from '../Tables/SpecialityIndicatorTable.vue';
 
 const specialityService = new SpecialityService();
 const positionService = new PositionService();
 export default {
-  name: "TheSpecialityIndicator",
-  components: {SpecialityIndicatorTable, SubmitButton},
+  name: 'TheSpecialityIndicator',
+  components: { SpecialityIndicatorTable, SubmitButton },
   data() {
     return {
       speciality: {},
-      position: {}
-    }
+      position: {},
+    };
   },
 
   methods: {
@@ -26,23 +26,22 @@ export default {
     getPosition() {
       positionService.getPositionById(this.speciality.positionId).then((res) => {
         this.position = res;
-      })
+      });
     },
     goToLinkIndicator() {
       this.$router.push('/speciality/createRequirement/' + this.speciality.id);
     },
     getTitle() {
       return `Specialities > ${this.position.name} > ${this.speciality.name}`;
-    }
+    },
   },
 
   computed: {},
 
   created() {
     this.loadInitialData();
-  }
-
-}
+  },
+};
 </script>
 
 <template>
@@ -72,12 +71,8 @@ export default {
   color: #000000;
 }
 
-.--content {
-}
-
 .--link-button {
   margin-top: 27px;
   width: 20%;
 }
-
 </style>

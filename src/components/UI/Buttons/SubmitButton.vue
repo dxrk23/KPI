@@ -4,8 +4,8 @@
 
 <script>
 export default {
-  name: "SubmitButton"
-}
+  name: 'SubmitButton',
+};
 </script>
 
 <style scoped>
@@ -13,19 +13,17 @@ export default {
   width: 180px;
   height: 52px;
 
-  background: #33A8D5;
+  background: #33a8d5;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.5);
   border-radius: 9px;
 
   font-family: 'Arial', serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 1rem;
   line-height: 23px;
 
-  border: none;
-
-  color: #FFFFFF;
+  color: #ffffff;
 
   cursor: pointer;
 }
@@ -35,7 +33,7 @@ export default {
 }
 
 .--button:hover {
-  background: #33A8D5;
+  background: #33a8d5;
   opacity: 0.7;
 }
 </style>
