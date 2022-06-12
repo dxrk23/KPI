@@ -3,6 +3,7 @@ import SpecialityService from '../../../services/speciality.service';
 import PositionService from '../../../services/position.service';
 import SubmitButton from '../Buttons/SubmitButton.vue';
 import SpecialityIndicatorTable from '../Tables/SpecialityIndicatorTable.vue';
+import UserUtil from "../../../utils/user.util";
 
 const specialityService = new SpecialityService();
 const positionService = new PositionService();
@@ -36,7 +37,11 @@ export default {
     },
   },
 
-  computed: {},
+  computed: {
+    isUserRoot() {
+      return UserUtil.isUserRoot();
+    },
+  },
 
   created() {
     this.loadInitialData();
@@ -50,7 +55,8 @@ export default {
       {{ getTitle() }}
     </div>
     <div class="--content">
-      <submit-button class="--link-button" @click="goToLinkIndicator">Связать индикторы</submit-button>
+      <submit-button v-if="isUserRoot" class="--link-button" @click="goToLinkIndicator">Связать индикторы
+      </submit-button>
       <speciality-indicator-table></speciality-indicator-table>
     </div>
   </div>

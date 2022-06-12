@@ -16,7 +16,7 @@ export default {
       if (this.validate()) return;
       await authService.getToken(this.username, this.password).then(() => {
         if (authService.isLoggedIn()) {
-          this.$router.push('/');
+          this.$router.go();
         }
       });
     },

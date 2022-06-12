@@ -18,14 +18,14 @@ import TheHeader from '../components/TheHeader.vue';
 import TheMenu from '../components/TheMenu.vue';
 import TheBody from '../components/TheBody.vue';
 import TheRightSidebar from '../components/TheRightSidebar.vue';
-import { mapGetters } from 'vuex';
-import ProfileDropdown from '../components/UI/Modals/ProfileDropdown.vue';
+import {mapGetters} from 'vuex';
+import ProfileDropdown from '../components/UI/Dropdowns/ProfileDropdown.vue';
 import CreateUserModal from '../components/UI/Modals/CreateUserModal.vue';
 import UpdateUserModal from '../components/UI/Modals/UpdateUserModal.vue';
 
 export default {
   name: 'Home',
-  components: { CreateUserModal, ProfileDropdown, TheRightSidebar, TheBody, TheHeader, TheMenu, UpdateUserModal },
+  components: {CreateUserModal, ProfileDropdown, TheRightSidebar, TheBody, TheHeader, TheMenu, UpdateUserModal},
   methods: {},
   computed: {
     ...mapGetters({

@@ -2,18 +2,20 @@
   <div class="--wrapper">
     <div class="--main-position">
       <div class="--title">
-        <span>{{ position.index + 1}}. </span>
-        <span class="--title-input" spellcheck="false" contenteditable="true" v-html="position.name" @input="updatePositionName($event.target.innerHTML)"></span>
+        <span>{{ position.index + 1 }}. </span>
+        <span :contenteditable="isUserRoot" class="--title-input" spellcheck="false"
+              @input="updatePositionName($event.target.innerHTML)"
+              v-html="position.name"></span>
       </div>
       <div class="--modification-buttons">
         <div class="--delete">
-          <span class="material-icons" @click="deletePosition">delete</span>
+          <span v-if="isUserRoot" class="material-icons" @click="deletePosition">delete</span>
         </div>
         <div class="--update">
-          <span class="material-icons" @click="updatePosition">save</span>
+          <span v-if="isUserRoot" class="material-icons" @click="updatePosition">save</span>
         </div>
       </div>
-      <div class="--add-speciality">
+      <div v-if="isUserRoot" class="--add-speciality">
         <submit-button class="--add-speciality-button" @click="addSpeciality()">Добавить специальность</submit-button>
       </div>
       <div class="--show">
@@ -21,8 +23,11 @@
       </div>
     </div>
 
-    <div class="--dropdown-main" v-if="isDropdownShow">
-      <the-speciality @onSpecialityDelete="deleteSpeciality" v-for="(speciality, index) in specialities" :speciality="{index, ...speciality}" :key="speciality.id"></the-speciality>
+    <div v-if="isDropdownShow" :class="{'--untouchable' : !canUserChangeSpeciality && !isUserRoot}"
+         class="--dropdown-main">
+      <the-speciality v-for="(speciality, index) in specialities" :key="speciality.id"
+                      :class="{'--chosen-speciality' : speciality.id === chosenSpeciality?.id}"
+                      :speciality="{index, ...speciality}" @onSpecialityDelete="deleteSpeciality"></the-speciality>
     </div>
   </div>
 </template>
@@ -32,9 +37,14 @@ import SubmitButton from "../Buttons/SubmitButton.vue";
 import TheSpeciality from "./TheSpeciality.vue";
 import SpecialityService from "../../../services/speciality.service";
 import PositionService from "../../../services/position.service";
+import UserUtil from "../../../utils/user.util";
+import ReportPeriodService from "../../../services/report.period.service";
+import ProfileService from "../../../services/profile.service";
 
 const specialityService = new SpecialityService();
 const positionService = new PositionService();
+const profileService = new ProfileService();
+const reportPeriodService = new ReportPeriodService();
 
 //TODO : Add animation for dropdown
 //TODO : Save visible only if we changed title
@@ -45,9 +55,14 @@ export default {
   components: {SubmitButton, TheSpeciality},
   data() {
     return {
-      isDropdownShow : false,
-      specialities : null,
+      isDropdownShow: false,
+      specialities: null,
       positionName: null,
+
+      activePeriod: {},
+      chosenSpeciality: {},
+
+      canUserChangeSpeciality: false,
     }
   },
   props: {
@@ -56,32 +71,53 @@ export default {
       required: true
     }
   },
+  computed: {
+    isUserRoot() {
+      return UserUtil.isUserRoot();
+    },
+  },
   methods: {
-    toggleDropdown(){
+    getActivePeriod() {
+      reportPeriodService.getPeriodActive().then(period => {
+        this.activePeriod = period;
+      }).then(() => {
+        this.getUserSpecialty();
+      });
+    },
+    getUserSpecialty() {
+      profileService.getSpecialtyByPeriod(this.activePeriod.id).then(speciality => {
+        this.chosenSpeciality = speciality;
+      }).then(() => {
+        profileService.canUserChangeSpecialty(this.activePeriod.id).then(canUserChangeSpeciality => {
+          this.canUserChangeSpeciality = canUserChangeSpeciality;
+        });
+      })
+    },
+    toggleDropdown() {
       this.isDropdownShow = !this.isDropdownShow;
     },
-    deleteSpeciality(id){
+    deleteSpeciality(id) {
       specialityService.deleteSpeciality(id).then(() => {
         this.getSpecialities();
       });
     },
-    deletePosition(){
+    deletePosition() {
       this.$emit('onDeletePosition', this.position.id)
     },
-    getSpecialities(){
+    getSpecialities() {
       specialityService.getSpecialitiesOfPosition(this.position.id).then((res) => {
         this.specialities = res;
       });
     },
-    updatePositionName(str){
+    updatePositionName(str) {
       this.positionName = str;
     },
-    updatePosition(){
+    updatePosition() {
       positionService.updatePosition(this.position.id, {
-        name : this.positionName
+        name: this.positionName
       })
     },
-    addSpeciality(){
+    addSpeciality() {
       specialityService.createSpeciality({
         "name": "Unnamed",
         "description": "Please edit...",
@@ -90,12 +126,17 @@ export default {
         this.specialities.push(res);
       })
     },
-    isStringSame(str1, str2){
+    isStringSame(str1, str2) {
       return str1 === str2
     }
   },
   mounted() {
     this.getSpecialities();
+    if (!this.isUserRoot) {
+      this.isDropdownShow = true;
+      this.getActivePeriod();
+    }
+
   }
 }
 </script>
@@ -120,6 +161,11 @@ export default {
   position: relative;
 }
 
+.--untouchable {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 .--title {
   margin-left: 20px;
 
@@ -136,10 +182,13 @@ export default {
   align-items: center;
 }
 
-.--title-input{
+.--title-input {
   outline: none;
 }
 
+.--chosen-speciality {
+  border: 2px solid green;
+}
 
 .--modification-buttons {
   display: flex;
@@ -151,7 +200,7 @@ export default {
   height: 100%;
 }
 
-.--delete, .--update{
+.--delete, .--update {
   display: flex;
   align-items: center;
   cursor: pointer;

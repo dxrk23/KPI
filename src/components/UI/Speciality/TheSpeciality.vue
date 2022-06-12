@@ -2,18 +2,19 @@
   <div class="--main-speciality">
     <div class="--title">
       <span> {{ speciality.index + 1 }}. </span>
-      <span class="--title-input" spellcheck="false" contenteditable="true" v-html="speciality.name"
+      <span :contenteditable="isUserRoot" class="--title-input" spellcheck="false" v-html="speciality.name"
             @input="updateSpecialityName($event.target.innerHTML)"></span>
     </div>
     <div class="--modification-buttons">
-      <div class="--delete" @click="deleteSpeciality">
+      <div v-if="isUserRoot" class="--delete" @click="deleteSpeciality">
         <span class="material-icons">delete</span>
       </div>
-      <div class="--update" @click="updateSpeciality">
+      <div v-if="isUserRoot" class="--update" @click="updateSpeciality">
         <span class="material-icons">save</span>
       </div>
     </div>
     <div class="--add-speciality">
+      <span v-if="!isUserRoot" class="material-icons --submit-speciality" @click="chooseSpecialty">check</span>
       <submit-button class="--add-speciality-button" @click="goToIndicator">Показать индекаторы</submit-button>
     </div>
   </div>
@@ -22,14 +23,20 @@
 <script>
 import SubmitButton from "../Buttons/SubmitButton.vue";
 import SpecialityService from "../../../services/speciality.service";
+import ProfileService from "../../../services/profile.service";
+import UserUtil from "../../../utils/user.util";
+import ReportPeriodService from "../../../services/report.period.service";
 
 const specialityService = new SpecialityService();
+const profileService = new ProfileService();
+const reportPeriodService = new ReportPeriodService();
 export default {
   name: "TheSpeciality",
   components: {SubmitButton},
   data() {
     return {
       specialityName: '',
+      period: {}
     }
   },
   props: {
@@ -39,9 +46,19 @@ export default {
     }
   },
   computed: {
-
+    isUserRoot() {
+      return UserUtil.isUserRoot();
+    }
   },
   methods: {
+    chooseSpecialty() {
+      profileService.setSpecialty({
+        specialtyId: this.speciality.id,
+        periodId: this.period.id
+      }).then(() => {
+        this.$router.go();
+      });
+    },
     deleteSpeciality() {
       this.$emit('onSpecialityDelete', this.speciality.id);
     },
@@ -55,12 +72,20 @@ export default {
         positionId: this.speciality.positionId
       });
     },
-    goToIndicator(){
+    goToIndicator() {
       this.$router.push('/speciality/indicators/' + this.speciality.id)
+    },
+    getActivePeriodId() {
+      reportPeriodService.getPeriodActive().then(period => {
+        this.period = period;
+      });
     }
   },
   mounted() {
     this.specialityName = this.speciality.name;
+  },
+  created() {
+    this.getActivePeriodId();
   }
 }
 </script>
@@ -114,7 +139,7 @@ export default {
   cursor: pointer;
 }
 
-.--delete:hover, .--update:hover {
+.--delete:hover, .--update:hover, .--submit-speciality:hover {
   opacity: 0.8;
 }
 
@@ -124,6 +149,22 @@ export default {
 
   position: absolute;
   right: 3%;
+
+  display: flex;
+  align-items: center;
+}
+
+.--submit-speciality {
+  height: 24px;
+  width: 28px;
+
+  display: flex;
+  align-items: center;
+  margin-right: 3%;
+
+  font-weight: bold;
+
+  cursor: pointer;
 }
 
 .--add-speciality-button {

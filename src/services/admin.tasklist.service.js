@@ -6,8 +6,8 @@ const TOKEN = localStorage.getItem('token');
 
 
 class AdminTaskListService {
-  async getAdminTaskList(pageNumber = 1, pageSize = 10) {
-    return await axios.get(`${HOST}/api/admintasklist?pageNumber=${pageNumber}&pageSize=${pageSize}`, {
+  async getAdminTaskList(periodId, pageNumber = 1, pageSize = 10) {
+    return await axios.get(`${HOST}/api/admintasklist/${periodId}?pageNumber=${pageNumber}&pageSize=${pageSize}`, {
       headers: {
         Authorization: `Bearer ${TOKEN}`,
       },
@@ -22,7 +22,7 @@ class AdminTaskListService {
         Authorization: `Bearer ${TOKEN}`,
       },
     }).then((res) => {
-      res.data
+      return res.data
     });
   }
 }

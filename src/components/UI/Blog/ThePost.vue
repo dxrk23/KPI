@@ -2,6 +2,7 @@
 import TheComment from './TheComment.vue';
 import CommentService from '../../../services/comment.service';
 import PostService from '../../../services/post.service';
+import UserUtil from "../../../utils/user.util";
 
 const commentService = new CommentService();
 const postService = new PostService();
@@ -32,6 +33,9 @@ export default {
     getComments() {
       return this.commentItems;
     },
+    isUserRoot() {
+      return UserUtil.isUserRoot();
+    }
   },
   methods: {
     // TODO - work with title's adaptivity (when it's too long)
@@ -179,8 +183,8 @@ export default {
         <the-comment v-for="comment in getComments" :comment="comment" @onCommentDelete="onCommentDelete()"/>
       </div>
     </div>
-    <div class="--delete-mark" @click="deletePost()">x</div>
-    <div class="--edit-mark">
+    <div v-if="isUserRoot" class="--delete-mark" @click="deletePost()">x</div>
+    <div v-if="isUserRoot" class="--edit-mark">
       <span class="material-icons" @click="toggleEditMode()">edit</span>
     </div>
   </div>

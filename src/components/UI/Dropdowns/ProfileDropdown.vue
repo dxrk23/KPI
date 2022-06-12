@@ -1,7 +1,7 @@
 <script>
 import MenuItem from '../Menu/MenuItem.vue';
 import AuthService from '../../../services/auth.service';
-import { mapActions } from 'vuex';
+import {mapActions} from 'vuex';
 
 export default {
   name: 'ProfileDropdown',
@@ -15,7 +15,7 @@ export default {
       let auth = new AuthService();
       auth.signOut();
       this.setProfileDorpdownOpen(false);
-      this.$router.push('sign-in');
+      this.$router.push('/sign-in');
     },
     goHome() {
       this.setSelectedBlock('/');

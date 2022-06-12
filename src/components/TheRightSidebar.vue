@@ -1,14 +1,18 @@
 <script>
 import MenuItem from './UI/Menu/MenuItem.vue';
-import { mapActions } from 'vuex';
+import {mapActions} from 'vuex';
+import UserUtil from "../utils/user.util";
 
 export default {
   name: 'TheRightSidebar',
-  components: { MenuItem },
+  components: {MenuItem},
   computed: {
     getRoute() {
       return this.$route.path;
     },
+    isUserRoot() {
+      return UserUtil.isUserRoot();
+    }
   },
   methods: {
     ...mapActions({
@@ -28,9 +32,10 @@ export default {
       <img alt="logo" src="../assets/logos/sign_in_logo.svg" />
     </div>
     <div class="--admin-menu">
-      <menu-item icon="note_add" label="Add post" @click="goToCreator()" v-if="getRoute === '/home'" />
-      <menu-item icon="note_add" label="Add indicator" @click="goToCreator()" v-if="getRoute === '/indicators'" />
-      <hr style="margin-top: 10px; margin-bottom: 10px" />
+      <menu-item v-if="getRoute === '/home' && isUserRoot" icon="note_add" label="Add post" @click="goToCreator()"/>
+      <menu-item v-if="getRoute === '/indicators' && isUserRoot" icon="note_add" label="Add indicator"
+                 @click="goToCreator()"/>
+      <hr style="margin-top: 10px; margin-bottom: 10px"/>
       <!--      <menu-item icon="person_add" label="Add user" @click="openModal('create')" />-->
       <!--      <menu-item icon="manage_accounts" label="Update user" @click="openModal('update')" />-->
       <!--      <menu-item icon="person_remove" label="Delete user" />-->

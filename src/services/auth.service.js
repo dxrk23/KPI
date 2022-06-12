@@ -10,11 +10,13 @@ class AuthService {
 
   async getToken(email, password) {
     const token = await axios
-        .post(`${HOST}/api/Token`, {
-          email,
-          password,
-        })
-      .then((res) => res.data.accessToken);
+      .post(`${HOST}/api/Token`, {
+        email,
+        password,
+      })
+      .then((res) => res.data.accessToken).catch((err) => {
+        console.log('Auth error')
+      });
 
     let user = this.parseJwt(token);
 

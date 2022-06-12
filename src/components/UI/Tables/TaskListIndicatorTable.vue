@@ -2,30 +2,67 @@
 import EmployeeService from "../../../services/employee.service";
 import RequirementService from "../../../services/requirement.service";
 import ReportPeriodService from "../../../services/report.period.service";
+import AdminTaskListService from "../../../services/admin.tasklist.service";
+import ProfileService from "../../../services/profile.service";
+import UserUtil from "../../../utils/user.util";
 
 const employeeService = new EmployeeService();
 const requirementService = new RequirementService();
 const periodService = new ReportPeriodService();
+const adminTaskListService = new AdminTaskListService();
+const profileService = new ProfileService();
 export default {
   name: "TaskListIndicatorTable",
   data() {
-    return {}
+    return {
+      activePeriod: {},
+      requirements: [],
+
+      employee: {},
+    }
   },
   methods: {
     getRequirements() {
+      if (UserUtil.isUserRoot()) {
+        adminTaskListService.getAdminTaskListByEmployeeIdAndPeriodId(this.$route.params.employeeId, this.activePeriod.id).then(response => {
+          this.requirements = response;
+          this.getEmployee();
+        });
+      } else {
+        profileService.getTasks(this.activePeriod.id).then(response => {
+          this.requirements = response;
+          this.getEmployee();
+        });
+      }
+    },
+    getActivePeriod() {
+      periodService.getPeriodActive().then(response => {
+        this.activePeriod = response;
+      }).then(() => {
+        this.getRequirements();
+      });
+    },
+    getEmployee() {
+      profileService.getProfileByUserId(this.$route.params.employeeId).then(response => {
+        this.employee = response;
+      });
+    },
 
+  },
+  computed: {
+    getEmployeeName() {
+      return `${this.employee.name?.lastName} ${this.employee.name?.firstName} ${this.employee.name?.middleName} task list`;
     }
   },
-  computed: {},
   created() {
-
+    this.getActivePeriod();
   }
 }
 </script>
 
 <template>
   <div class="--requirement-table">
-    <div class="--title">{{ }}</div>
+    <div class="--title" v-html="getEmployeeName"></div>
     <table>
       <thead>
       <tr class="--row --table-head">
@@ -36,11 +73,11 @@ export default {
       </tr>
       </thead>
       <tbody>
-      <tr v-for="(employee, index) in employeeItems" :key="employee.id" class="--row">
+      <tr v-for="(requirement, index) in requirements" :key="requirement.requirementId" class="--row">
         <td class="--index-data">{{ index + 1 }}</td>
-        <td class="--indicator-name"></td>
-        <td class="--portion-data"></td>
-        <td class="--grade-data"></td>
+        <td class="--indicator-name">{{ requirement.indicatorName }}</td>
+        <td class="--portion-data"> {{ requirement.hasSubmission ? 'Uploaded' : '' }}</td>
+        <td class="--grade-data"> {{ requirement.grade ?? '...' }}/{{ requirement.weight }}</td>
       </tr>
       </tbody>
     </table>
@@ -109,6 +146,7 @@ table {
 
 .--grade-data {
   border: 1px solid #e3e3e3;
+  text-align: center;
 }
 
 .--indicator-name, .--period-data {

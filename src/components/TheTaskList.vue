@@ -7,7 +7,7 @@ export default {
   name: 'TheTaskList',
   components: {TaskListUserTable},
   computed: {},
-  mounted() {
+  beforeCreate() {
     if (!userUtil.isUserRoot()) {
       this.$router.push(`/task/requirements/${userUtil.getUserId()}`);
     }

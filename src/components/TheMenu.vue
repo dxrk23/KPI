@@ -1,10 +1,16 @@
 <script>
 import MenuItem from './UI/Menu/MenuItem.vue';
+import UserUtil from "../utils/user.util";
 
 export default {
   name: 'TheMenu',
-  components: { MenuItem },
+  components: {MenuItem},
   methods: {},
+  computed: {
+    isUserRoot() {
+      return UserUtil.isUserRoot();
+    }
+  }
 };
 </script>
 
@@ -12,9 +18,9 @@ export default {
   <aside class="--menu-main">
     <menu-item icon="home" label="Home" @click="$router.push('/')"></menu-item>
     <menu-item icon="list_alt" label="Task list" @click="$router.push('/task')"></menu-item>
-    <menu-item icon="subject" label="Indicators" @click="$router.push('/indicators')"></menu-item>
+    <menu-item v-if="isUserRoot" icon="subject" label="Indicators" @click="$router.push('/indicators')"></menu-item>
     <menu-item icon="groups" label="Specialities" @click="$router.push('/speciality')"></menu-item>
-    <menu-item icon="person" label="Staff" @click="$router.push('/staff')"></menu-item>
+    <menu-item v-if="isUserRoot" icon="person" label="Staff" @click="$router.push('/staff')"></menu-item>
   </aside>
 </template>
 
