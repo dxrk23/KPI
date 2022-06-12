@@ -15,6 +15,7 @@ import StaffRouter from "../components/UI/Routers/StaffRouter.vue";
 import TheTaskList from "../components/TheTaskList.vue";
 import TaskListIndicatorTable from "../components/UI/Tables/TaskListIndicatorTable.vue";
 import UpdateIndicator from "../components/UI/Updater/UpdateIndicator.vue";
+import TheStaff from "../components/TheStaff.vue";
 
 
 const routes = [
@@ -90,7 +91,12 @@ const routes = [
       {
         path: '/staff',
         component: StaffRouter,
-        children: []
+        children: [
+          {
+            path: '',
+            component: TheStaff
+          }
+        ]
       }
     ],
   },
