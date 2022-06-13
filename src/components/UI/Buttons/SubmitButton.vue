@@ -20,7 +20,7 @@ export default {
   font-family: 'Arial', serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   line-height: 23px;
 
   color: #ffffff;
