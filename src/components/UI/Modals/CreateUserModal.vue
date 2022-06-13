@@ -8,26 +8,31 @@
         <div class="--profile-image-container"></div>
         <div class="--profile-image-upload-container">
           <span class="--button-upload">
-            <input accept=".png" type="file" />
-            <input class="--button-remove" type="button" value="x" />
+            <input accept=".png" type="file"/>
+            <input class="--button-remove" type="button" value="x"/>
             Choose image
           </span>
         </div>
       </div>
 
+      <div class="--surname-block">
+        <span class="--label">Surname:</span>
+        <input v-model="surname" class="--input" placeholder="Surname" type="text"/>
+      </div>
+
       <div class="--name-block">
         <span class="--label">Name:</span>
-        <input class="--input" placeholder="Name" type="text" />
+        <input v-model="firstName" class="--input" placeholder="Name" type="text"/>
       </div>
 
       <div class="--surname-block">
-        <span class="--label">Surname:</span>
-        <input class="--input" placeholder="Surname" type="text" />
+        <span class="--label">Middlename:</span>
+        <input v-model="middleName" class="--input" placeholder="Middlename" type="text"/>
       </div>
 
       <div class="--email-block">
         <span class="--label">Email:</span>
-        <input class="--input" placeholder="Email" type="email" />
+        <input v-model="email" class="--input" placeholder="Email" type="email"/>
       </div>
 
       <div class="--role-block">
@@ -36,7 +41,7 @@
       </div>
 
       <div class="--button-block">
-        <submit-button class="--button">Create user</submit-button>
+        <submit-button class="--button" @click="createUser">Create user</submit-button>
       </div>
     </form>
   </div>
@@ -47,10 +52,12 @@ import Dropdown from '../Dropdowns/Dropdown.vue';
 import SubmitButton from "../Buttons/SubmitButton.vue";
 
 
+import EmployeeService from "../../../services/employee.service";
 import PositionService from '../../../services/position.service';
-import { mapActions } from 'vuex';
+import {mapActions} from 'vuex';
 
 const positionService = new PositionService();
+const employeeService = new EmployeeService();
 
 // TODO - Implement adding user
 
@@ -62,9 +69,10 @@ export default {
       positionsItems: [],
 
       image: null,
-      name: '',
+      firstName: '',
       surname: '',
       email: '',
+      middleName: '',
       selectedPosition: null,
     };
   },
@@ -75,7 +83,15 @@ export default {
     selectPosition(position) {
       this.selectedPosition = position.id;
     },
-    createUser() {},
+    createUser() {
+      employeeService.createEmployee({
+        email: this.email,
+        firstName: this.firstName,
+        lastName: this.surname,
+        positionId: this.selectedPosition,
+        middleName: this.middleName,
+      })
+    },
   },
   mounted() {
     positionService.getPositionsPage(1, 10).then((positions) => {
@@ -87,8 +103,7 @@ export default {
 
 <style scoped>
 .--modal-main {
-  width: 440px;
-  height: 730px;
+  width: 110%;
 
   background-color: #fff;
   display: block;
@@ -133,7 +148,7 @@ export default {
   justify-content: center;
   align-items: start;
   margin-left: 39px;
-  margin-top: 31px;
+  margin-top: 8px;
 }
 
 .--surname-block,
@@ -153,6 +168,7 @@ export default {
   justify-content: center;
   align-items: center;
   margin-top: 31px;
+  margin-bottom: 30px;
 }
 
 .--label {

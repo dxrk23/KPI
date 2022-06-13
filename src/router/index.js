@@ -16,6 +16,7 @@ import TheTaskList from "../components/TheTaskList.vue";
 import TaskListIndicatorTable from "../components/UI/Tables/TaskListIndicatorTable.vue";
 import UpdateIndicator from "../components/UI/Updater/UpdateIndicator.vue";
 import TheStaff from "../components/TheStaff.vue";
+import ManageKPI from "../components/UI/KPI/ManageKPI.vue";
 
 
 const routes = [
@@ -65,6 +66,10 @@ const routes = [
           {
             path: 'requirements/:employeeId',
             component: TaskListIndicatorTable
+          },
+          {
+            path: 'upload/:requirementId/:employeeId',
+            component: ManageKPI
           }
         ]
       },

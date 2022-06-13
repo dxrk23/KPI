@@ -91,8 +91,6 @@ export default {
         note: this.note,
       };
 
-      console.log(requirement);
-
       requirementService.createRequirement(requirement).then(() => {
         this.$router.push('/speciality/indicators/' + this.speciality.id);
       });

@@ -9,11 +9,10 @@ class FileService {
     return await axios
       .post(
         `${HOST}/api/file`,
-        {
-          file,
-        },
+        file,
         {
           headers: {
+            "content-type": "multipart/form-data",
             Authorization: `Bearer ${TOKEN}`,
           },
         }
@@ -24,11 +23,14 @@ class FileService {
   async downloadFile(id) {
     return await axios
       .get(`${HOST}/api/file/${id}`, {
+        responseType: 'blob',
         headers: {
           Authorization: `Bearer ${TOKEN}`,
         },
       })
-      .then((res) => res.data);
+      .then((res) => {
+        return res
+      });
   }
 }
 

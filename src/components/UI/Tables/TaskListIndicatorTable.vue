@@ -47,6 +47,9 @@ export default {
         this.employee = response;
       });
     },
+    goToUploadRequirement(requirementId) {
+      this.$router.push(`/task/upload/${requirementId}/${this.employee.id}`);
+    }
 
   },
   computed: {
@@ -75,7 +78,9 @@ export default {
       <tbody>
       <tr v-for="(requirement, index) in requirements" :key="requirement.requirementId" class="--row">
         <td class="--index-data">{{ index + 1 }}</td>
-        <td class="--indicator-name">{{ requirement.indicatorName }}</td>
+        <td class="--indicator-name" @click="goToUploadRequirement(requirement.requirementId)">
+          {{ requirement.indicatorName }}
+        </td>
         <td class="--portion-data"> {{ requirement.hasSubmission ? 'Uploaded' : '' }}</td>
         <td class="--grade-data"> {{ requirement.grade ?? '...' }}/{{ requirement.weight }}</td>
       </tr>
