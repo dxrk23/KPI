@@ -38,10 +38,8 @@ class EmployeeService {
     }
 
     async importEmployee(file) {
-        let formData = new FormData();
-        formData.append('file', file);
         return await axios
-            .post(`${HOST}/api/employee/import`, formData, {
+            .post(`${HOST}/api/employee/import`, file, {
                 headers: {
                     Authorization: `Bearer ${TOKEN}`,
                     'Content-Type': 'multipart/form-data',

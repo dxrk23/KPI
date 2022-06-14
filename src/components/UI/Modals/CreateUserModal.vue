@@ -1,38 +1,28 @@
 <template>
   <div class="--modal-main">
     <div class="--close" @click="closeModal()">X</div>
-    <div class="--upload">Upload from csv file</div>
+    <div class="--upload" @click="switchMode()">{{ (mode === 'csv' ? 'Создать вручную' : 'Загрузить CSV') }}</div>
 
-    <form>
-      <div class="--profile-image-block">
-        <div class="--profile-image-container"></div>
-        <div class="--profile-image-upload-container">
-          <span class="--button-upload">
-            <input accept=".png" type="file"/>
-            <input class="--button-remove" type="button" value="x"/>
-            Choose image
-          </span>
-        </div>
-      </div>
+    <form v-if="mode === 'single'">
 
       <div class="--surname-block">
-        <span class="--label">Surname:</span>
-        <input v-model="surname" class="--input" placeholder="Surname" type="text"/>
+        <span class="--label">Фамилия:</span>
+        <input v-model="surname" class="--input" placeholder="Фамилия" type="text" />
       </div>
 
       <div class="--name-block">
-        <span class="--label">Name:</span>
-        <input v-model="firstName" class="--input" placeholder="Name" type="text"/>
+        <span class="--label">Имя:</span>
+        <input v-model="firstName" class="--input" placeholder="Имя" type="text" />
       </div>
 
       <div class="--surname-block">
-        <span class="--label">Middlename:</span>
-        <input v-model="middleName" class="--input" placeholder="Middlename" type="text"/>
+        <span class="--label">Отчество:</span>
+        <input v-model="middleName" class="--input" placeholder="Отчество" type="text" />
       </div>
 
       <div class="--email-block">
         <span class="--label">Email:</span>
-        <input v-model="email" class="--input" placeholder="Email" type="email"/>
+        <input v-model="email" class="--input" placeholder="Email" type="email" />
       </div>
 
       <div class="--role-block">
@@ -41,9 +31,20 @@
       </div>
 
       <div class="--button-block">
-        <submit-button class="--button" @click="createUser">Create user</submit-button>
+        <submit-button class="--button" @click="createUser">Создать пользователя</submit-button>
       </div>
     </form>
+
+    <div class="--file-form" v-if="mode === 'csv'">
+      <input ref="fileInput" id="fileInput" type="file" v-on:change="changeFile()" style="display: none;"/>
+      <div class="--file-input">
+        <label class="--csv-button" for="fileInput">Выбрать CSV файл</label>
+      </div>
+
+      <div class="--button-block">
+        <submit-button class="--button" @click="uploadCsv">Создать пользователя</submit-button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -54,12 +55,12 @@ import SubmitButton from "../Buttons/SubmitButton.vue";
 
 import EmployeeService from "../../../services/employee.service";
 import PositionService from '../../../services/position.service';
-import {mapActions} from 'vuex';
+import { mapActions } from 'vuex';
 
 const positionService = new PositionService();
 const employeeService = new EmployeeService();
 
-// TODO - Implement adding user
+const UploadMode = { Csv: 'csv', SingleEmployee: 'single' };
 
 export default {
   name: 'CreateUserModal',
@@ -67,13 +68,14 @@ export default {
   data() {
     return {
       positionsItems: [],
-
       image: null,
       firstName: '',
       surname: '',
       email: '',
       middleName: '',
       selectedPosition: null,
+      csvFile: null,
+      mode: UploadMode.SingleEmployee,
     };
   },
   methods: {
@@ -92,6 +94,29 @@ export default {
         middleName: this.middleName,
       })
     },
+    changeFile() {
+      this.csvFile = this.$refs.fileInput.files[0];
+    },
+
+    uploadCsv() {
+      console.log(this.csvFile);
+      let form = new FormData();
+      form.append('file', this.csvFile);
+
+      employeeService.importEmployee(form).then((res) => {
+        this.$swal('Сотрудники успешно импортированы');
+      }).catch(e => {
+        this.$swal({
+          icon: 'error',
+          title: 'Ошибка',
+          text: 'Что-то пошло не так во время импорта сотрудников',
+        });
+      });
+    },
+
+    switchMode() {
+      this.mode == UploadMode.Csv ? this.mode = UploadMode.SingleEmployee : this.mode = UploadMode.Csv;
+    },
   },
   mounted() {
     positionService.getPositionsPage(1, 10).then((positions) => {
@@ -102,6 +127,26 @@ export default {
 </script>
 
 <style scoped>
+
+.--file-form {
+  padding: 45px;
+}
+
+.--file-input {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.--csv-button {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.--csv-button:hover {
+  background-color: rgb(234, 245, 245);
+}
+
 .--modal-main {
   width: 110%;
 
