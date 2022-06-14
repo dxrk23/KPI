@@ -64,7 +64,7 @@ export default {
 <template>
   <div class="--speciality-main">
     <div class="--title">
-      <span>Specialties</span>
+      <span>Должности</span>
       <submit-button v-if="isUserRoot" class="--submit-button" @click="addPosition">Добавить позицию</submit-button>
     </div>
     <div class="--content">

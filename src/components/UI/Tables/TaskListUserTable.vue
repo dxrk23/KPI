@@ -66,9 +66,9 @@ export default {
       <thead>
         <tr class="--row --table-head">
           <th class="--number-col">№</th>
-          <th class="--name-table">Username</th>
-          <th class="--uploaded-column">Uploaded</th>
-          <th class="--period-data">Grade</th>
+          <th class="--name-table">ФИО</th>
+          <th class="--uploaded-column">Статус загрузки</th>
+          <th class="--period-data">Оценка</th>
         </tr>
       </thead>
       <tbody>

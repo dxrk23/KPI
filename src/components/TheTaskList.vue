@@ -17,7 +17,7 @@ export default {
 
 <template>
   <div class="--task-list-main">
-    <div class="--task-list-title">Key Performance Indicators (KPIs)</div>
+    <div class="--task-list-title">Задачи</div>
     <div class="--task-list-content">
       <task-list-user-table>
 

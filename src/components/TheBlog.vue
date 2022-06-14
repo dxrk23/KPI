@@ -61,7 +61,7 @@ export default {
 
 <template>
   <div class="--blog-main">
-    <div class="--blog-title">Classifieds Site</div>
+    <div class="--blog-title">Главная</div>
     <blog-post v-for="post in postItems" :post="{ ...post }" @onPostDelete="onPostDelete(post)" />
     <button v-if="!isThisLastPage" class="--load-button" @click="loadPosts()">Load More</button>
   </div>
