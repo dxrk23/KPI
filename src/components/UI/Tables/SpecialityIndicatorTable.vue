@@ -47,9 +47,9 @@ export default {
       <thead>
       <tr class="--row --table-head">
         <th class="--number-col">№</th>
-        <th>Name of KPI</th>
-        <th class="--number-col">Portion</th>
-        <th>Period</th>
+        <th>Индикатор</th>
+        <th class="--number-col">Вес</th>
+        <th>Период</th>
       </tr>
       </thead>
       <tbody>

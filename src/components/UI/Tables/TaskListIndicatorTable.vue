@@ -85,7 +85,7 @@ export default {
           <td class="--indicator-name" @click="goToUploadRequirement(requirement.requirementId)">
             {{ requirement.indicatorName }}
           </td>
-          <td class="--portion-data">{{ requirement.hasSubmission ? 'Uploaded' : '' }}</td>
+          <td class="--portion-data">{{ requirement.hasSubmission ? 'Загружено' : '' }}</td>
           <td class="--grade-data">{{ requirement.grade ?? '...' }}/{{ requirement.weight }}</td>
         </tr>
       </tbody>
