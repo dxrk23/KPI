@@ -290,7 +290,9 @@ export default {
 }
 
 .--dropdown-main {
-  width: 90%;
+  width: 100%;
+
+  margin: auto;
 
   display: flex;
   justify-content: center;
