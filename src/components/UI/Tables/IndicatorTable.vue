@@ -34,7 +34,7 @@ export default {
       <thead>
         <tr class="--row --table-head">
           <th class="--number-col">№</th>
-          <th>Name of KPI</th>
+          <th>Индикатор</th>
         </tr>
       </thead>
       <tbody>

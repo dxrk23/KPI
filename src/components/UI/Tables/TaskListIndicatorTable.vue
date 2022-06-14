@@ -74,9 +74,9 @@ export default {
       <thead>
         <tr class="--row --table-head">
           <th class="--number-col">№</th>
-          <th class="--name-table">Name of KPI</th>
-          <th class="--uploaded-column">Uploaded</th>
-          <th class="--period-data">Portion</th>
+          <th class="--name-table">Индикатор</th>
+          <th class="--uploaded-column">Статус загрузки</th>
+          <th class="--period-data">Вес</th>
         </tr>
       </thead>
       <tbody>

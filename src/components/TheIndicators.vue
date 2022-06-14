@@ -52,7 +52,7 @@ export default {
 
 <template>
   <div class="--indicators-main">
-    <div class="--title">Indicators</div>
+    <div class="--title">Индикаторы</div>
     <div class="--content">
       <indicator-table
         :page="+indicators.currentPage"
