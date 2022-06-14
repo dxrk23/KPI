@@ -1,10 +1,10 @@
 <script>
-import EmployeeService from "../../../services/employee.service";
-import RequirementService from "../../../services/requirement.service";
-import ReportPeriodService from "../../../services/report.period.service";
-import AdminTaskListService from "../../../services/admin.tasklist.service";
-import ProfileService from "../../../services/profile.service";
-import UserUtil from "../../../utils/user.util";
+import EmployeeService from '../../../services/employee.service';
+import RequirementService from '../../../services/requirement.service';
+import ReportPeriodService from '../../../services/report.period.service';
+import AdminTaskListService from '../../../services/admin.tasklist.service';
+import ProfileService from '../../../services/profile.service';
+import UserUtil from '../../../utils/user.util';
 
 const employeeService = new EmployeeService();
 const requirementService = new RequirementService();
@@ -12,55 +12,59 @@ const periodService = new ReportPeriodService();
 const adminTaskListService = new AdminTaskListService();
 const profileService = new ProfileService();
 export default {
-  name: "TaskListIndicatorTable",
+  name: 'TaskListIndicatorTable',
   data() {
     return {
       activePeriod: {},
       requirements: [],
 
       employee: {},
-    }
+    };
   },
   methods: {
     getRequirements() {
       if (UserUtil.isUserRoot()) {
-        adminTaskListService.getAdminTaskListByEmployeeIdAndPeriodId(this.$route.params.employeeId, this.activePeriod.id).then(response => {
-          this.requirements = response;
-          this.getEmployee();
-        });
+        adminTaskListService
+          .getAdminTaskListByEmployeeIdAndPeriodId(this.$route.params.employeeId, this.activePeriod.id)
+          .then((response) => {
+            this.requirements = response;
+            this.getEmployee();
+          });
       } else {
-        profileService.getTasks(this.activePeriod.id).then(response => {
+        profileService.getTasks(this.activePeriod.id).then((response) => {
           this.requirements = response;
           this.getEmployee();
         });
       }
     },
     getActivePeriod() {
-      periodService.getPeriodActive().then(response => {
-        this.activePeriod = response;
-      }).then(() => {
-        this.getRequirements();
-      });
+      periodService
+        .getPeriodActive()
+        .then((response) => {
+          this.activePeriod = response;
+        })
+        .then(() => {
+          this.getRequirements();
+        });
     },
     getEmployee() {
-      profileService.getProfileByUserId(this.$route.params.employeeId).then(response => {
+      profileService.getProfileByUserId(this.$route.params.employeeId).then((response) => {
         this.employee = response;
       });
     },
     goToUploadRequirement(requirementId) {
       this.$router.push(`/task/upload/${requirementId}/${this.employee.id}`);
-    }
-
+    },
   },
   computed: {
     getEmployeeName() {
-      return `${this.employee.name?.lastName} ${this.employee.name?.firstName} ${this.employee.name?.middleName} task list`;
-    }
+      return `${this.employee.name?.lastName} ${this.employee.name?.firstName} ${this.employee.name?.middleName} Task List`;
+    },
   },
   created() {
     this.getActivePeriod();
-  }
-}
+  },
+};
 </script>
 
 <template>
@@ -68,31 +72,29 @@ export default {
     <div class="--title" v-html="getEmployeeName"></div>
     <table>
       <thead>
-      <tr class="--row --table-head">
-        <th class="--number-col">№</th>
-        <th class="--name-table">Name of KPI</th>
-        <th class="--uploaded-column">Uploaded</th>
-        <th class="--period-data">Portion</th>
-      </tr>
+        <tr class="--row --table-head">
+          <th class="--number-col">№</th>
+          <th class="--name-table">Name of KPI</th>
+          <th class="--uploaded-column">Uploaded</th>
+          <th class="--period-data">Portion</th>
+        </tr>
       </thead>
       <tbody>
-      <tr v-for="(requirement, index) in requirements" :key="requirement.requirementId" class="--row">
-        <td class="--index-data">{{ index + 1 }}</td>
-        <td class="--indicator-name" @click="goToUploadRequirement(requirement.requirementId)">
-          {{ requirement.indicatorName }}
-        </td>
-        <td class="--portion-data"> {{ requirement.hasSubmission ? 'Uploaded' : '' }}</td>
-        <td class="--grade-data"> {{ requirement.grade ?? '...' }}/{{ requirement.weight }}</td>
-      </tr>
+        <tr v-for="(requirement, index) in requirements" :key="requirement.requirementId" class="--row">
+          <td class="--index-data">{{ index + 1 }}</td>
+          <td class="--indicator-name" @click="goToUploadRequirement(requirement.requirementId)">
+            {{ requirement.indicatorName }}
+          </td>
+          <td class="--portion-data">{{ requirement.hasSubmission ? 'Uploaded' : '' }}</td>
+          <td class="--grade-data">{{ requirement.grade ?? '...' }}/{{ requirement.weight }}</td>
+        </tr>
       </tbody>
     </table>
   </div>
 </template>
 
 <style scoped>
-
 .--title {
-
   font-family: 'Inter', serif;
   font-style: normal;
   font-weight: 700;
@@ -106,7 +108,6 @@ export default {
   font-feature-settings: 'tnum' on, 'lnum' on;
 
   color: #000000;
-
 }
 
 .--requirement-table {
@@ -143,7 +144,7 @@ table {
 }
 
 .--table-head {
-  background: #4E4E53;
+  background: #4e4e53;
   color: white;
 
   height: 50px;
@@ -154,7 +155,8 @@ table {
   text-align: center;
 }
 
-.--indicator-name, .--period-data {
+.--indicator-name,
+.--period-data {
   text-align: start;
   border: 1px solid #e3e3e3;
 }
@@ -173,11 +175,9 @@ table {
   text-align: center;
 }
 
-
 .--portion-data {
   text-align: center;
   border: 1px solid #e3e3e3;
-
 }
 
 .--uploaded-column {

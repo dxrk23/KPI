@@ -14,7 +14,7 @@ export default {
   components: { ThePagination, ThePosition, SubmitButton },
   data() {
     return {
-      positions: [],
+      positions: {},
       positionItems: [],
     };
   },
@@ -24,6 +24,12 @@ export default {
     },
   },
   methods: {
+    changePage(pageNumber) {
+      positionService.getPositionsPage(pageNumber).then((response) => {
+        this.positions = response;
+        this.positionItems = response.items;
+      });
+    },
     getInitialPositions() {
       positionService.getPositionsPage().then((response) => {
         this.positions = response;
@@ -73,8 +79,12 @@ export default {
         v-for="(position, index) in positionItems"
         :key="position.id"
         :position="{ index, ...position }"
+        :page="positions.currentPage"
       ></the-position>
-      <the-pagination :pages="{ totalPages: positions.totalPages, currentPage: positions.currentPage }" />
+      <the-pagination
+        @onPageChange="changePage"
+        :pages="{ totalPages: positions.totalPages, currentPage: positions.currentPage }"
+      />
     </div>
   </div>
 </template>

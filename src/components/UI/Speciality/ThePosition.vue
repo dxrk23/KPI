@@ -2,7 +2,7 @@
   <div class="--wrapper">
     <div class="--main-position">
       <div class="--title">
-        <span>{{ position.index + 1 }}. </span>
+        <span>{{ (page - 1) * 10 + position.index + 1 }}. </span>
         <span
           :contenteditable="isUserRoot"
           class="--title-input"
@@ -81,6 +81,10 @@ export default {
   props: {
     position: {
       type: Object,
+      required: true,
+    },
+    page: {
+      type: Number,
       required: true,
     },
   },

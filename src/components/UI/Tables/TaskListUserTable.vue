@@ -81,7 +81,7 @@ export default {
       </tbody>
     </table>
     <the-pagination
-      @onPageChage="changePage"
+      @onPageChange="changePage"
       :pages="{ totalPages: employees.totalPages, currentPage: employees.currentPage }"
     />
   </div>
