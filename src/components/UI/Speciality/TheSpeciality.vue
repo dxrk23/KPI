@@ -2,8 +2,13 @@
   <div class="--main-speciality">
     <div class="--title">
       <span> {{ speciality.index + 1 }}. </span>
-      <span :contenteditable="isUserRoot" class="--title-input" spellcheck="false" v-html="speciality.name"
-            @input="updateSpecialityName($event.target.innerHTML)"></span>
+      <span
+        :contenteditable="isUserRoot"
+        class="--title-input"
+        spellcheck="false"
+        v-html="speciality.name"
+        @input="updateSpecialityName($event.target.innerHTML)"
+      ></span>
     </div>
     <div class="--modification-buttons">
       <div v-if="isUserRoot" class="--delete" @click="deleteSpeciality">
@@ -21,43 +26,45 @@
 </template>
 
 <script>
-import SubmitButton from "../Buttons/SubmitButton.vue";
-import SpecialityService from "../../../services/speciality.service";
-import ProfileService from "../../../services/profile.service";
-import UserUtil from "../../../utils/user.util";
-import ReportPeriodService from "../../../services/report.period.service";
+import SubmitButton from '../Buttons/SubmitButton.vue';
+import SpecialityService from '../../../services/speciality.service';
+import ProfileService from '../../../services/profile.service';
+import UserUtil from '../../../utils/user.util';
+import ReportPeriodService from '../../../services/report.period.service';
 
 const specialityService = new SpecialityService();
 const profileService = new ProfileService();
 const reportPeriodService = new ReportPeriodService();
 export default {
-  name: "TheSpeciality",
-  components: {SubmitButton},
+  name: 'TheSpeciality',
+  components: { SubmitButton },
   data() {
     return {
       specialityName: '',
-      period: {}
-    }
+      period: {},
+    };
   },
   props: {
     speciality: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     isUserRoot() {
       return UserUtil.isUserRoot();
-    }
+    },
   },
   methods: {
     chooseSpecialty() {
-      profileService.setSpecialty({
-        specialtyId: this.speciality.id,
-        periodId: this.period.id
-      }).then(() => {
-        this.$router.go();
-      });
+      profileService
+        .setSpecialty({
+          specialtyId: this.speciality.id,
+          periodId: this.period.id,
+        })
+        .then(() => {
+          this.$router.go();
+        });
     },
     deleteSpeciality() {
       this.$emit('onSpecialityDelete', this.speciality.id);
@@ -69,31 +76,31 @@ export default {
       specialityService.updateSpeciality(this.speciality.id, {
         name: this.specialityName,
         description: this.speciality.description,
-        positionId: this.speciality.positionId
+        positionId: this.speciality.positionId,
       });
     },
     goToIndicator() {
-      this.$router.push('/speciality/indicators/' + this.speciality.id)
+      this.$router.push('/speciality/indicators/' + this.speciality.id);
     },
     getActivePeriodId() {
-      reportPeriodService.getPeriodActive().then(period => {
+      reportPeriodService.getPeriodActive().then((period) => {
         this.period = period;
       });
-    }
+    },
   },
   mounted() {
     this.specialityName = this.speciality.name;
   },
   created() {
     this.getActivePeriodId();
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
 .--main-speciality {
   width: 85%;
-  height: 60px;
+  min-height: 60px;
 
   border: 1px solid #e6e6e6;
 
@@ -104,14 +111,18 @@ export default {
 
   position: relative;
 
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 
   margin-bottom: 10px;
+
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
 .--title {
   margin-left: 20px;
+  width: 45%;
 
   font-family: 'Arial', serif;
   font-style: normal;
@@ -123,6 +134,8 @@ export default {
 
 .--title-input {
   outline: none;
+  width: 100%;
+  word-break: break-word;
 }
 
 .--modification-buttons {
@@ -133,13 +146,16 @@ export default {
   margin-left: 30px;
 }
 
-.--delete, .--update {
+.--delete,
+.--update {
   display: flex;
   align-items: center;
   cursor: pointer;
 }
 
-.--delete:hover, .--update:hover, .--submit-speciality:hover {
+.--delete:hover,
+.--update:hover,
+.--submit-speciality:hover {
   opacity: 0.8;
 }
 
@@ -170,7 +186,6 @@ export default {
 .--add-speciality-button {
   width: 100%;
   height: 40px;
-
 
   color: black;
   background: rgba(51, 168, 213, 0.47);

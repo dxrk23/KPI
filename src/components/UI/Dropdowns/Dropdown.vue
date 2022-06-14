@@ -1,6 +1,5 @@
 <script>
 export default {
-  // TODO - Make infinity scroll for select options
   name: 'Dropdown',
   data() {
     return {
@@ -23,6 +22,19 @@ export default {
     toggle() {
       this.isOpen = !this.isOpen;
     },
+    loadMore() {
+      this.$emit('loadMore');
+    },
+  },
+  watch: {},
+  mounted() {
+    let loadMore = this.loadMore;
+
+    document.querySelector('.--dropdown-menu').addEventListener('scroll', function () {
+      if (this.scrollHeight - this.scrollTop === this.clientHeight) {
+        loadMore();
+      }
+    });
   },
 };
 </script>
@@ -31,7 +43,7 @@ export default {
   <div class="--dropdown">
     <span>{{ selectedItem ? selectedItem.name : 'Select item' }}</span>
     <span class="material-icons --dropdown-arrow" @click="toggle()">arrow_drop_down</span>
-    <div v-if="isOpen" class="--dropdown-menu">
+    <div v-show="isOpen" class="--dropdown-menu menu">
       <div v-for="select in selects" class="--dropdown-menu-item">
         <div class="--dropdown-menu-item-text" @click="selectItem(select)">{{ select.name }}</div>
       </div>

@@ -1,10 +1,9 @@
 <template>
   <div class="--modal-main">
     <div class="--close" @click="closeModal()">X</div>
-    <div class="--upload" @click="switchMode()">{{ (mode === 'csv' ? 'Создать вручную' : 'Загрузить CSV') }}</div>
+    <div class="--upload" @click="switchMode()">{{ mode === 'csv' ? 'Создать вручную' : 'Загрузить CSV' }}</div>
 
     <form v-if="mode === 'single'">
-
       <div class="--surname-block">
         <span class="--label">Фамилия:</span>
         <input v-model="surname" class="--input" placeholder="Фамилия" type="text" />
@@ -27,7 +26,12 @@
 
       <div class="--role-block">
         <span class="--label">Role:</span>
-        <dropdown :selects="positionsItems" class="--dropdown" @select="selectPosition"></dropdown>
+        <dropdown
+          @loadMore="loadMorePositions"
+          :selects="getPositionItems"
+          class="--dropdown"
+          @select="selectPosition"
+        ></dropdown>
       </div>
 
       <div class="--button-block">
@@ -36,7 +40,7 @@
     </form>
 
     <div class="--file-form" v-if="mode === 'csv'">
-      <input ref="fileInput" id="fileInput" type="file" v-on:change="changeFile()" style="display: none;"/>
+      <input ref="fileInput" id="fileInput" type="file" v-on:change="changeFile()" style="display: none" />
       <div class="--file-input">
         <label class="--csv-button" for="fileInput">Выбрать CSV файл</label>
       </div>
@@ -50,10 +54,9 @@
 
 <script>
 import Dropdown from '../Dropdowns/Dropdown.vue';
-import SubmitButton from "../Buttons/SubmitButton.vue";
+import SubmitButton from '../Buttons/SubmitButton.vue';
 
-
-import EmployeeService from "../../../services/employee.service";
+import EmployeeService from '../../../services/employee.service';
 import PositionService from '../../../services/position.service';
 import { mapActions } from 'vuex';
 
@@ -67,7 +70,7 @@ export default {
   components: { Dropdown, SubmitButton },
   data() {
     return {
-      positionsItems: [],
+      positions: {},
       image: null,
       firstName: '',
       surname: '',
@@ -77,6 +80,11 @@ export default {
       csvFile: null,
       mode: UploadMode.SingleEmployee,
     };
+  },
+  computed: {
+    getPositionItems() {
+      return this.positions.items ?? [];
+    },
   },
   methods: {
     ...mapActions({
@@ -92,7 +100,19 @@ export default {
         lastName: this.surname,
         positionId: this.selectedPosition,
         middleName: this.middleName,
-      })
+      });
+    },
+    loadMorePositions() {
+      let pageNumber =
+        this.positions.currentPage + 1 <= this.positions.totalPages ? this.positions.currentPage + 1 : null;
+      if (!pageNumber) return;
+
+      positionService.getPositionsPage(pageNumber, 10).then((res) => {
+        this.positions.currentPage = res.currentPage;
+        res.items.forEach((item) => {
+          this.positions.items.push(item);
+        });
+      });
     },
     changeFile() {
       this.csvFile = this.$refs.fileInput.files[0];
@@ -103,31 +123,36 @@ export default {
       let form = new FormData();
       form.append('file', this.csvFile);
 
-      employeeService.importEmployee(form).then((res) => {
-        this.$swal('Сотрудники успешно импортированы');
-      }).catch(e => {
-        this.$swal({
-          icon: 'error',
-          title: 'Ошибка',
-          text: 'Что-то пошло не так во время импорта сотрудников',
+      employeeService
+        .importEmployee(form)
+        .then((res) => {
+          this.$swal('Сотрудники успешно импортированы');
+        })
+        .catch((e) => {
+          this.$swal({
+            icon: 'error',
+            title: 'Ошибка',
+            text: 'Что-то пошло не так во время импорта сотрудников',
+          });
         });
+    },
+    loadInitialPosition() {
+      positionService.getPositionsPage(1, 10).then((positions) => {
+        this.positions = positions;
       });
     },
 
     switchMode() {
-      this.mode == UploadMode.Csv ? this.mode = UploadMode.SingleEmployee : this.mode = UploadMode.Csv;
+      this.mode === UploadMode.Csv ? (this.mode = UploadMode.SingleEmployee) : (this.mode = UploadMode.Csv);
     },
   },
-  mounted() {
-    positionService.getPositionsPage(1, 10).then((positions) => {
-      this.positionsItems = positions.items;
-    });
+  created() {
+    this.loadInitialPosition();
   },
 };
 </script>
 
 <style scoped>
-
 .--file-form {
   padding: 45px;
 }

@@ -35,10 +35,17 @@ export default {
       selectedIndicator: {},
 
       note: '',
+
+      filter: '',
     };
   },
 
   methods: {
+    filterIndicators() {
+      indicatorService.getIndicators(1, 10, this.filter).then((response) => {
+        this.indicators = response;
+      });
+    },
     loadInitialData() {
       specialityService.getSpecialitiesById(this.$route.params.specialityId).then((res) => {
         this.speciality = res;
@@ -85,6 +92,18 @@ export default {
         this.indicators = res;
       });
     },
+    loadMoreIndicators() {
+      let pageNumber =
+        this.indicators.currentPage + 1 <= this.indicators.totalPages ? this.indicators.currentPage + 1 : null;
+      if (!pageNumber) return;
+
+      indicatorService.getIndicators(pageNumber, 10, this.filter).then((res) => {
+        this.indicators.currentPage = res.currentPage;
+        res.items.forEach((item) => {
+          this.indicators.items.push(item);
+        });
+      });
+    },
     updateNote(str) {
       this.note = str;
     },
@@ -129,8 +148,13 @@ export default {
 
       <div class="--indicator-selector-main">
         <div class="--indicator-selector-title">Выбрать индикатор</div>
+        <input type="text" class="--indicator-search" placeholder="Фильтр" @input="filterIndicators" v-model="filter" />
         <div class="--indicator-selector-dropdown">
-          <indicator-dropdown :indicators="indicators" @select="onIndicatorSelect"></indicator-dropdown>
+          <indicator-dropdown
+            @loadMore="loadMoreIndicators"
+            :indicators="indicators"
+            @select="onIndicatorSelect"
+          ></indicator-dropdown>
         </div>
       </div>
 
@@ -201,8 +225,10 @@ export default {
   width: 38%;
   min-height: 50px;
 
-  border: 1px solid black;
-  margin-top: 25px;
+  margin-top: 20px;
+
+  border: 1px solid #ccc;
+  padding: 10px;
 
   font-family: 'Arial', serif;
   font-style: normal;
@@ -211,7 +237,7 @@ export default {
   line-height: 23px;
   color: #000000;
 
-  padding: 10px;
+  outline: none;
 }
 
 .--note-main {
@@ -228,10 +254,30 @@ export default {
   color: #000000;
 }
 
+.--indicator-search {
+  width: 38%;
+  height: 50px;
+
+  margin-top: 20px;
+
+  border: 1px solid #ccc;
+  padding: 10px;
+
+  font-family: 'Arial', serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 23px;
+  color: #000000;
+
+  outline: none;
+}
+
 .--weight-selector-input {
   width: 7%;
   height: 50px;
   margin-top: 20px;
+  border: 1px solid #ccc;
 }
 
 .--indicator-selector-main,

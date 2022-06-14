@@ -27,6 +27,18 @@ export default {
     toggle() {
       this.isOpen = !this.isOpen;
     },
+    loadMore() {
+      this.$emit('loadMore');
+    },
+  },
+  mounted() {
+    let loadMore = this.loadMore;
+
+    document.querySelector('.--dropdown-menu').addEventListener('scroll', function () {
+      if (this.scrollHeight - this.scrollTop === this.clientHeight) {
+        loadMore();
+      }
+    });
   },
 };
 </script>
@@ -35,7 +47,7 @@ export default {
   <div class="--dropdown">
     <span style="font-size: 22px">{{ selectedItem ? selectedItem.name : 'Select item' }}</span>
     <span class="material-icons --dropdown-arrow" @click="toggle()">arrow_drop_down</span>
-    <div v-if="isOpen" class="--dropdown-menu">
+    <div v-show="isOpen" class="--dropdown-menu">
       <div v-for="indicator in getIndicatorItems" class="--dropdown-menu-item">
         <div class="--dropdown-menu-item-text" @click="selectItem(indicator)">
           {{ indicator.name }}
