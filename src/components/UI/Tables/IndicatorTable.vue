@@ -1,17 +1,21 @@
 <script>
-import IndicatorService from "../../../services/indicator.service";
+import IndicatorService from '../../../services/indicator.service';
 
 const indicatorService = new IndicatorService();
 
 // TODO : Make pagination or infinity scroll
 
 export default {
-  name: "IndicatorTable",
+  name: 'IndicatorTable',
   props: {
     indicatorRows: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
+    page: {
+      type: Number,
+      required: true,
+    },
   },
   methods: {
     deleteIndicator(indicator) {
@@ -19,9 +23,9 @@ export default {
     },
     goToUpdateIndicator(indicatorId) {
       this.$router.push('/indicators/update/' + indicatorId);
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <template>
@@ -35,7 +39,7 @@ export default {
       </thead>
       <tbody>
         <tr v-for="(indicator, index) in indicatorRows" :key="indicator.id" class="--table-body-row --row">
-          <td class="--number-cell"> {{ index + 1 }} </td>
+          <td class="--number-cell">{{ (page - 1) * 10 + index + 1 }}</td>
           <td v-html="indicator.name" class="--name-cell"></td>
           <div class="--buttons">
             <div class="--delete">
@@ -52,62 +56,63 @@ export default {
 </template>
 
 <style scoped>
-  .--indicator-table-main {
-    width: 99%;
-  }
+.--indicator-table-main {
+  width: 99%;
+}
 
-  table {
-    width: inherit;
-    height: inherit;
-  }
+table {
+  width: inherit;
+  height: inherit;
+}
 
-  .--row {
-    height: 35px;
-    position: relative;
-  }
+.--row {
+  height: 35px;
+  position: relative;
+}
 
-  .--table-head {
-    background: #4E4E53;
-    color : white;
+.--table-head {
+  background: #4e4e53;
+  color: white;
 
-    height: 50px;
-  }
+  height: 50px;
+}
 
-  .--buttons{
-    position: absolute;
-    display: flex;
-    right: 10px;
-    height: 100%;
-  }
+.--buttons {
+  position: absolute;
+  display: flex;
+  right: 10px;
+  height: 100%;
+}
 
-  .--delete, .--update {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-  }
+.--delete,
+.--update {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
 
-  .--delete:hover, .--update:hover{
-    opacity: 0.8;
-  }
+.--delete:hover,
+.--update:hover {
+  opacity: 0.8;
+}
 
+.--number-col {
+  width: 8%;
+}
 
-  .--number-col {
-    width: 8%;
-  }
+.--table-body-row {
+  height: 60px;
+  border: 1px solid black;
+}
 
-  .--table-body-row {
-    height: 60px;
-    border: 1px solid black;
-  }
+.--number-cell {
+  text-align: center;
+  border: 1px solid #e3e3e3;
+}
 
-  .--number-cell{
-    text-align: center;
-    border: 1px solid #e3e3e3;
-  }
-
-  .--name-cell {
-    text-align: left;
-    padding-left: 20px;
-    border: 1px solid #e3e3e3;
-  }
+.--name-cell {
+  text-align: left;
+  padding-left: 20px;
+  border: 1px solid #e3e3e3;
+}
 </style>

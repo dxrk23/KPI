@@ -6,23 +6,47 @@ const TOKEN = localStorage.getItem('token');
 
 class SubmissionService {
   async getSubmissionByRequirementId(requirementId) {
-    return await axios.get(`${HOST}/api/submission/${requirementId}`, {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      }
-    }).then(res => res.data).catch(error => {
-      if (error.response.status === 404) {
-        return null;
-      }
-    });
+    return await axios
+      .get(`${HOST}/api/submission/${requirementId}`, {
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+        },
+      })
+      .then((res) => res.data)
+      .catch((error) => {
+        if (error.response.status === 404) {
+          return null;
+        }
+      });
+  }
+
+  async getSubmissionByUserIdAndRequirementId(userId, requirementId) {
+    return await axios
+      .get(`${HOST}/api/submission/${userId}/${requirementId}`, {
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+        },
+      })
+      .then((res) => res.data)
+      .catch((error) => {
+        if (error.response.status === 404) {
+          return null;
+        }
+      });
   }
 
   async postSubmission(submission) {
-    return await axios.post(`${HOST}/api/submission`, {...submission}, {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      }
-    }).then(res => res.data);
+    return await axios
+      .post(
+        `${HOST}/api/submission`,
+        { ...submission },
+        {
+          headers: {
+            Authorization: `Bearer ${TOKEN}`,
+          },
+        }
+      )
+      .then((res) => res.data);
   }
 }
 

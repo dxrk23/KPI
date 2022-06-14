@@ -1,12 +1,13 @@
 <script>
 import IndicatorTable from './UI/Tables/IndicatorTable.vue';
 import IndicatorService from '../services/indicator.service';
+import ThePagination from './UI/Pagination/ThePagination.vue';
 
 const indicatorService = new IndicatorService();
 
 export default {
   name: 'TheIndicators',
-  components: { IndicatorTable },
+  components: { ThePagination, IndicatorTable },
   data() {
     return {
       indicators: null,
@@ -24,6 +25,16 @@ export default {
           this.getIndicatorItems();
         });
     },
+    changePage(pageNumber) {
+      indicatorService
+        .getIndicators(pageNumber)
+        .then((res) => {
+          this.indicators = res;
+        })
+        .then(() => {
+          this.getIndicatorItems();
+        });
+    },
     getIndicatorItems() {
       this.indicatorItems = this.indicators.items;
     },
@@ -33,8 +44,8 @@ export default {
       });
     },
   },
-  created() {
-    this.loadInitialIndicators();
+  async created() {
+    await this.loadInitialIndicators();
   },
 };
 </script>
@@ -43,7 +54,15 @@ export default {
   <div class="--indicators-main">
     <div class="--title">Indicators</div>
     <div class="--content">
-      <indicator-table :indicatorRows="indicatorItems" @onIndicatorDelete="deleteIndicator"></indicator-table>
+      <indicator-table
+        :page="indicators.currentPage"
+        :indicatorRows="indicatorItems"
+        @onIndicatorDelete="deleteIndicator"
+      ></indicator-table>
+      <ThePagination
+        @onPageChange="changePage"
+        :pages="{ totalPages: indicators.totalPages, currentPage: indicators.currentPage }"
+      ></ThePagination>
     </div>
   </div>
 </template>

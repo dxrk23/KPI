@@ -46,11 +46,11 @@ export default {
 
 <style scoped>
 .--comment-main {
-  width: 85%;
+  width: 100%;
 
   background: rgba(136, 191, 241, 0.32);
   border-radius: 5px;
-  padding: 15px 0 15px 19px;
+  padding: 15px 19px 15px 19px;
 
   display: flex;
   flex-direction: row;

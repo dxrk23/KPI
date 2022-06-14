@@ -2,14 +2,14 @@
 import TheComment from './TheComment.vue';
 import CommentService from '../../../services/comment.service';
 import PostService from '../../../services/post.service';
-import UserUtil from "../../../utils/user.util";
+import UserUtil from '../../../utils/user.util';
 
 const commentService = new CommentService();
 const postService = new PostService();
 
 export default {
   name: 'BlogPost',
-  components: {TheComment},
+  components: { TheComment },
   props: {
     post: {
       type: Object,
@@ -35,7 +35,7 @@ export default {
     },
     isUserRoot() {
       return UserUtil.isUserRoot();
-    }
+    },
   },
   methods: {
     // TODO - work with title's adaptivity (when it's too long)
@@ -53,14 +53,14 @@ export default {
     addComment() {
       if (this.commentInput.length <= 0) return;
       commentService
-          .createComment({
-            content: this.commentInput,
-            blockId: this.post.commentBlockId,
-          })
-          .then(() => {
-            this.refreshComments();
-            this.clearInput();
-          });
+        .createComment({
+          content: this.commentInput,
+          blockId: this.post.commentBlockId,
+        })
+        .then(() => {
+          this.refreshComments();
+          this.clearInput();
+        });
     },
 
     clearInput() {
@@ -83,13 +83,14 @@ export default {
         return;
       }
       postService
-          .updatePost({
-            title: this.post.title,
-            content: this.post.content,
-            id: this.post.id,
-          }).then(() => {
-        this.isEditing = false;
-      });
+        .updatePost({
+          title: this.post.title,
+          content: this.post.content,
+          id: this.post.id,
+        })
+        .then(() => {
+          this.isEditing = false;
+        });
     },
 
     updateEditInput(str) {
@@ -114,10 +115,10 @@ export default {
 
     isNotEmpty(str) {
       return (
-          str
-              .replace(/<br>/g, '')
-              .replace(/&nbsp;/g, '')
-              .replace(/\s/g, '').length > 0
+        str
+          .replace(/<br>/g, '')
+          .replace(/&nbsp;/g, '')
+          .replace(/\s/g, '').length > 0
       );
     },
 
@@ -152,23 +153,27 @@ export default {
       <div class="--profile-picture"></div>
       <div class="--post-header">
         <div
-            :contenteditable="isEditing"
-            class="--theme"
-            @input="updateTitleInput($event.target.innerHTML)"
-            v-html="post.title"
+          :contenteditable="isEditing"
+          class="--theme"
+          @input="updateTitleInput($event.target.innerHTML)"
+          v-html="post.title"
         ></div>
         <div class="--post-metadata">
-          {{ `by ${post.author.name.lastName} ${post.author.name.firstName} ${post.author.name.middleName ?? ''}, ${new Date(post.writtenDate).toLocaleDateString()}` }}
+          {{
+            `by ${post.author.name.lastName} ${post.author.name.firstName} ${
+              post.author.name.middleName ?? ''
+            }, ${new Date(post.writtenDate).toLocaleDateString()}`
+          }}
         </div>
       </div>
     </div>
     <div v-if="!isEditing" class="--post-text" v-html="post.content"></div>
     <div v-if="isEditing" class="--post-edit">
       <div
-          class="--edit-area"
-          contenteditable="true"
-          @input="updateEditInput($event.target.innerHTML)"
-          @keypress="handleKeyPress"
+        class="--edit-area"
+        contenteditable="true"
+        @input="updateEditInput($event.target.innerHTML)"
+        @keypress="handleKeyPress"
       ></div>
       <button class="--edit-button" @click="updatePost()">Edit</button>
     </div>
@@ -178,9 +183,9 @@ export default {
         <div class="--comment-input" contenteditable="true" @input="onCommentInput($event.target.innerHTML)"></div>
         <button class="--comment-button" @click.prevent="addComment">Comment</button>
       </form>
-      <hr/>
+      <hr />
       <div v-show="comments.totalItems > 0" class="--user-comments">
-        <the-comment v-for="comment in getComments" :comment="comment" @onCommentDelete="onCommentDelete()"/>
+        <the-comment v-for="comment in getComments" :comment="comment" @onCommentDelete="onCommentDelete()" />
       </div>
     </div>
     <div v-if="isUserRoot" class="--delete-mark" @click="deletePost()">x</div>
@@ -354,7 +359,7 @@ textarea {
 }
 
 .--comment-form {
-  width: 404px;
+  width: 50%;
   height: auto;
 
   margin-top: 20px;
@@ -410,12 +415,10 @@ hr {
 }
 
 .--user-comments {
-  margin-left: 62px;
-  margin-top: 15px;
+  margin: 15px auto auto;
 
   width: 93%;
-  height: 240px;
-  padding: 0 0 10px 10px;
+  padding: 0 10px 10px 10px;
 
   border: 1px solid #ccc;
 

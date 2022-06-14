@@ -1,12 +1,12 @@
 <script>
-import RequirementService from "../../../services/requirement.service";
-import IndicatorService from "../../../services/indicator.service";
-import SubmissionService from "../../../services/submission.service";
-import ReportPeriodPartService from "../../../services/report.period.part.service";
-import GradeService from "../../../services/grade.service";
-import FileService from "../../../services/file.service";
-import SubmitButton from "../Buttons/SubmitButton.vue";
-import UserUtil from "../../../utils/user.util";
+import RequirementService from '../../../services/requirement.service';
+import IndicatorService from '../../../services/indicator.service';
+import SubmissionService from '../../../services/submission.service';
+import ReportPeriodPartService from '../../../services/report.period.part.service';
+import GradeService from '../../../services/grade.service';
+import FileService from '../../../services/file.service';
+import SubmitButton from '../Buttons/SubmitButton.vue';
+import UserUtil from '../../../utils/user.util';
 
 const requirementService = new RequirementService();
 const indicatorService = new IndicatorService();
@@ -15,8 +15,8 @@ const reportPeriodPartService = new ReportPeriodPartService();
 const fileService = new FileService();
 const gradeService = new GradeService();
 export default {
-  name: "ManageKPI",
-  components: {SubmitButton},
+  name: 'ManageKPI',
+  components: { SubmitButton },
   data() {
     return {
       requirement: {},
@@ -29,40 +29,63 @@ export default {
       downloadFile: null,
 
       customGrade: 0,
-    }
+    };
   },
   methods: {
     getRequirements() {
-      requirementService.getRequirementById(this.$route.params.requirementId).then(response => {
-        this.requirement = response;
-      }).then(() => {
-        this.getIndicator();
-        this.getSubmission();
-        this.getPeriodPart();
-      });
+      requirementService
+        .getRequirementById(this.$route.params.requirementId)
+        .then((response) => {
+          this.requirement = response;
+        })
+        .then(() => {
+          this.getIndicator();
+          if (this.isUserRoot) {
+            this.getSubmissionAdmin();
+          } else {
+            this.getSubmission();
+          }
+          this.getPeriodPart();
+        });
     },
     getIndicator(indicatorId) {
-      indicatorService.getIndicator(this.requirement.indicatorId).then(response => {
+      indicatorService.getIndicator(this.requirement.indicatorId).then((response) => {
         this.indicator = response;
       });
     },
-    getSubmission() {
-      submissionService.getSubmissionByRequirementId(this.requirement.id).then(response => {
-        this.submission = response;
-      }).then(() => {
-        if (this.submission) {
-          this.getFile();
-        }
-      });
+    getSubmissionAdmin() {
+      submissionService
+        .getSubmissionByUserIdAndRequirementId(this.$route.params.employeeId, this.requirement.id)
+        .then((response) => {
+          this.submission = response;
+        })
+        .then(() => {
+          if (this.submission) {
+            this.getFile();
+          }
+        });
     },
+    getSubmission() {
+      submissionService
+        .getSubmissionByRequirementId(this.requirement.id)
+        .then((response) => {
+          this.submission = response;
+        })
+        .then(() => {
+          if (this.submission) {
+            this.getFile();
+          }
+        });
+    },
+
     getPeriodPart() {
-      reportPeriodPartService.getPeriodPartById(this.requirement.periodPartId).then(response => {
+      reportPeriodPartService.getPeriodPartById(this.requirement.periodPartId).then((response) => {
         this.periodPart = response;
       });
     },
     getHowManyLeftDate() {
       let dueDate = new Date(this.periodPart.to);
-      return dueDate.toLocaleDateString() + ", " + dueDate.toLocaleTimeString();
+      return dueDate.toLocaleDateString() + ', ' + dueDate.toLocaleTimeString();
     },
     changeFile() {
       this.file = this.$refs.fileInput.files[0];
@@ -74,22 +97,22 @@ export default {
       fileService.uploadFile(file).then((res) => {
         submissionService.postSubmission({
           requirementId: this.requirement.id,
-          fileIds: [res.fileId]
-        })
-      })
+          fileIds: [res.fileId],
+        });
+      });
     },
 
     fullGrade() {
-      gradeService.UpdateGrade(this.$route.params.employeeId, this.requirement.id, {value: this.requirement.weight});
+      gradeService.UpdateGrade(this.$route.params.employeeId, this.requirement.id, { value: this.requirement.weight });
     },
 
     customGradeSubmit() {
-      gradeService.UpdateGrade(this.$route.params.employeeId, this.requirement.id, {value: +this.customGrade});
+      gradeService.UpdateGrade(this.$route.params.employeeId, this.requirement.id, { value: +this.customGrade });
     },
 
     getFile() {
-      fileService.downloadFile(this.submission.fileIds[0]).then(response => {
-        this.downloadFile = new Blob([response.data], {type: response.headers['content-type']});
+      fileService.downloadFile(this.submission.fileIds[0]).then((response) => {
+        this.downloadFile = new Blob([response.data], { type: response.headers['content-type'] });
         this.downloadFileURL = URL.createObjectURL(this.downloadFile);
       });
     },
@@ -102,12 +125,12 @@ export default {
     },
     isUserRoot() {
       return UserUtil.isUserRoot();
-    }
+    },
   },
   created() {
     this.getRequirements();
-  }
-}
+  },
+};
 </script>
 
 <template>
@@ -115,16 +138,16 @@ export default {
     <div class="--content">
       <table class="--kpi-table">
         <thead>
-        <tr class="--row --table-head">
-          <th class="--name-col">KPI</th>
-          <th class="--portion-column">Portion</th>
-        </tr>
+          <tr class="--row --table-head">
+            <th class="--name-col">KPI</th>
+            <th class="--portion-column">Portion</th>
+          </tr>
         </thead>
         <tbody>
-        <tr class="--row">
-          <td class="--name-data">{{ indicator.description }}</td>
-          <td class="--portion-data">{{ requirement.weight }}</td>
-        </tr>
+          <tr class="--row">
+            <td class="--name-data">{{ indicator.description }}</td>
+            <td class="--portion-data">{{ requirement.weight }}</td>
+          </tr>
         </tbody>
       </table>
 
@@ -132,22 +155,22 @@ export default {
         <table class="--upload-table">
           <tr class="--row">
             <td>Submission status</td>
-            <td> {{ submission ? 'Uploaded' : 'Waiting to upload document' }}</td>
+            <td>{{ submission ? 'Uploaded' : 'Waiting to upload document' }}</td>
           </tr>
           <tr class="--row">
             <td>Submit due date</td>
-            <td> {{ getHowManyLeftDate() }}</td>
+            <td>{{ getHowManyLeftDate() }}</td>
           </tr>
           <tr v-if="!isUserRoot" class="--row">
             <td>File submission</td>
             <td>
-              <input ref="fileInput" type="file" v-on:change="changeFile()">
+              <input ref="fileInput" type="file" v-on:change="changeFile()" />
             </td>
           </tr>
           <tr v-if="submission" class="--row">
             <td>Download File</td>
             <td>
-              <a v-if="submission" :href="downloadFileURL" download>Download File</a>
+              <a :href="downloadFileURL" download>Download File</a>
             </td>
           </tr>
         </table>
@@ -155,11 +178,10 @@ export default {
         <submit-button v-if="!isUserRoot" class="--upload-button" @click="uploadFile">Upload file</submit-button>
         <div v-if="isUserRoot" class="--grade-buttons">
           <div class="--grade-custom">
-            <submit-button class="--grade-full-button" @click="fullGrade"> {{
-                requirement.weight
-              }}/{{ requirement.weight }}
+            <submit-button class="--grade-full-button" @click="fullGrade">
+              {{ requirement.weight }}/{{ requirement.weight }}
             </submit-button>
-            <input v-model="customGrade" class="--custom-grade-input" type="number">
+            <input v-model="customGrade" class="--custom-grade-input" type="number" />
             <submit-button class="--grade-custom-button" @click="customGradeSubmit">Grade</submit-button>
           </div>
         </div>
@@ -240,7 +262,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 
@@ -253,7 +275,7 @@ input[type=number] {
 }
 
 .--table-head {
-  background: #4E4E53;
+  background: #4e4e53;
   color: white;
 
   height: 50px;
@@ -267,7 +289,9 @@ input[type=number] {
   width: 10%;
 }
 
-.--name-data, .--uploaded-data, .--portion-data {
+.--name-data,
+.--uploaded-data,
+.--portion-data {
   font-family: 'Inter', serif;
   font-style: normal;
   font-weight: 400;
@@ -278,7 +302,8 @@ input[type=number] {
   border: 1px solid #e3e3e3;
 }
 
-.--uploaded-data, .--portion-data {
+.--uploaded-data,
+.--portion-data {
   text-align: center;
 }
 
@@ -286,5 +311,4 @@ input[type=number] {
   text-align: start;
   padding-left: 20px;
 }
-
 </style>
