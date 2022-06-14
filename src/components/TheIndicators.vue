@@ -10,7 +10,7 @@ export default {
   components: { ThePagination, IndicatorTable },
   data() {
     return {
-      indicators: null,
+      indicators: {},
       indicatorItems: [],
     };
   },
@@ -44,8 +44,8 @@ export default {
       });
     },
   },
-  async created() {
-    await this.loadInitialIndicators();
+  created() {
+    this.loadInitialIndicators();
   },
 };
 </script>
@@ -55,7 +55,7 @@ export default {
     <div class="--title">Indicators</div>
     <div class="--content">
       <indicator-table
-        :page="indicators.currentPage"
+        :page="+indicators.currentPage"
         :indicatorRows="indicatorItems"
         @onIndicatorDelete="deleteIndicator"
       ></indicator-table>

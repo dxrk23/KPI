@@ -150,7 +150,6 @@ export default {
 <template>
   <div class="--blog-post-main">
     <div class="--blog-post-header">
-      <div class="--profile-picture"></div>
       <div class="--post-header">
         <div
           :contenteditable="isEditing"
@@ -204,6 +203,12 @@ export default {
   padding: 10px 37px 20px 21px;
 
   position: relative;
+
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.--blog-post-header {
+  margin-top: 20px;
 }
 
 .--delete-mark {
@@ -222,7 +227,7 @@ export default {
 
 .--edit-button {
   margin-top: 20px;
-  padding: 10px;
+  padding: 8px;
   background: #33a8d5;
   border-radius: 6px;
   border: none;

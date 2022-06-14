@@ -3,9 +3,13 @@
     <div class="--main-position">
       <div class="--title">
         <span>{{ position.index + 1 }}. </span>
-        <span :contenteditable="isUserRoot" class="--title-input" spellcheck="false"
-              @input="updatePositionName($event.target.innerHTML)"
-              v-html="position.name"></span>
+        <span
+          :contenteditable="isUserRoot"
+          class="--title-input"
+          spellcheck="false"
+          @input="updatePositionName($event.target.innerHTML)"
+          v-html="position.name"
+        ></span>
       </div>
       <div class="--modification-buttons">
         <div class="--delete">
@@ -19,27 +23,36 @@
         <submit-button class="--add-speciality-button" @click="addSpeciality()">Добавить специальность</submit-button>
       </div>
       <div class="--show">
-        <button class="--show-button" @click="toggleDropdown">{{ isDropdownShow ? 'Скрыть' : 'Показать' }}</button>
+        <submit-button class="--show-button" @click="toggleDropdown">{{
+          isDropdownShow ? 'Скрыть' : 'Показать'
+        }}</submit-button>
       </div>
     </div>
 
-    <div v-if="isDropdownShow" :class="{'--untouchable' : !canUserChangeSpeciality && !isUserRoot}"
-         class="--dropdown-main">
-      <the-speciality v-for="(speciality, index) in specialities" :key="speciality.id"
-                      :class="{'--chosen-speciality' : speciality.id === chosenSpeciality?.id}"
-                      :speciality="{index, ...speciality}" @onSpecialityDelete="deleteSpeciality"></the-speciality>
+    <div
+      v-if="isDropdownShow"
+      :class="{ '--untouchable': !canUserChangeSpeciality && !isUserRoot }"
+      class="--dropdown-main"
+    >
+      <the-speciality
+        v-for="(speciality, index) in specialities"
+        :key="speciality.id"
+        :class="{ '--chosen-speciality': speciality.id === chosenSpeciality?.id }"
+        :speciality="{ index, ...speciality }"
+        @onSpecialityDelete="deleteSpeciality"
+      ></the-speciality>
     </div>
   </div>
 </template>
 
 <script>
-import SubmitButton from "../Buttons/SubmitButton.vue";
-import TheSpeciality from "./TheSpeciality.vue";
-import SpecialityService from "../../../services/speciality.service";
-import PositionService from "../../../services/position.service";
-import UserUtil from "../../../utils/user.util";
-import ReportPeriodService from "../../../services/report.period.service";
-import ProfileService from "../../../services/profile.service";
+import SubmitButton from '../Buttons/SubmitButton.vue';
+import TheSpeciality from './TheSpeciality.vue';
+import SpecialityService from '../../../services/speciality.service';
+import PositionService from '../../../services/position.service';
+import UserUtil from '../../../utils/user.util';
+import ReportPeriodService from '../../../services/report.period.service';
+import ProfileService from '../../../services/profile.service';
 
 const specialityService = new SpecialityService();
 const positionService = new PositionService();
@@ -51,8 +64,8 @@ const reportPeriodService = new ReportPeriodService();
 //TODO : Make validation for position and speciality title
 
 export default {
-  name: "ThePosition",
-  components: {SubmitButton, TheSpeciality},
+  name: 'ThePosition',
+  components: { SubmitButton, TheSpeciality },
   data() {
     return {
       isDropdownShow: false,
@@ -63,13 +76,13 @@ export default {
       chosenSpeciality: {},
 
       canUserChangeSpeciality: false,
-    }
+    };
   },
   props: {
     position: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     isUserRoot() {
@@ -78,20 +91,26 @@ export default {
   },
   methods: {
     getActivePeriod() {
-      reportPeriodService.getPeriodActive().then(period => {
-        this.activePeriod = period;
-      }).then(() => {
-        this.getUserSpecialty();
-      });
+      reportPeriodService
+        .getPeriodActive()
+        .then((period) => {
+          this.activePeriod = period;
+        })
+        .then(() => {
+          this.getUserSpecialty();
+        });
     },
     getUserSpecialty() {
-      profileService.getSpecialtyByPeriod(this.activePeriod.id).then(speciality => {
-        this.chosenSpeciality = speciality;
-      }).then(() => {
-        profileService.canUserChangeSpecialty(this.activePeriod.id).then(canUserChangeSpeciality => {
-          this.canUserChangeSpeciality = canUserChangeSpeciality;
+      profileService
+        .getSpecialtyByPeriod(this.activePeriod.id)
+        .then((speciality) => {
+          this.chosenSpeciality = speciality;
+        })
+        .then(() => {
+          profileService.canUserChangeSpecialty(this.activePeriod.id).then((canUserChangeSpeciality) => {
+            this.canUserChangeSpeciality = canUserChangeSpeciality;
+          });
         });
-      })
     },
     toggleDropdown() {
       this.isDropdownShow = !this.isDropdownShow;
@@ -102,7 +121,7 @@ export default {
       });
     },
     deletePosition() {
-      this.$emit('onDeletePosition', this.position.id)
+      this.$emit('onDeletePosition', this.position.id);
     },
     getSpecialities() {
       specialityService.getSpecialitiesOfPosition(this.position.id).then((res) => {
@@ -114,21 +133,23 @@ export default {
     },
     updatePosition() {
       positionService.updatePosition(this.position.id, {
-        name: this.positionName
-      })
+        name: this.positionName,
+      });
     },
     addSpeciality() {
-      specialityService.createSpeciality({
-        "name": "Unnamed",
-        "description": "Please edit...",
-        "positionId": this.position.id
-      }).then((res) => {
-        this.specialities.push(res);
-      })
+      specialityService
+        .createSpeciality({
+          name: 'Unnamed',
+          description: 'Please edit...',
+          positionId: this.position.id,
+        })
+        .then((res) => {
+          this.specialities.push(res);
+        });
     },
     isStringSame(str1, str2) {
-      return str1 === str2
-    }
+      return str1 === str2;
+    },
   },
   mounted() {
     this.getSpecialities();
@@ -136,9 +157,8 @@ export default {
       this.isDropdownShow = true;
       this.getActivePeriod();
     }
-
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
@@ -200,13 +220,15 @@ export default {
   height: 100%;
 }
 
-.--delete, .--update {
+.--delete,
+.--update {
   display: flex;
   align-items: center;
   cursor: pointer;
 }
 
-.--delete:hover, .--update:hover {
+.--delete:hover,
+.--update:hover {
   opacity: 0.8;
 }
 
@@ -221,7 +243,6 @@ export default {
 .--add-speciality-button {
   width: 100%;
   height: 40px;
-
 
   color: black;
   background: rgba(51, 168, 213, 0.47);
@@ -253,6 +274,11 @@ export default {
   cursor: pointer;
 }
 
+.--show-button:hover {
+  opacity: 0.8;
+  background: rgba(64, 213, 51, 0.33);
+}
+
 .--dropdown-main {
   width: 90%;
 
@@ -262,8 +288,8 @@ export default {
 
   flex-direction: column;
 
-  transition: height .5s linear;
+  transition: height 0.5s linear;
 
-  background: #F0F0F1;
+  background: #f0f0f1;
 }
 </style>

@@ -30,7 +30,6 @@ export default {
 
 <template>
   <div class="--comment-main">
-    <div class="--profile-picture"></div>
     <div class="--content">
       <div class="--header">
         <div class="--author-name">{{ comment.author.fullName }}</div>

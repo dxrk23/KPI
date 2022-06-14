@@ -1,40 +1,43 @@
 <script>
-import SubmitButton from "./UI/Buttons/SubmitButton.vue";
-import ThePosition from "./UI/Speciality/ThePosition.vue";
-import SpecialityService from "../services/speciality.service";
-import PositionService from "../services/position.service";
-import UserUtil from "../utils/user.util";
+import SubmitButton from './UI/Buttons/SubmitButton.vue';
+import ThePosition from './UI/Speciality/ThePosition.vue';
+import SpecialityService from '../services/speciality.service';
+import PositionService from '../services/position.service';
+import UserUtil from '../utils/user.util';
+import ThePagination from './UI/Pagination/ThePagination.vue';
 
 const specialityService = new SpecialityService();
 const positionService = new PositionService();
 
 export default {
-  name: "TheSpecialities",
-  components: {ThePosition, SubmitButton},
+  name: 'TheSpecialities',
+  components: { ThePagination, ThePosition, SubmitButton },
   data() {
     return {
       positions: [],
       positionItems: [],
-    }
+    };
   },
   computed: {
     isUserRoot() {
       return UserUtil.isUserRoot();
-    }
+    },
   },
   methods: {
     getInitialPositions() {
-      positionService.getPositionsPage().then(response => {
+      positionService.getPositionsPage().then((response) => {
         this.positions = response;
         this.positionItems = this.positions.items;
       });
     },
     addPosition() {
-      positionService.createPosition({
-        name: 'Unnamed'
-      }).then((res) => {
-        this.positionItems.push(res);
-      })
+      positionService
+        .createPosition({
+          name: 'Unnamed',
+        })
+        .then((res) => {
+          this.positionItems.push(res);
+        });
     },
     deletePosition(id) {
       positionService.deletePosition(id).then((res) => {
@@ -44,7 +47,7 @@ export default {
     getUserPosition() {
       positionService.getPositionById(UserUtil.getUserPositionId()).then((res) => {
         this.positionItems = [res];
-      })
+      });
     },
   },
 
@@ -54,23 +57,30 @@ export default {
     } else {
       this.getUserPosition();
     }
-  }
-}
+  },
+};
 </script>
 
 <template>
   <div class="--speciality-main">
-    <div class="--title"><span>Должности</span>
+    <div class="--title">
+      <span>Должности</span>
       <submit-button v-if="isUserRoot" class="--submit-button" @click="addPosition">Добавить позицию</submit-button>
     </div>
     <div class="--content">
-      <the-position  @onDeletePosition="deletePosition" v-for="(position, index) in positionItems" :key="position.id" :position="{index, ...position}"></the-position>
+      <the-position
+        @onDeletePosition="deletePosition"
+        v-for="(position, index) in positionItems"
+        :key="position.id"
+        :position="{ index, ...position }"
+      ></the-position>
+      <the-pagination :pages="{ totalPages: positions.totalPages, currentPage: positions.currentPage }" />
     </div>
   </div>
 </template>
 
 <style scoped>
-.--speciality-main{
+.--speciality-main {
   width: 100%;
 
   padding-left: 41px;
@@ -90,7 +100,7 @@ export default {
 }
 
 .--submit-button {
-  width: 274px;
+  width: 20%;
   height: 40px;
 
   margin-left: 30px;

@@ -73,7 +73,7 @@ export default {
       </thead>
       <tbody>
         <tr v-for="(item, index) in employeeItems" :key="item.employee.id" class="--row">
-          <td class="--index-data">{{ index + 1 }}</td>
+          <td class="--index-data">{{ (employees.currentPage - 1) * 10 + index + 1 }}</td>
           <td class="--indicator-name" @click="goToUser(item.employee.id)">{{ getEmployeeFullName(item) }}</td>
           <td class="--portion-data">{{ item.submissionsCount }}/{{ item.requirementsCount }}</td>
           <td class="--grade-data">{{ item.totalGrade }}/{{ item.totalWeight }}</td>
