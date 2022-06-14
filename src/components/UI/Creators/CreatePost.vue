@@ -60,16 +60,16 @@ export default {
 
 <template>
   <div class="--post-add-main">
-    <div class="--header">Adding post</div>
+    <div class="--header">Добавление поста</div>
     <div class="--title-block">
-      <div class="--title">Title</div>
+      <div class="--title">Заголовок</div>
       <div class="--input" contenteditable="true" @input="changeTitle($event.target.innerHTML)"></div>
     </div>
     <div class="--content-block">
-      <div class="--content">Content</div>
+      <div class="--content">Содержание</div>
       <div class="--input" contenteditable="true" @input="changeContent($event.target.innerHTML)"></div>
     </div>
-    <submit-button class="--button" @click.prevent="addPost()">Add post</submit-button>
+    <submit-button class="--button" @click.prevent="addPost()">Добавить пост</submit-button>
     <div class="--error" v-html="error"></div>
   </div>
 </template>

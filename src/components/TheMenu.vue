@@ -25,11 +25,11 @@ export default {
 
 <template>
   <aside class="--menu-main">
-    <menu-item icon="home" label="Home" @click="goTo('/')"></menu-item>
-    <menu-item icon="list_alt" label="Task list" @click="goTo('/task')"></menu-item>
-    <menu-item v-if="isUserRoot" icon="subject" label="Indicators" @click="goTo('/indicators')"></menu-item>
-    <menu-item icon="groups" label="Specialities" @click="goTo('/speciality')"></menu-item>
-    <menu-item v-if="isUserRoot" icon="person" label="Staff" @click="goTo('/staff')"></menu-item>
+    <menu-item icon="home" label="Главная" @click="goTo('/')"></menu-item>
+    <menu-item icon="list_alt" label="Задачи" @click="goTo('/task')"></menu-item>
+    <menu-item v-if="isUserRoot" icon="subject" label="Индикаторы" @click="goTo('/indicators')"></menu-item>
+    <menu-item icon="groups" label="Должности" @click="goTo('/speciality')"></menu-item>
+    <menu-item v-if="isUserRoot" icon="person" label="Сотрудники" @click="goTo('/staff')"></menu-item>
   </aside>
 </template>
 

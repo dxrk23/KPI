@@ -39,7 +39,7 @@ export default {
       <div class="--text" v-html="comment.content"></div>
     </div>
     <div v-if="isMyPost" class="--delete">
-      <i class="fas fa-trash-alt" @click.prevent="deleteComment()">Delete</i>
+      <i class="fas fa-trash-alt" @click.prevent="deleteComment()">Удалить</i>
     </div>
   </div>
 </template>

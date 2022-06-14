@@ -1,13 +1,13 @@
 <template>
   <div class="--create-indicator-main">
-    <div class="--title">Adding Indicators</div>
+    <div class="--title">Добавление индикатора</div>
     <div class="--content">
       <div class="--indicator-title">
-        <span class="--input-label">*Кратакое название индикатора </span>
+        <span class="--input-label">*Краткое название индикатора </span>
         <div contenteditable="true" class="--input --title-input" @input="updateTitle($event.target.innerHTML)"></div>
       </div>
       <div class="--indicator-desc">
-        <span class="--input-label">*Описание индиактора </span>
+        <span class="--input-label">*Описание индикатора </span>
         <div contenteditable="true" class="--input --desc-input" @input="updateContent($event.target.innerHTML)"></div>
       </div>
       <div class="--indicator-note">

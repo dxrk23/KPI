@@ -62,19 +62,19 @@ export default {
       <img alt="logo" src="../assets/logos/sign_in_logo.svg" />
     </div>
     <div class="--admin-menu">
-      <menu-item v-if="getRoute === '/home' && isUserRoot" icon="note_add" label="Add post" @click="goToCreator()" />
+      <menu-item v-if="getRoute === '/home' && isUserRoot" icon="note_add" label="Добавить пост" @click="goToCreator()" />
       <menu-item
         v-if="getRoute === '/indicators' && isUserRoot"
         icon="note_add"
-        label="Add indicator"
+        label="Добавить индикатор"
         @click="goToCreator()"
       />
 
-      <menu-item v-if="getRoute === '/staff'" icon="person_add" label="Add user" @click="openModal('create')" />
+      <menu-item v-if="getRoute === '/staff'" icon="person_add" label="Добавить сотрудника" @click="openModal('create')" />
       <menu-item
         v-if="isUserRoot && getRoute === '/staff'"
         icon="download"
-        label="Request Report"
+        label="Скачать отчет"
         @click="downloadReport"
       ></menu-item>
       <hr style="margin-top: 10px; margin-bottom: 10px" />

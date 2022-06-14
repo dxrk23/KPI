@@ -175,13 +175,13 @@ export default {
         @input="updateEditInput($event.target.innerHTML)"
         @keypress="handleKeyPress"
       ></div>
-      <button class="--edit-button" @click="updatePost()">Edit</button>
+      <button class="--edit-button" @click="updatePost()">Обновить</button>
     </div>
     <div class="--comments">
-      <div class="--comments-title">Comment ({{ `${comments.totalItems}` }})</div>
+      <div class="--comments-title">Комментарии ({{ `${comments.totalItems}` }})</div>
       <form class="--comment-form">
         <div class="--comment-input" contenteditable="true" @input="onCommentInput($event.target.innerHTML)"></div>
-        <button class="--comment-button" @click.prevent="addComment">Comment</button>
+        <button class="--comment-button" @click.prevent="addComment">Написать</button>
       </form>
       <hr />
       <div v-show="comments.totalItems > 0" class="--user-comments">
@@ -222,15 +222,13 @@ export default {
 
 .--edit-button {
   margin-top: 20px;
-  width: 70px;
-  height: 30px;
+  padding: 10px;
   background: #33a8d5;
   border-radius: 6px;
   border: none;
   color: #fff;
   font-size: 16px;
   font-weight: 700;
-
   cursor: pointer;
 }
 
