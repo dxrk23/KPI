@@ -23,8 +23,8 @@ class ProfileService {
     return response.data;
   }
 
-  async changePassword(data) {
-    const response = await axios.put(`${HOST}/api/profile/change-password`, {...data}, {
+  async changePassword(oldPassword, newPassword) {
+    const response = await axios.post(`${HOST}/api/profile/change-password`, {oldPassword, newPassword}, {
       headers: {
         'Authorization': `Bearer ${TOKEN}`
       }

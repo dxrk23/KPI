@@ -9,6 +9,7 @@
     <div class="--modal">
       <CreateUserModal v-if="selectedModal === 'create'" />
       <UpdateUserModal v-if="selectedModal === 'update'" />
+      <ChangePasswordModal v-if="selectedModal === 'change-password'"/>
     </div>
   </main>
 </template>
@@ -22,10 +23,11 @@ import {mapGetters} from 'vuex';
 import ProfileDropdown from '../components/UI/Dropdowns/ProfileDropdown.vue';
 import CreateUserModal from '../components/UI/Modals/CreateUserModal.vue';
 import UpdateUserModal from '../components/UI/Modals/UpdateUserModal.vue';
+import ChangePasswordModal from '../components/UI/Modals/ChangePasswordModal.vue';
 
 export default {
   name: 'Home',
-  components: {CreateUserModal, ProfileDropdown, TheRightSidebar, TheBody, TheHeader, TheMenu, UpdateUserModal},
+  components: {CreateUserModal, ProfileDropdown, TheRightSidebar, TheBody, TheHeader, TheMenu, UpdateUserModal, ChangePasswordModal},
   methods: {},
   computed: {
     ...mapGetters({
