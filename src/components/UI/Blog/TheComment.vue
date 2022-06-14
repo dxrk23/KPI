@@ -1,5 +1,6 @@
 <script>
 import CommentService from '../../../services/comment.service';
+import UserUtil from '../../../utils/user.util';
 
 const commentService = new CommentService();
 
@@ -20,9 +21,17 @@ export default {
   },
 
   computed: {
+    getAuthorFullName() {
+      return `${this.comment.author.name.lastName} ${this.comment.author.name.firstName} ${
+        this.comment.author.name.middleName ?? ''
+      }`;
+    },
     isMyPost() {
       let userId = JSON.parse(localStorage.getItem('user')).sub;
       return userId === this.comment.author.id;
+    },
+    isUserRoot() {
+      return UserUtil.isUserRoot();
     },
   },
 };
@@ -32,12 +41,12 @@ export default {
   <div class="--comment-main">
     <div class="--content">
       <div class="--header">
-        <div class="--author-name">{{ comment.author.fullName }}</div>
+        <div class="--author-name">{{ getAuthorFullName }}</div>
         <div class="--date">{{ `${new Date(comment.writtenDate).toLocaleDateString()}` }}</div>
       </div>
       <div class="--text" v-html="comment.content"></div>
     </div>
-    <div v-if="isMyPost" class="--delete">
+    <div v-if="isMyPost || isUserRoot" class="--delete">
       <i class="fas fa-trash-alt" @click.prevent="deleteComment()">Удалить</i>
     </div>
   </div>
@@ -49,7 +58,7 @@ export default {
 
   background: rgba(136, 191, 241, 0.32);
   border-radius: 5px;
-  padding: 15px 19px 15px 19px;
+  padding: 15px 15px 15px 15px;
 
   display: flex;
   flex-direction: row;
@@ -80,11 +89,6 @@ export default {
 
 .--text {
   margin-top: 10px;
-}
-
-.--content {
-  margin-left: 17px;
-  margin-top: -7px;
 }
 
 .--delete {

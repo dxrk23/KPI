@@ -12,7 +12,6 @@ export default {
 .--button {
   width: 180px;
   height: 52px;
-
   background: #33a8d5;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.5);
   border-radius: 9px;

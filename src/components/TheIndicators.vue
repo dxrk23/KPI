@@ -75,7 +75,7 @@ export default {
 
 .--title {
   margin-left: 41px;
-  margin-top: 76px;
+  margin-top: 42px;
 
   font-family: 'Arial', serif;
   font-style: normal;

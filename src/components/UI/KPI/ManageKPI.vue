@@ -151,6 +151,11 @@ export default {
         </tbody>
       </table>
 
+      <span class="--label" v-if="indicator.comment">Комнентарии к индикатору</span>
+      <div class="--indicator-description" v-if="indicator.comment" v-html="indicator.comment"></div>
+      <span class="--label" v-if="requirement.note">Пометка к задаче</span>
+      <div class="--requirement-description" v-if="requirement.note" v-html="requirement.note"></div>
+
       <div class="--upload-table">
         <table class="--upload-table">
           <tr class="--row">
@@ -197,7 +202,8 @@ export default {
 
 .--kpi-table {
   width: 90%;
-  margin: 20px auto;
+  margin-left: 5%;
+  margin-top: 20px;
 }
 
 .--row {
@@ -205,6 +211,17 @@ export default {
   position: relative;
 
   border: 1px solid black;
+}
+
+.--indicator-description,
+.--requirement-description {
+  width: 40%;
+  margin-left: 5%;
+  margin-top: 10px;
+
+  padding: 5px 10px 5px 10px;
+
+  border: 1px solid #e5e5e5;
 }
 
 .--upload-table {
@@ -300,6 +317,8 @@ input[type='number'] {
   color: #232326;
 
   border: 1px solid #e3e3e3;
+
+  padding: 10px;
 }
 
 .--uploaded-data,
@@ -310,5 +329,19 @@ input[type='number'] {
 .--name-data {
   text-align: start;
   padding-left: 20px;
+}
+
+.--label {
+  font-family: 'Inter', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: #232326;
+  display: block;
+
+  margin-left: 5%;
+  margin-top: 12px;
+  margin-bottom: 6px;
 }
 </style>

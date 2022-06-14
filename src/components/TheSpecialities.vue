@@ -94,7 +94,8 @@ export default {
   width: 100%;
 
   padding-left: 41px;
-  padding-top: 75px;
+  padding-top: 42px;
+  padding-right: 41px;
 }
 
 .--title {

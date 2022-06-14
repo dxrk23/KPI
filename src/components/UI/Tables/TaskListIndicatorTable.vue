@@ -162,7 +162,7 @@ table {
 }
 
 .--indicator-name {
-  padding-left: 20px;
+  padding: 12px;
   color: blue;
   cursor: pointer;
 }

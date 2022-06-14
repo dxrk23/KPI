@@ -62,7 +62,12 @@ export default {
       <img alt="logo" src="../assets/logos/sign_in_logo.svg" />
     </div>
     <div class="--admin-menu">
-      <menu-item v-if="getRoute === '/home' && isUserRoot" icon="note_add" label="Добавить пост" @click="goToCreator()" />
+      <menu-item
+        v-if="getRoute === '/home' && isUserRoot"
+        icon="note_add"
+        label="Добавить пост"
+        @click="goToCreator()"
+      />
       <menu-item
         v-if="getRoute === '/indicators' && isUserRoot"
         icon="note_add"
@@ -70,7 +75,12 @@ export default {
         @click="goToCreator()"
       />
 
-      <menu-item v-if="getRoute === '/staff'" icon="person_add" label="Добавить сотрудника" @click="openModal('create')" />
+      <menu-item
+        v-if="getRoute === '/staff'"
+        icon="person_add"
+        label="Добавить сотрудника"
+        @click="openModal('create')"
+      />
       <menu-item
         v-if="isUserRoot && getRoute === '/staff'"
         icon="download"
@@ -96,7 +106,7 @@ export default {
 
 .--logo {
   width: 91%;
-  height: auto;
+  height: 93%;
 
   margin: 23px auto 0;
 }

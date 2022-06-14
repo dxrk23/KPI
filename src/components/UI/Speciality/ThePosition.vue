@@ -3,13 +3,13 @@
     <div class="--main-position">
       <div class="--title">
         <span>{{ (page - 1) * 10 + position.index + 1 }}. </span>
-        <span
+        <div
           :contenteditable="isUserRoot"
           class="--title-input"
           spellcheck="false"
           @input="updatePositionName($event.target.innerHTML)"
           v-html="position.name"
-        ></span>
+        ></div>
       </div>
       <div class="--modification-buttons">
         <div class="--delete">
@@ -167,8 +167,11 @@ export default {
 
 <style scoped>
 .--main-position {
-  width: 90%;
-  height: 53px;
+  width: 100%;
+  min-height: 53px;
+
+  padding-top: 10px;
+  padding-bottom: 10px;
 
   border: 1px solid #e6e6e6;
 
@@ -192,6 +195,7 @@ export default {
 
 .--title {
   margin-left: 20px;
+  width: 35%;
 
   font-family: 'Arial', serif;
   font-style: normal;
@@ -208,6 +212,9 @@ export default {
 
 .--title-input {
   outline: none;
+  max-width: 100%;
+  word-break: break-word;
+  margin-left: 4px;
 }
 
 .--chosen-speciality {
@@ -270,7 +277,6 @@ export default {
 
   font-family: 'Arial', serif;
   font-style: normal;
-  font-weight: 700;
   font-size: 20px;
   line-height: 23px;
   color: #000000;

@@ -200,7 +200,7 @@ export default {
   margin-top: 25px;
 
   box-shadow: 0 4px 2px rgba(0, 0, 0, 0.32);
-  padding: 10px 37px 20px 21px;
+  padding: 15px 37px 20px 21px;
 
   position: relative;
 
@@ -419,7 +419,7 @@ hr {
 
 .--user-comments {
   margin: 15px auto auto;
-
+  max-height: 256px;
   width: 93%;
   padding: 0 10px 10px 10px;
 

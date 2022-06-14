@@ -16,7 +16,7 @@ export default {
   computed: {
     getIndicatorItems() {
       return this.indicators.items;
-    }
+    },
   },
   methods: {
     selectItem(item) {
