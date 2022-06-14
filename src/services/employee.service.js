@@ -74,7 +74,7 @@ class EmployeeService {
                         Authorization: `Bearer ${TOKEN}`,
                     }
                 }
-            ).then((res) => res.data);
+            );
     }
 }
 
