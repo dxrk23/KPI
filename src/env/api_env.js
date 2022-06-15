@@ -1,5 +1,5 @@
 const API_ENV = {
-    HOST: 'http://localhost:5000',
+  HOST: 'https://goldfish-app-kwrzv.ondigitalocean.app',
 };
 
 export default API_ENV;

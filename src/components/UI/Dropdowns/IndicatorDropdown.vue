@@ -49,9 +49,7 @@ export default {
     <span class="material-icons --dropdown-arrow" @click="toggle()">arrow_drop_down</span>
     <div v-show="isOpen" class="--dropdown-menu">
       <div v-for="indicator in getIndicatorItems" class="--dropdown-menu-item">
-        <div class="--dropdown-menu-item-text" @click="selectItem(indicator)">
-          {{ indicator.name }}
-        </div>
+        <div class="--dropdown-menu-item-text" @click="selectItem(indicator)" v-html="indicator.name"></div>
       </div>
     </div>
   </div>
@@ -112,14 +110,14 @@ export default {
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100%;
 
   font-size: 19px;
+
+  padding: 10px;
 }
 
 .--dropdown-menu-item {
   width: 100%;
-  height: 50px;
   cursor: pointer;
 }
 
