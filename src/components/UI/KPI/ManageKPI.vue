@@ -111,7 +111,7 @@ export default {
     },
 
     getFile() {
-      fileService.downloadFile(this.submission.fileIds[0]).then((response) => {
+      fileService.downloadFile(this.submission.files[0].id).then((response) => {
         this.downloadFile = new Blob([response.data], { type: response.headers['content-type'] });
         this.downloadFileURL = URL.createObjectURL(this.downloadFile);
       });
