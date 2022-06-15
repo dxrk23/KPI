@@ -55,7 +55,7 @@ export default {
       {{ getTitle() }}
     </div>
     <div class="--content">
-      <submit-button v-if="isUserRoot" class="--link-button" @click="goToLinkIndicator">Связать индикторы
+      <submit-button v-if="isUserRoot" class="--link-button" @click="goToLinkIndicator">Связать индикаторы
       </submit-button>
       <speciality-indicator-table></speciality-indicator-table>
     </div>

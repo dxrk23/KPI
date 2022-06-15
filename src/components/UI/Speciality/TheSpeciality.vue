@@ -20,7 +20,7 @@
     </div>
     <div class="--add-speciality">
       <span v-if="!isUserRoot" class="material-icons --submit-speciality" @click="chooseSpecialty">check</span>
-      <submit-button class="--add-speciality-button" @click="goToIndicator">Показать индекаторы</submit-button>
+      <submit-button class="--add-speciality-button" @click="goToIndicator">Показать индикаторы</submit-button>
     </div>
   </div>
 </template>
