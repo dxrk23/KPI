@@ -2,7 +2,6 @@
   <div class="--wrapper">
     <div class="--main-position">
       <div class="--title">
-        <span>{{ (page - 1) * 10 + position.index + 1 }}. </span>
         <div
           :contenteditable="isUserRoot"
           class="--title-input"
