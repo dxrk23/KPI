@@ -123,7 +123,7 @@ export default {
   },
   computed: {
     getTitle() {
-      return `Specialities > ${this.position.name} > ${this.speciality.name}`;
+      return `${this.position.name} > ${this.speciality.name}`;
     },
   },
   created() {
