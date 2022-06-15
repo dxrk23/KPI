@@ -1,5 +1,5 @@
 const API_ENV = {
-    HOST: 'http://localhost:5000',
+    HOST: 'https://kpi-space.fra1.digitaloceanspaces.com/',
 };
 
 export default API_ENV;
