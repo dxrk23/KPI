@@ -1,8 +1,8 @@
 <script>
-import RequirementService from "../../../services/requirement.service";
-import ReportPeriodService from "../../../services/report.period.service";
-import IndicatorService from "../../../services/indicator.service";
-import ReportPeriodPartService from "../../../services/report.period.part.service";
+import RequirementService from '../../../services/requirement.service';
+import ReportPeriodService from '../../../services/report.period.service';
+import IndicatorService from '../../../services/indicator.service';
+import ReportPeriodPartService from '../../../services/report.period.part.service';
 
 const requirementService = new RequirementService();
 const periodService = new ReportPeriodService();
@@ -12,7 +12,7 @@ const indicatorService = new IndicatorService();
 // TODO: Finish table data visualization
 
 export default {
-  name: "SpecialityIndicatorTable",
+  name: 'SpecialityIndicatorTable',
   data() {
     return {
       indicators: [],
@@ -20,52 +20,63 @@ export default {
       activePeriod: {},
 
       specialityId: this.$route.params.specialityId,
-    }
+    };
   },
   methods: {
     getActivePeriod() {
       periodService.getPeriodActive().then((res) => {
         this.activePeriod = res;
         this.getRequirements();
-      })
+      });
     },
     getRequirements() {
       requirementService.getRequirementBySpecialityAndPeriodId(this.specialityId, this.activePeriod.id).then((res) => {
         this.requirements = res;
-      })
+      });
+    },
+    deleteRequirement(requirementId) {
+      requirementService.deleteRequirement(requirementId).then(() => {
+        this.getRequirements();
+      });
     },
   },
   mounted() {
     this.getActivePeriod();
-  }
-}
+  },
+};
 </script>
 
 <template>
   <div class="--requirement-table">
     <table>
       <thead>
-      <tr class="--row --table-head">
-        <th class="--number-col">№</th>
-        <th>Индикатор</th>
-        <th class="--number-col">Вес</th>
-        <th>Период</th>
-      </tr>
+        <tr class="--row --table-head">
+          <th class="--number-col">№</th>
+          <th>Индикатор</th>
+          <th class="--number-col">Вес</th>
+          <th>Период</th>
+        </tr>
       </thead>
       <tbody>
-      <tr v-for="(requirement, index) in requirements" :key="requirement.id" class="--row">
-        <td class="--index-data">{{ index + 1 }}</td>
-        <td class="--indicator-name">{{ requirement.indicatorName }}</td>
-        <td class="--portion-data">{{ requirement.weight }}</td>
-        <td class="--period-data">{{ requirement.periodPartName }}</td>
-      </tr>
+        <tr v-for="(requirement, index) in requirements" :key="requirement.requirementId" class="--row">
+          <td class="--index-data">
+            {{ index + 1 }}
+          </td>
+          <td class="--indicator-name">
+            <div class="--content">
+              {{ requirement.indicatorName }}
+            </div>
+            <div class="--delete-mark" @click="deleteRequirement(requirement.requirementId)">x</div>
+          </td>
+          <td class="--portion-data">{{ requirement.weight }}</td>
+          <td class="--period-data">{{ requirement.periodPartName }}</td>
+        </tr>
       </tbody>
     </table>
   </div>
 </template>
 
 <style scoped>
-
 .--requirement-table {
   margin-top: 20px;
   width: 95%;
@@ -74,6 +85,15 @@ export default {
 table {
   width: inherit;
   height: inherit;
+}
+
+.--delete-mark {
+  cursor: pointer;
+  position: absolute;
+  right: 1%;
+  top: 0;
+
+  font-size: 20px;
 }
 
 .--index-data {
@@ -96,7 +116,7 @@ table {
 }
 
 .--table-head {
-  background: #4E4E53;
+  background: #4e4e53;
   color: white;
 
   height: 50px;
@@ -104,8 +124,18 @@ table {
 
 .--indicator-name {
   text-align: start;
-  padding-left: 20px;
+  padding: 20px;
+
   border: 1px solid #e3e3e3;
+
+  position: relative;
+}
+
+.--content {
+  display: flex;
+  align-items: center;
+
+  max-width: 95%;
 }
 
 .--portion-data {
